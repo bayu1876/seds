@@ -1,7 +1,8 @@
 import "dotenv/config";
+import bcrypt from "bcryptjs";
 
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "./generated/prisma/client";
+import { PrismaClient } from "../src/generated/prisma/client.js";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL!,
@@ -256,7 +257,7 @@ const tags = [
 
 const superAdminUser = {
   username: "admin",
-  password_hash: "CHANGE_ME",
+  password_hash: await bcrypt.hash("admin123", 10),
   full_name: "Super Administrator",
   employee_number: "000001",
   email: "admin@localhost",
@@ -271,7 +272,7 @@ async function main() {
       where: {
         code: department.code,
       },
-      update: {},
+	update: {},
       create: department,
     });
   }
@@ -320,7 +321,7 @@ async function main() {
             permission_id: permission.id,
           },
         },
-        update: {},
+	update: {},
         create: {
           role_id: superAdminRole.id,
           permission_id: permission.id,
@@ -370,7 +371,13 @@ async function main() {
     where: {
       username: superAdminUser.username,
     },
-    update: {},
+     update: {
+      password_hash: superAdminUser.password_hash,
+      full_name: superAdminUser.full_name,
+      employee_number: superAdminUser.employee_number,
+      email: superAdminUser.email,
+      is_active: superAdminUser.is_active,
+    },
     create: superAdminUser,
   });
 
