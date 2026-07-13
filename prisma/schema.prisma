@@ -1,0 +1,526 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Department {
+  id String @id @default(uuid()) @db.Uuid
+
+  code        String  @unique @db.VarChar(20)
+  name        String  @db.VarChar(100)
+  description String?
+
+  display_order Int @default(0)
+
+  color String? @db.VarChar(20)
+  icon  String? @db.VarChar(100)
+
+  is_active Boolean @default(true)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  created_by String? @db.Uuid
+  updated_by String? @db.Uuid
+  deleted_by String? @db.Uuid
+
+  createdBy User? @relation("DepartmentCreatedBy", fields: [created_by], references: [id])
+  updatedBy User? @relation("DepartmentUpdatedBy", fields: [updated_by], references: [id])
+  deletedBy User? @relation("DepartmentDeletedBy", fields: [deleted_by], references: [id])
+
+  documents Document[]
+
+  userDepartments UserDepartment[]
+
+  @@index([name], map: "idx_department_name")
+  @@index([code], map: "idx_department_code")
+  @@index([is_active], map: "idx_department_active")
+  @@index([deleted_at], map: "idx_department_deleted")
+  @@map("department")
+}
+
+model Role {
+  id String @id @default(uuid()) @db.Uuid
+
+  code        String  @unique @db.VarChar(30)
+  name        String  @db.VarChar(100)
+  description String?
+
+  is_system Boolean @default(true)
+  is_active Boolean @default(true)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  created_by String? @db.Uuid
+  updated_by String? @db.Uuid
+  deleted_by String? @db.Uuid
+
+  createdBy User? @relation("RoleCreatedBy", fields: [created_by], references: [id])
+  updatedBy User? @relation("RoleUpdatedBy", fields: [updated_by], references: [id])
+  deletedBy User? @relation("RoleDeletedBy", fields: [deleted_by], references: [id])
+
+  userRoles       UserRole[]
+  rolePermissions RolePermission[]
+
+  @@index([code], map: "idx_role_code")
+  @@index([name], map: "idx_role_name")
+  @@index([is_active], map: "idx_role_active")
+  @@index([deleted_at], map: "idx_role_deleted")
+  @@map("role")
+}
+
+model Permission {
+  id String @id @default(uuid()) @db.Uuid
+
+  module      String  @db.VarChar(50)
+  action      String  @db.VarChar(50)
+  description String?
+
+  is_system Boolean @default(true)
+  is_active Boolean @default(true)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  created_by String? @db.Uuid
+  updated_by String? @db.Uuid
+  deleted_by String? @db.Uuid
+
+  createdBy User? @relation("PermissionCreatedBy", fields: [created_by], references: [id])
+  updatedBy User? @relation("PermissionUpdatedBy", fields: [updated_by], references: [id])
+  deletedBy User? @relation("PermissionDeletedBy", fields: [deleted_by], references: [id])
+
+  rolePermissions RolePermission[]
+
+  @@unique([module, action])
+  @@map("permission")
+}
+
+model RolePermission {
+  id String @id @default(uuid()) @db.Uuid
+
+  role_id       String @db.Uuid
+  permission_id String @db.Uuid
+
+  created_at DateTime @default(now())
+  created_by String?  @db.Uuid
+
+  role       Role       @relation(fields: [role_id], references: [id])
+  permission Permission @relation(fields: [permission_id], references: [id])
+
+  createdBy User? @relation("RolePermissionCreatedBy", fields: [created_by], references: [id])
+
+  @@unique([role_id, permission_id])
+  @@map("role_permission")
+}
+
+model User {
+  id String @id @default(uuid()) @db.Uuid
+
+  employee_number     String?   @db.VarChar(30)
+  username            String    @unique @db.VarChar(50)
+  password_hash       String
+  full_name           String    @db.VarChar(150)
+  email               String?   @db.VarChar(150)
+  phone               String?   @db.VarChar(30)
+  job_title           String?   @db.VarChar(100)
+  avatar              String?
+  last_login_at       DateTime?
+  password_changed_at DateTime?
+
+  is_active Boolean @default(true)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  created_by         String?      @db.Uuid
+  updated_by         String?      @db.Uuid
+  deleted_by         String?      @db.Uuid
+  createdDepartments Department[] @relation("DepartmentCreatedBy")
+  updatedDepartments Department[] @relation("DepartmentUpdatedBy")
+  deletedDepartments Department[] @relation("DepartmentDeletedBy")
+
+  createdRoles Role[] @relation("RoleCreatedBy")
+  updatedRoles Role[] @relation("RoleUpdatedBy")
+  deletedRoles Role[] @relation("RoleDeletedBy")
+
+  createdPermissions Permission[] @relation("PermissionCreatedBy")
+  updatedPermissions Permission[] @relation("PermissionUpdatedBy")
+  deletedPermissions Permission[] @relation("PermissionDeletedBy")
+
+  createdCategories Category[] @relation("CategoryCreatedBy")
+  updatedCategories Category[] @relation("CategoryUpdatedBy")
+  deletedCategories Category[] @relation("CategoryDeletedBy")
+
+  createdTags Tag[] @relation("TagCreatedBy")
+  updatedTags Tag[] @relation("TagUpdatedBy")
+  deletedTags Tag[] @relation("TagDeletedBy")
+
+  createdConfidentialLevels ConfidentialLevel[] @relation("ConfidentialLevelCreatedBy")
+  updatedConfidentialLevels ConfidentialLevel[] @relation("ConfidentialLevelUpdatedBy")
+  deletedConfidentialLevels ConfidentialLevel[] @relation("ConfidentialLevelDeletedBy")
+
+  createdDocuments Document[] @relation("DocumentCreatedBy")
+  updatedDocuments Document[] @relation("DocumentUpdatedBy")
+  deletedDocuments Document[] @relation("DocumentDeletedBy")
+
+  createdDocumentVersions DocumentVersion[] @relation("DocumentVersionCreatedBy")
+  updatedDocumentVersions DocumentVersion[] @relation("DocumentVersionUpdatedBy")
+  deletedDocumentVersions DocumentVersion[] @relation("DocumentVersionDeletedBy")
+
+  uploadedDocumentVersions DocumentVersion[]
+
+  createdDocumentTags      DocumentTag[]      @relation("DocumentTagCreatedBy")
+  createdDocumentRelations DocumentRelation[] @relation("DocumentRelationCreatedBy")
+
+  auditLogs AuditLog[]
+
+  favorites   Favorite[]
+  recentViews RecentView[]
+
+  createdUserRoles UserRole[] @relation("UserRoleCreatedBy")
+
+  createdUserDepartments UserDepartment[] @relation("UserDepartmentCreatedBy")
+
+  createdRolePermissions RolePermission[] @relation("RolePermissionCreatedBy")
+
+  userRoles       UserRole[]
+  userDepartments UserDepartment[]
+
+  @@map("user")
+}
+
+model UserRole {
+  id String @id @default(uuid()) @db.Uuid
+
+  user_id String @db.Uuid
+  role_id String @db.Uuid
+
+  created_at DateTime @default(now())
+  created_by String?  @db.Uuid
+
+  user User @relation(fields: [user_id], references: [id])
+  role Role @relation(fields: [role_id], references: [id])
+
+  createdBy User? @relation("UserRoleCreatedBy", fields: [created_by], references: [id])
+
+  @@unique([user_id, role_id])
+  @@map("user_role")
+}
+
+model UserDepartment {
+  id String @id @default(uuid()) @db.Uuid
+
+  user_id       String @db.Uuid
+  department_id String @db.Uuid
+
+  created_at DateTime @default(now())
+  created_by String?  @db.Uuid
+
+  user       User       @relation(fields: [user_id], references: [id])
+  department Department @relation(fields: [department_id], references: [id])
+
+  createdBy User? @relation("UserDepartmentCreatedBy", fields: [created_by], references: [id])
+
+  @@unique([user_id, department_id])
+  @@map("user_department")
+}
+
+model Category {
+  id String @id @default(uuid()) @db.Uuid
+
+  code        String  @unique @db.VarChar(30)
+  name        String  @db.VarChar(100)
+  description String?
+
+  icon  String? @db.VarChar(100)
+  color String? @db.VarChar(20)
+
+  display_order Int @default(0)
+
+  is_system Boolean @default(true)
+  is_active Boolean @default(true)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  created_by String? @db.Uuid
+  updated_by String? @db.Uuid
+  deleted_by String? @db.Uuid
+
+  createdBy User? @relation("CategoryCreatedBy", fields: [created_by], references: [id])
+  updatedBy User? @relation("CategoryUpdatedBy", fields: [updated_by], references: [id])
+  deletedBy User? @relation("CategoryDeletedBy", fields: [deleted_by], references: [id])
+
+  documents Document[]
+
+  @@map("category")
+}
+
+model Tag {
+  id String @id @default(uuid()) @db.Uuid
+
+  name String @db.VarChar(100)
+
+  color       String? @db.VarChar(20)
+  description String?
+
+  is_system Boolean @default(true)
+  is_active Boolean @default(true)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  created_by String? @db.Uuid
+  updated_by String? @db.Uuid
+  deleted_by String? @db.Uuid
+
+  createdBy User? @relation("TagCreatedBy", fields: [created_by], references: [id])
+  updatedBy User? @relation("TagUpdatedBy", fields: [updated_by], references: [id])
+  deletedBy User? @relation("TagDeletedBy", fields: [deleted_by], references: [id])
+
+  documentTags DocumentTag[]
+
+  @@unique([name])
+  @@map("tag")
+}
+
+model ConfidentialLevel {
+  id String @id @default(uuid()) @db.Uuid
+
+  code        String  @unique @db.VarChar(30)
+  name        String  @db.VarChar(100)
+  description String?
+
+  display_order Int @default(0)
+
+  color String? @db.VarChar(20)
+  icon  String? @db.VarChar(100)
+
+  is_active Boolean @default(true)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  created_by String? @db.Uuid
+  updated_by String? @db.Uuid
+  deleted_by String? @db.Uuid
+
+  createdBy User? @relation("ConfidentialLevelCreatedBy", fields: [created_by], references: [id])
+  updatedBy User? @relation("ConfidentialLevelUpdatedBy", fields: [updated_by], references: [id])
+  deletedBy User? @relation("ConfidentialLevelDeletedBy", fields: [deleted_by], references: [id])
+
+  documents Document[]
+
+  @@map("confidential_level")
+}
+
+model Document {
+  id String @id @default(uuid()) @db.Uuid
+
+  document_number String? @db.VarChar(100)
+
+  title       String  @db.VarChar(255)
+  description String?
+
+  department_id         String @db.Uuid
+  category_id           String @db.Uuid
+  confidential_level_id String @db.Uuid
+
+  current_version_id String? @db.Uuid
+
+  effective_date DateTime?
+  expired_date   DateTime?
+
+  search_vector String?
+
+  is_active Boolean @default(true)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  created_by String? @db.Uuid
+  updated_by String? @db.Uuid
+  deleted_by String? @db.Uuid
+
+  department Department @relation(fields: [department_id], references: [id])
+
+  category Category @relation(fields: [category_id], references: [id])
+
+  confidentialLevel ConfidentialLevel @relation(fields: [confidential_level_id], references: [id])
+
+  currentVersion DocumentVersion? @relation("CurrentDocumentVersion", fields: [current_version_id], references: [id])
+
+  versions DocumentVersion[] @relation("DocumentVersions")
+
+  documentTags       DocumentTag[]
+  relatedDocuments   DocumentRelation[] @relation("DocumentRelationSource")
+  relatedToDocuments DocumentRelation[] @relation("DocumentRelationTarget")
+
+  favorites   Favorite[]
+  recentViews RecentView[]
+  auditLogs   AuditLog[]
+
+  createdBy User? @relation("DocumentCreatedBy", fields: [created_by], references: [id])
+  updatedBy User? @relation("DocumentUpdatedBy", fields: [updated_by], references: [id])
+  deletedBy User? @relation("DocumentDeletedBy", fields: [deleted_by], references: [id])
+
+  @@map("document")
+}
+
+model DocumentVersion {
+  id String @id @default(uuid()) @db.Uuid
+
+  document_id String @db.Uuid
+
+  version_number Int
+
+  original_filename String @db.VarChar(255)
+  stored_filename   String @db.VarChar(255)
+
+  storage_path String
+
+  mime_type String @db.VarChar(100)
+
+  file_size BigInt
+
+  thumbnail_path String?
+
+  preview_status String @db.VarChar(30)
+
+  version_notes String?
+
+  uploaded_at DateTime @default(now())
+
+  uploaded_by String @db.Uuid
+
+  document Document @relation(fields: [document_id], references: [id], name: "DocumentVersions")
+
+  uploadedBy User @relation(fields: [uploaded_by], references: [id])
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  created_by String? @db.Uuid
+  updated_by String? @db.Uuid
+  deleted_by String? @db.Uuid
+
+  currentForDocuments Document[] @relation("CurrentDocumentVersion")
+
+  createdBy User? @relation("DocumentVersionCreatedBy", fields: [created_by], references: [id])
+  updatedBy User? @relation("DocumentVersionUpdatedBy", fields: [updated_by], references: [id])
+  deletedBy User? @relation("DocumentVersionDeletedBy", fields: [deleted_by], references: [id])
+
+  @@map("document_version")
+}
+
+model DocumentTag {
+  id String @id @default(uuid()) @db.Uuid
+
+  document_id String @db.Uuid
+  tag_id      String @db.Uuid
+
+  created_at DateTime @default(now())
+  created_by String?  @db.Uuid
+
+  document Document @relation(fields: [document_id], references: [id])
+
+  tag Tag @relation(fields: [tag_id], references: [id])
+
+  createdBy User? @relation("DocumentTagCreatedBy", fields: [created_by], references: [id])
+
+  @@unique([document_id, tag_id])
+  @@map("document_tag")
+}
+
+model DocumentRelation {
+  id String @id @default(uuid()) @db.Uuid
+
+  document_id         String @db.Uuid
+  related_document_id String @db.Uuid
+
+  created_at DateTime @default(now())
+  created_by String?  @db.Uuid
+
+  document Document @relation("DocumentRelationSource", fields: [document_id], references: [id])
+
+  relatedDocument Document @relation("DocumentRelationTarget", fields: [related_document_id], references: [id])
+
+  createdBy User? @relation("DocumentRelationCreatedBy", fields: [created_by], references: [id])
+
+  @@unique([document_id, related_document_id])
+  @@map("document_relation")
+}
+
+model Favorite {
+  id String @id @default(uuid()) @db.Uuid
+
+  user_id     String @db.Uuid
+  document_id String @db.Uuid
+
+  created_at DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id])
+
+  document Document @relation(fields: [document_id], references: [id])
+
+  @@unique([user_id, document_id])
+  @@map("favorite")
+}
+
+model RecentView {
+  id String @id @default(uuid()) @db.Uuid
+
+  user_id     String @db.Uuid
+  document_id String @db.Uuid
+
+  viewed_at DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id])
+
+  document Document @relation(fields: [document_id], references: [id])
+
+  @@unique([user_id, document_id])
+  @@map("recent_view")
+}
+
+model AuditLog {
+  id String @id @default(uuid()) @db.Uuid
+
+  user_id     String? @db.Uuid
+  document_id String? @db.Uuid
+
+  action String @db.VarChar(50)
+
+  ip_address String? @db.VarChar(45)
+  user_agent String?
+
+  description String?
+
+  created_at DateTime @default(now())
+
+  user User? @relation(fields: [user_id], references: [id])
+
+  document Document? @relation(fields: [document_id], references: [id])
+
+  @@map("audit_log")
+}
