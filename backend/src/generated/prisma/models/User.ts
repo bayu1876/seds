@@ -36,6 +36,7 @@ export type UserMinAggregateOutputType = {
   avatar: string | null
   last_login_at: Date | null
   password_changed_at: Date | null
+  must_change_password: boolean | null
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
@@ -57,6 +58,7 @@ export type UserMaxAggregateOutputType = {
   avatar: string | null
   last_login_at: Date | null
   password_changed_at: Date | null
+  must_change_password: boolean | null
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
@@ -78,6 +80,7 @@ export type UserCountAggregateOutputType = {
   avatar: number
   last_login_at: number
   password_changed_at: number
+  must_change_password: number
   is_active: number
   created_at: number
   updated_at: number
@@ -101,6 +104,7 @@ export type UserMinAggregateInputType = {
   avatar?: true
   last_login_at?: true
   password_changed_at?: true
+  must_change_password?: true
   is_active?: true
   created_at?: true
   updated_at?: true
@@ -122,6 +126,7 @@ export type UserMaxAggregateInputType = {
   avatar?: true
   last_login_at?: true
   password_changed_at?: true
+  must_change_password?: true
   is_active?: true
   created_at?: true
   updated_at?: true
@@ -143,6 +148,7 @@ export type UserCountAggregateInputType = {
   avatar?: true
   last_login_at?: true
   password_changed_at?: true
+  must_change_password?: true
   is_active?: true
   created_at?: true
   updated_at?: true
@@ -237,6 +243,7 @@ export type UserGroupByOutputType = {
   avatar: string | null
   last_login_at: Date | null
   password_changed_at: Date | null
+  must_change_password: boolean
   is_active: boolean
   created_at: Date
   updated_at: Date
@@ -279,6 +286,7 @@ export type UserWhereInput = {
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
   last_login_at?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   password_changed_at?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  must_change_password?: Prisma.BoolFilter<"User"> | boolean
   is_active?: Prisma.BoolFilter<"User"> | boolean
   created_at?: Prisma.DateTimeFilter<"User"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -335,6 +343,7 @@ export type UserOrderByWithRelationInput = {
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   last_login_at?: Prisma.SortOrderInput | Prisma.SortOrder
   password_changed_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  must_change_password?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -394,6 +403,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   avatar?: Prisma.StringNullableFilter<"User"> | string | null
   last_login_at?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   password_changed_at?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  must_change_password?: Prisma.BoolFilter<"User"> | boolean
   is_active?: Prisma.BoolFilter<"User"> | boolean
   created_at?: Prisma.DateTimeFilter<"User"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -450,6 +460,7 @@ export type UserOrderByWithAggregationInput = {
   avatar?: Prisma.SortOrderInput | Prisma.SortOrder
   last_login_at?: Prisma.SortOrderInput | Prisma.SortOrder
   password_changed_at?: Prisma.SortOrderInput | Prisma.SortOrder
+  must_change_password?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -477,6 +488,7 @@ export type UserScalarWhereWithAggregatesInput = {
   avatar?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   last_login_at?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   password_changed_at?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  must_change_password?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   is_active?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   created_at?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -498,6 +510,7 @@ export type UserCreateInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -554,6 +567,7 @@ export type UserUncheckedCreateInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -610,6 +624,7 @@ export type UserUpdateInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -666,6 +681,7 @@ export type UserUncheckedUpdateInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -722,6 +738,7 @@ export type UserCreateManyInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -743,6 +760,7 @@ export type UserUpdateManyMutationInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -764,6 +782,7 @@ export type UserUncheckedUpdateManyInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -790,6 +809,7 @@ export type UserCountOrderByAggregateInput = {
   avatar?: Prisma.SortOrder
   last_login_at?: Prisma.SortOrder
   password_changed_at?: Prisma.SortOrder
+  must_change_password?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -811,6 +831,7 @@ export type UserMaxOrderByAggregateInput = {
   avatar?: Prisma.SortOrder
   last_login_at?: Prisma.SortOrder
   password_changed_at?: Prisma.SortOrder
+  must_change_password?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -832,6 +853,7 @@ export type UserMinOrderByAggregateInput = {
   avatar?: Prisma.SortOrder
   last_login_at?: Prisma.SortOrder
   password_changed_at?: Prisma.SortOrder
+  must_change_password?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -1408,6 +1430,7 @@ export type UserCreateWithoutCreatedDepartmentsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1463,6 +1486,7 @@ export type UserUncheckedCreateWithoutCreatedDepartmentsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1523,6 +1547,7 @@ export type UserCreateWithoutUpdatedDepartmentsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1578,6 +1603,7 @@ export type UserUncheckedCreateWithoutUpdatedDepartmentsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1638,6 +1664,7 @@ export type UserCreateWithoutDeletedDepartmentsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1693,6 +1720,7 @@ export type UserUncheckedCreateWithoutDeletedDepartmentsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1764,6 +1792,7 @@ export type UserUpdateWithoutCreatedDepartmentsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1819,6 +1848,7 @@ export type UserUncheckedUpdateWithoutCreatedDepartmentsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1885,6 +1915,7 @@ export type UserUpdateWithoutUpdatedDepartmentsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1940,6 +1971,7 @@ export type UserUncheckedUpdateWithoutUpdatedDepartmentsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2006,6 +2038,7 @@ export type UserUpdateWithoutDeletedDepartmentsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2061,6 +2094,7 @@ export type UserUncheckedUpdateWithoutDeletedDepartmentsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2116,6 +2150,7 @@ export type UserCreateWithoutCreatedRolesInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -2171,6 +2206,7 @@ export type UserUncheckedCreateWithoutCreatedRolesInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -2231,6 +2267,7 @@ export type UserCreateWithoutUpdatedRolesInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -2286,6 +2323,7 @@ export type UserUncheckedCreateWithoutUpdatedRolesInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -2346,6 +2384,7 @@ export type UserCreateWithoutDeletedRolesInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -2401,6 +2440,7 @@ export type UserUncheckedCreateWithoutDeletedRolesInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -2472,6 +2512,7 @@ export type UserUpdateWithoutCreatedRolesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2527,6 +2568,7 @@ export type UserUncheckedUpdateWithoutCreatedRolesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2593,6 +2635,7 @@ export type UserUpdateWithoutUpdatedRolesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2648,6 +2691,7 @@ export type UserUncheckedUpdateWithoutUpdatedRolesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2714,6 +2758,7 @@ export type UserUpdateWithoutDeletedRolesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2769,6 +2814,7 @@ export type UserUncheckedUpdateWithoutDeletedRolesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2824,6 +2870,7 @@ export type UserCreateWithoutCreatedPermissionsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -2879,6 +2926,7 @@ export type UserUncheckedCreateWithoutCreatedPermissionsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -2939,6 +2987,7 @@ export type UserCreateWithoutUpdatedPermissionsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -2994,6 +3043,7 @@ export type UserUncheckedCreateWithoutUpdatedPermissionsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -3054,6 +3104,7 @@ export type UserCreateWithoutDeletedPermissionsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -3109,6 +3160,7 @@ export type UserUncheckedCreateWithoutDeletedPermissionsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -3180,6 +3232,7 @@ export type UserUpdateWithoutCreatedPermissionsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3235,6 +3288,7 @@ export type UserUncheckedUpdateWithoutCreatedPermissionsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3301,6 +3355,7 @@ export type UserUpdateWithoutUpdatedPermissionsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3356,6 +3411,7 @@ export type UserUncheckedUpdateWithoutUpdatedPermissionsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3422,6 +3478,7 @@ export type UserUpdateWithoutDeletedPermissionsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3477,6 +3534,7 @@ export type UserUncheckedUpdateWithoutDeletedPermissionsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3532,6 +3590,7 @@ export type UserCreateWithoutCreatedRolePermissionsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -3587,6 +3646,7 @@ export type UserUncheckedCreateWithoutCreatedRolePermissionsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -3658,6 +3718,7 @@ export type UserUpdateWithoutCreatedRolePermissionsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3713,6 +3774,7 @@ export type UserUncheckedUpdateWithoutCreatedRolePermissionsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3768,6 +3830,7 @@ export type UserCreateWithoutUserRolesInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -3823,6 +3886,7 @@ export type UserUncheckedCreateWithoutUserRolesInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -3883,6 +3947,7 @@ export type UserCreateWithoutCreatedUserRolesInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -3938,6 +4003,7 @@ export type UserUncheckedCreateWithoutCreatedUserRolesInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -4009,6 +4075,7 @@ export type UserUpdateWithoutUserRolesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4064,6 +4131,7 @@ export type UserUncheckedUpdateWithoutUserRolesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4130,6 +4198,7 @@ export type UserUpdateWithoutCreatedUserRolesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4185,6 +4254,7 @@ export type UserUncheckedUpdateWithoutCreatedUserRolesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4240,6 +4310,7 @@ export type UserCreateWithoutUserDepartmentsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -4295,6 +4366,7 @@ export type UserUncheckedCreateWithoutUserDepartmentsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -4355,6 +4427,7 @@ export type UserCreateWithoutCreatedUserDepartmentsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -4410,6 +4483,7 @@ export type UserUncheckedCreateWithoutCreatedUserDepartmentsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -4481,6 +4555,7 @@ export type UserUpdateWithoutUserDepartmentsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4536,6 +4611,7 @@ export type UserUncheckedUpdateWithoutUserDepartmentsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4602,6 +4678,7 @@ export type UserUpdateWithoutCreatedUserDepartmentsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4657,6 +4734,7 @@ export type UserUncheckedUpdateWithoutCreatedUserDepartmentsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4712,6 +4790,7 @@ export type UserCreateWithoutCreatedCategoriesInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -4767,6 +4846,7 @@ export type UserUncheckedCreateWithoutCreatedCategoriesInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -4827,6 +4907,7 @@ export type UserCreateWithoutUpdatedCategoriesInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -4882,6 +4963,7 @@ export type UserUncheckedCreateWithoutUpdatedCategoriesInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -4942,6 +5024,7 @@ export type UserCreateWithoutDeletedCategoriesInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -4997,6 +5080,7 @@ export type UserUncheckedCreateWithoutDeletedCategoriesInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -5068,6 +5152,7 @@ export type UserUpdateWithoutCreatedCategoriesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5123,6 +5208,7 @@ export type UserUncheckedUpdateWithoutCreatedCategoriesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5189,6 +5275,7 @@ export type UserUpdateWithoutUpdatedCategoriesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5244,6 +5331,7 @@ export type UserUncheckedUpdateWithoutUpdatedCategoriesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5310,6 +5398,7 @@ export type UserUpdateWithoutDeletedCategoriesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5365,6 +5454,7 @@ export type UserUncheckedUpdateWithoutDeletedCategoriesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5420,6 +5510,7 @@ export type UserCreateWithoutCreatedTagsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -5475,6 +5566,7 @@ export type UserUncheckedCreateWithoutCreatedTagsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -5535,6 +5627,7 @@ export type UserCreateWithoutUpdatedTagsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -5590,6 +5683,7 @@ export type UserUncheckedCreateWithoutUpdatedTagsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -5650,6 +5744,7 @@ export type UserCreateWithoutDeletedTagsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -5705,6 +5800,7 @@ export type UserUncheckedCreateWithoutDeletedTagsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -5776,6 +5872,7 @@ export type UserUpdateWithoutCreatedTagsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5831,6 +5928,7 @@ export type UserUncheckedUpdateWithoutCreatedTagsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5897,6 +5995,7 @@ export type UserUpdateWithoutUpdatedTagsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5952,6 +6051,7 @@ export type UserUncheckedUpdateWithoutUpdatedTagsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6018,6 +6118,7 @@ export type UserUpdateWithoutDeletedTagsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6073,6 +6174,7 @@ export type UserUncheckedUpdateWithoutDeletedTagsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6128,6 +6230,7 @@ export type UserCreateWithoutCreatedConfidentialLevelsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -6183,6 +6286,7 @@ export type UserUncheckedCreateWithoutCreatedConfidentialLevelsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -6243,6 +6347,7 @@ export type UserCreateWithoutUpdatedConfidentialLevelsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -6298,6 +6403,7 @@ export type UserUncheckedCreateWithoutUpdatedConfidentialLevelsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -6358,6 +6464,7 @@ export type UserCreateWithoutDeletedConfidentialLevelsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -6413,6 +6520,7 @@ export type UserUncheckedCreateWithoutDeletedConfidentialLevelsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -6484,6 +6592,7 @@ export type UserUpdateWithoutCreatedConfidentialLevelsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6539,6 +6648,7 @@ export type UserUncheckedUpdateWithoutCreatedConfidentialLevelsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6605,6 +6715,7 @@ export type UserUpdateWithoutUpdatedConfidentialLevelsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6660,6 +6771,7 @@ export type UserUncheckedUpdateWithoutUpdatedConfidentialLevelsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6726,6 +6838,7 @@ export type UserUpdateWithoutDeletedConfidentialLevelsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6781,6 +6894,7 @@ export type UserUncheckedUpdateWithoutDeletedConfidentialLevelsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6836,6 +6950,7 @@ export type UserCreateWithoutCreatedDocumentsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -6891,6 +7006,7 @@ export type UserUncheckedCreateWithoutCreatedDocumentsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -6951,6 +7067,7 @@ export type UserCreateWithoutUpdatedDocumentsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -7006,6 +7123,7 @@ export type UserUncheckedCreateWithoutUpdatedDocumentsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -7066,6 +7184,7 @@ export type UserCreateWithoutDeletedDocumentsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -7121,6 +7240,7 @@ export type UserUncheckedCreateWithoutDeletedDocumentsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -7192,6 +7312,7 @@ export type UserUpdateWithoutCreatedDocumentsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7247,6 +7368,7 @@ export type UserUncheckedUpdateWithoutCreatedDocumentsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7313,6 +7435,7 @@ export type UserUpdateWithoutUpdatedDocumentsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7368,6 +7491,7 @@ export type UserUncheckedUpdateWithoutUpdatedDocumentsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7434,6 +7558,7 @@ export type UserUpdateWithoutDeletedDocumentsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7489,6 +7614,7 @@ export type UserUncheckedUpdateWithoutDeletedDocumentsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7544,6 +7670,7 @@ export type UserCreateWithoutUploadedDocumentVersionsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -7599,6 +7726,7 @@ export type UserUncheckedCreateWithoutUploadedDocumentVersionsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -7659,6 +7787,7 @@ export type UserCreateWithoutCreatedDocumentVersionsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -7714,6 +7843,7 @@ export type UserUncheckedCreateWithoutCreatedDocumentVersionsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -7774,6 +7904,7 @@ export type UserCreateWithoutUpdatedDocumentVersionsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -7829,6 +7960,7 @@ export type UserUncheckedCreateWithoutUpdatedDocumentVersionsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -7889,6 +8021,7 @@ export type UserCreateWithoutDeletedDocumentVersionsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -7944,6 +8077,7 @@ export type UserUncheckedCreateWithoutDeletedDocumentVersionsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -8015,6 +8149,7 @@ export type UserUpdateWithoutUploadedDocumentVersionsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8070,6 +8205,7 @@ export type UserUncheckedUpdateWithoutUploadedDocumentVersionsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8136,6 +8272,7 @@ export type UserUpdateWithoutCreatedDocumentVersionsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8191,6 +8328,7 @@ export type UserUncheckedUpdateWithoutCreatedDocumentVersionsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8257,6 +8395,7 @@ export type UserUpdateWithoutUpdatedDocumentVersionsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8312,6 +8451,7 @@ export type UserUncheckedUpdateWithoutUpdatedDocumentVersionsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8378,6 +8518,7 @@ export type UserUpdateWithoutDeletedDocumentVersionsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8433,6 +8574,7 @@ export type UserUncheckedUpdateWithoutDeletedDocumentVersionsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8488,6 +8630,7 @@ export type UserCreateWithoutCreatedDocumentTagsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -8543,6 +8686,7 @@ export type UserUncheckedCreateWithoutCreatedDocumentTagsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -8614,6 +8758,7 @@ export type UserUpdateWithoutCreatedDocumentTagsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8669,6 +8814,7 @@ export type UserUncheckedUpdateWithoutCreatedDocumentTagsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8724,6 +8870,7 @@ export type UserCreateWithoutCreatedDocumentRelationsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -8779,6 +8926,7 @@ export type UserUncheckedCreateWithoutCreatedDocumentRelationsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -8850,6 +8998,7 @@ export type UserUpdateWithoutCreatedDocumentRelationsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8905,6 +9054,7 @@ export type UserUncheckedUpdateWithoutCreatedDocumentRelationsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8960,6 +9110,7 @@ export type UserCreateWithoutFavoritesInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -9015,6 +9166,7 @@ export type UserUncheckedCreateWithoutFavoritesInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -9086,6 +9238,7 @@ export type UserUpdateWithoutFavoritesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9141,6 +9294,7 @@ export type UserUncheckedUpdateWithoutFavoritesInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9196,6 +9350,7 @@ export type UserCreateWithoutRecentViewsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -9251,6 +9406,7 @@ export type UserUncheckedCreateWithoutRecentViewsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -9322,6 +9478,7 @@ export type UserUpdateWithoutRecentViewsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9377,6 +9534,7 @@ export type UserUncheckedUpdateWithoutRecentViewsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9432,6 +9590,7 @@ export type UserCreateWithoutAuditLogsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -9487,6 +9646,7 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   avatar?: string | null
   last_login_at?: Date | string | null
   password_changed_at?: Date | string | null
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -9558,6 +9718,7 @@ export type UserUpdateWithoutAuditLogsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9613,6 +9774,7 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -10005,6 +10167,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   avatar?: boolean
   last_login_at?: boolean
   password_changed_at?: boolean
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -10062,6 +10225,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   avatar?: boolean
   last_login_at?: boolean
   password_changed_at?: boolean
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -10083,6 +10247,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   avatar?: boolean
   last_login_at?: boolean
   password_changed_at?: boolean
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -10104,6 +10269,7 @@ export type UserSelectScalar = {
   avatar?: boolean
   last_login_at?: boolean
   password_changed_at?: boolean
+  must_change_password?: boolean
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -10113,7 +10279,7 @@ export type UserSelectScalar = {
   deleted_by?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "employee_number" | "username" | "password_hash" | "full_name" | "email" | "phone" | "job_title" | "avatar" | "last_login_at" | "password_changed_at" | "is_active" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by" | "deleted_by", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "employee_number" | "username" | "password_hash" | "full_name" | "email" | "phone" | "job_title" | "avatar" | "last_login_at" | "password_changed_at" | "must_change_password" | "is_active" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by" | "deleted_by", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   createdDepartments?: boolean | Prisma.User$createdDepartmentsArgs<ExtArgs>
   updatedDepartments?: boolean | Prisma.User$updatedDepartmentsArgs<ExtArgs>
@@ -10206,6 +10372,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     avatar: string | null
     last_login_at: Date | null
     password_changed_at: Date | null
+    must_change_password: boolean
     is_active: boolean
     created_at: Date
     updated_at: Date
@@ -10682,6 +10849,7 @@ export interface UserFieldRefs {
   readonly avatar: Prisma.FieldRef<"User", 'String'>
   readonly last_login_at: Prisma.FieldRef<"User", 'DateTime'>
   readonly password_changed_at: Prisma.FieldRef<"User", 'DateTime'>
+  readonly must_change_password: Prisma.FieldRef<"User", 'Boolean'>
   readonly is_active: Prisma.FieldRef<"User", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"User", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"User", 'DateTime'>

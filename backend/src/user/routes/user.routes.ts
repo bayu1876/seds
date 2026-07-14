@@ -23,4 +23,11 @@ router.get(
   controller.findById.bind(controller),
 );
 
+router.post(
+  "/",
+  authenticate,
+  authorize("user", "create"),
+  controller.create.bind(controller),
+);
+
 export default router;

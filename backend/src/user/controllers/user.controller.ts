@@ -59,6 +59,42 @@ export class UserController {
           ? error.message
           : "Internal Server Error",
     });
+    }
   }
-}
+
+  async create(req: Request, res: Response) {
+    try {
+      const result = await this.service.createUser(req.body);
+
+      return res.status(201).json({
+        success: true,
+        message: "User created successfully",
+        data: result,
+      });
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        (
+          error.message === "Username already exists" ||
+          error.message === "Email already exists" ||
+          error.message === "Employee number already exists" ||
+          error.message === "Password is required"
+        )
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
+      return res.status(500).json({
+        success: false,
+        message:
+          error instanceof Error
+            ? error.message
+            : "Internal Server Error",
+      });
+    }
+  }
+
 }

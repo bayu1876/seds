@@ -140,6 +140,7 @@ model User {
   avatar              String?
   last_login_at       DateTime?
   password_changed_at DateTime?
+  must_change_password Boolean @default(true)  
 
   is_active Boolean @default(true)
 
