@@ -111,11 +111,45 @@ export class UserRepository {
     return count > 0;
   }
 
+  async isEmailExistsExcept(
+    id: string,
+    email: string,
+  ) {
+    const count = await prisma.user.count({
+      where: {
+        email,
+        deleted_at: null,
+        NOT: {
+          id,
+        },
+      },
+    });
+
+    return count > 0;
+  }
+
   async isEmployeeNumberExists(employeeNumber: string) {
     const count = await prisma.user.count({
       where: {
         employee_number: employeeNumber,
         deleted_at: null,
+      },
+    });
+
+    return count > 0;
+  }
+
+  async isEmployeeNumberExistsExcept(
+    id: string,
+    employeeNumber: string,
+  ) {
+    const count = await prisma.user.count({
+      where: {
+        employee_number: employeeNumber,
+        deleted_at: null,
+        NOT: {
+          id,
+        },
       },
     });
 
@@ -142,6 +176,27 @@ export class UserRepository {
     });
   }
 
+  async update(
+    db: DbClient,
+    id: string,
+    data: {
+      employee_number: string;
+      full_name: string;
+      email: string;
+      phone?: string | null;
+      job_title?: string | null;
+      is_active: boolean;
+      updated_by?: string | null;
+    },
+  ) {
+    return db.user.update({
+      where: {
+        id,
+      },
+      data,
+    });
+  }
+
   async assignRoles(
       db: DbClient,
       userId: string,
@@ -157,6 +212,18 @@ export class UserRepository {
       })),
     });
   }
+
+  async clearRoles(
+    db: DbClient,
+    userId: string,
+  ) {
+    return db.userRole.deleteMany({
+      where: {
+        user_id: userId,
+      },
+    });
+  }
+
   async assignDepartments(
     db: DbClient,
     userId: string,
@@ -170,6 +237,17 @@ export class UserRepository {
         department_id: departmentId,
         created_by: createdBy ?? null,
       })),
+    });
+  }
+
+  async clearDepartments(
+    db: DbClient,
+    userId: string,
+  ) {
+    return db.userDepartment.deleteMany({
+      where: {
+        user_id: userId,
+      },
     });
   }
 

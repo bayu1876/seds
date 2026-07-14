@@ -30,4 +30,11 @@ router.post(
   controller.create.bind(controller),
 );
 
+router.put(
+  "/:id",
+  authenticate,
+  authorize("user", "update"),
+  controller.update.bind(controller),
+);
+
 export default router;

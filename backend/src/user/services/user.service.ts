@@ -24,8 +24,56 @@ type CreateUserInput = {
   created_by?: string | null;
 };
 
+  type UpdateUserInput = {
+    id: string;
+
+    employee_number: string;
+    full_name: string;
+    email: string;
+    phone?: string | null;
+    job_title?: string | null;
+
+    role_ids: string[];
+    department_ids: string[];
+
+    is_active: boolean;
+
+    updated_by?: string | null;
+  };
+
+
 export class UserService {
   private repository = new UserRepository();
+
+  private mapUserDto(user: {
+    id: string;
+    employee_number: string | null;
+    username: string;
+    full_name: string;
+    email: string | null;
+    phone: string | null;
+    job_title: string | null;
+    avatar: string | null;
+    last_login_at: Date | null;
+    password_changed_at: Date | null;
+    must_change_password: boolean;
+    is_active: boolean;
+  }) {
+    return {
+      id: user.id,
+      employee_number: user.employee_number,
+      username: user.username,
+      full_name: user.full_name,
+      email: user.email,
+      phone: user.phone,
+      job_title: user.job_title,
+      avatar: user.avatar,
+      last_login_at: user.last_login_at,
+      password_changed_at: user.password_changed_at,
+      must_change_password: user.must_change_password,
+      is_active: user.is_active,
+    };
+  }
 
   async findAll() {
     const users = await this.repository.findAll();
@@ -64,17 +112,7 @@ export class UserService {
     }
 
     return {
-      id: user.id,
-      employee_number: user.employee_number,
-      username: user.username,
-      full_name: user.full_name,
-      email: user.email,
-      phone: user.phone,
-      job_title: user.job_title,
-      avatar: user.avatar,
-      last_login_at: user.last_login_at,
-      password_changed_at: user.password_changed_at,
-      is_active: user.is_active,
+      ...this.mapUserDto(user),
 
       roles: user.userRoles.map((item) => ({
         id: item.role.id,
@@ -88,25 +126,26 @@ export class UserService {
         name: item.department.name,
       })),
     };
+
   }
 
   async createUser(input: CreateUserInput) {
     if (await this.repository.isUsernameExists(input.username)) {
     throw new Error("Username already exists");
-  }
+    }
 
-  if (await this.repository.isEmailExists(input.email)) {
+    if (await this.repository.isEmailExists(input.email)) {
     throw new Error("Email already exists");
-  }
+    }
 
-  if (
+    if (
     input.employee_number &&
     await this.repository.isEmployeeNumberExists(
       input.employee_number,
     )
   ) {
     throw new Error("Employee number already exists");
-  }
+    }
 
   const plainPassword =
     input.password_mode === "auto"
@@ -170,25 +209,90 @@ export class UserService {
   );
 
   return {
-    user: {
-      id: user.id,
-      employee_number: user.employee_number,
-      username: user.username,
-      full_name: user.full_name,
-      email: user.email,
-      phone: user.phone,
-      job_title: user.job_title,
-      avatar: user.avatar,
-      last_login_at: user.last_login_at,
-      password_changed_at: user.password_changed_at,
-      must_change_password: user.must_change_password,
-      is_active: user.is_active,
-    },
-
+    user: this.mapUserDto(user),
+ 
     temporaryPassword:
       input.password_mode === "auto"
         ? plainPassword
         : null,
     };
   }
+  async updateUser(input: UpdateUserInput) {
+    if (
+      await this.repository.isEmailExistsExcept(
+        input.id,
+        input.email,
+      )
+    ) {
+      throw new Error("Email already exists");
+    }
+
+    if (
+      input.employee_number &&
+      await this.repository.isEmployeeNumberExistsExcept(
+        input.id,
+        input.employee_number,
+      )
+    ) {
+      throw new Error("Employee number already exists");
+    }
+
+    const data = {
+      employee_number: input.employee_number,
+      full_name: input.full_name,
+      email: input.email,
+      is_active: input.is_active,
+
+      ...(input.phone !== undefined && {
+        phone: input.phone,
+      }),
+
+      ...(input.job_title !== undefined && {
+        job_title: input.job_title,
+      }),
+
+      ...(input.updated_by !== undefined && {
+        updated_by: input.updated_by,
+      }),
+    };
+
+    const user = await prisma.$transaction(
+      async (tx) => {
+        const user = await this.repository.update(
+          tx,
+          input.id,
+          data,
+        );
+
+        await this.repository.clearRoles(
+          tx,
+         input.id,
+        );
+
+        await this.repository.assignRoles(
+          tx,
+          input.id,
+          input.role_ids,
+          input.updated_by,
+        );
+
+        await this.repository.clearDepartments(
+          tx,
+          input.id,
+        );
+
+        await this.repository.assignDepartments(
+          tx,
+          input.id,
+          input.department_ids,
+          input.updated_by,
+        );
+
+        return user;
+      },
+    );
+
+   return this.mapUserDto(user);
+  }
+
 }

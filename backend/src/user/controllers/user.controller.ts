@@ -97,4 +97,59 @@ export class UserController {
     }
   }
 
+  async update(req: Request, res: Response) {
+    try {
+      const id = req.params.id;
+
+      if (!id || Array.isArray(id)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid user id",
+        });
+      }
+
+      const result = await this.service.updateUser({
+        ...req.body,
+        id,
+      });
+
+      return res.json({
+        success: true,
+        message: "User updated successfully",
+        data: result,
+      });
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        (
+          error.message === "Email already exists" ||
+          error.message === "Employee number already exists"
+        )
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
+      if (
+        error instanceof Error &&
+        error.message === "User not found"
+      ) {
+        return res.status(404).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
+      return res.status(500).json({
+        success: false,
+        message:
+          error instanceof Error
+            ? error.message
+            : "Internal Server Error",
+      });
+    }
+  }
+
 }
