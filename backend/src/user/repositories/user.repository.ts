@@ -1,4 +1,6 @@
-import prisma from "../../config/prisma.js";
+import prisma, {
+  type DbClient,
+} from "../../config/prisma.js";
 
 export class UserRepository {
   async findAll() {
@@ -120,7 +122,9 @@ export class UserRepository {
     return count > 0;
   }
 
-  async create(data: {
+  async create(
+  db: DbClient,
+  data: {
     employee_number: string;
     username: string;
     password_hash: string;
@@ -133,8 +137,39 @@ export class UserRepository {
     is_active: boolean;
     created_by?: string | null;
   }) {
-    return prisma.user.create({
+    return db.user.create({
       data,
+    });
+  }
+
+  async assignRoles(
+      db: DbClient,
+      userId: string,
+      roleIds: string[],
+      createdBy?: string | null,
+    )
+   {
+    return db.userRole.createMany({
+      data: roleIds.map((roleId) => ({
+        user_id: userId,
+        role_id: roleId,
+        created_by: createdBy ?? null,
+      })),
+    });
+  }
+  async assignDepartments(
+    db: DbClient,
+    userId: string,
+    departmentIds: string[],
+    createdBy?: string | null,
+  )
+    {
+    return db.userDepartment.createMany({
+      data: departmentIds.map((departmentId) => ({
+        user_id: userId,
+        department_id: departmentId,
+        created_by: createdBy ?? null,
+      })),
     });
   }
 

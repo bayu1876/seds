@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 
+import prisma from "../../config/prisma.js";
 import { generatePassword } from "../../utils/password.util.js";
 import { UserRepository } from "../repositories/user.repository.js";
 
@@ -10,6 +11,9 @@ type CreateUserInput = {
   email: string;
   phone?: string | null;
   job_title?: string | null;
+
+  role_ids: string[];
+  department_ids: string[];
 
   password_mode: "auto" | "manual";
   password?: string;
@@ -88,79 +92,103 @@ export class UserService {
 
   async createUser(input: CreateUserInput) {
     if (await this.repository.isUsernameExists(input.username)) {
-      throw new Error("Username already exists");
-    }
-
-    if (await this.repository.isEmailExists(input.email)) {
-      throw new Error("Email already exists");
-    }
-
-    if (
-      input.employee_number &&
-      await this.repository.isEmployeeNumberExists(
-        input.employee_number,
-      )
-    ) {
-      throw new Error("Employee number already exists");
-    }
-
-    const plainPassword =
-      input.password_mode === "auto"
-        ? generatePassword()
-        : input.password;
-
-    if (!plainPassword) {
-      throw new Error("Password is required");
-    }
-
-    const password_hash =
-      await bcrypt.hash(plainPassword, 10);
-
-   const data = {
-     employee_number: input.employee_number,
-     username: input.username,
-     password_hash,
-     full_name: input.full_name,
-     email: input.email,
-     is_active: input.is_active,
-
-     ...(input.phone !== undefined && {
-       phone: input.phone,
-     }),
-
-     ...(input.job_title !== undefined && {
-       job_title: input.job_title,
-     }),
-
-     ...(input.created_by !== undefined && {
-       created_by: input.created_by,
-     }),
-   };
-
-   const user = await this.repository.create(data);
-
-   return {
-     user: {
-       id: user.id,
-       employee_number: user.employee_number,
-       username: user.username,
-       full_name: user.full_name,
-       email: user.email,
-       phone: user.phone,
-       job_title: user.job_title,
-       avatar: user.avatar,
-       last_login_at: user.last_login_at,
-       password_changed_at: user.password_changed_at,
-       must_change_password: user.must_change_password,
-       is_active: user.is_active,
-     },
-
-     temporaryPassword:
-       input.password_mode === "auto"
-         ? plainPassword
-         : null,
-   };
-
+    throw new Error("Username already exists");
   }
 
+  if (await this.repository.isEmailExists(input.email)) {
+    throw new Error("Email already exists");
+  }
+
+  if (
+    input.employee_number &&
+    await this.repository.isEmployeeNumberExists(
+      input.employee_number,
+    )
+  ) {
+    throw new Error("Employee number already exists");
+  }
+
+  const plainPassword =
+    input.password_mode === "auto"
+      ? generatePassword()
+      : input.password;
+
+  if (!plainPassword) {
+    throw new Error("Password is required");
+  }
+
+  const password_hash = await bcrypt.hash(
+    plainPassword,
+    10,
+  );
+
+  const data = {
+    employee_number: input.employee_number,
+    username: input.username,
+    password_hash,
+    full_name: input.full_name,
+    email: input.email,
+    must_change_password: input.must_change_password,
+    is_active: input.is_active,
+
+    ...(input.phone !== undefined && {
+      phone: input.phone,
+    }),
+
+    ...(input.job_title !== undefined && {
+      job_title: input.job_title,
+    }),
+
+    ...(input.created_by !== undefined && {
+      created_by: input.created_by,
+    }),
+  };
+
+  const user = await prisma.$transaction(
+    async (tx) => {
+      const user = await this.repository.create(
+        tx,
+        data,
+      );
+
+      await this.repository.assignRoles(
+        tx,
+        user.id,
+        input.role_ids,
+        input.created_by,
+      );
+
+      await this.repository.assignDepartments(
+        tx,
+        user.id,
+        input.department_ids,
+        input.created_by,
+      );
+
+      return user;
+    },
+  );
+
+  return {
+    user: {
+      id: user.id,
+      employee_number: user.employee_number,
+      username: user.username,
+      full_name: user.full_name,
+      email: user.email,
+      phone: user.phone,
+      job_title: user.job_title,
+      avatar: user.avatar,
+      last_login_at: user.last_login_at,
+      password_changed_at: user.password_changed_at,
+      must_change_password: user.must_change_password,
+      is_active: user.is_active,
+    },
+
+    temporaryPassword:
+      input.password_mode === "auto"
+        ? plainPassword
+        : null,
+    };
+  }
 }
