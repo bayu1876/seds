@@ -1,17 +1,8 @@
-import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../../generated/prisma/client.js";
-
-const adapter = new PrismaPg({
-  connectionString: process.env.DATABASE_URL!,
-});
-
-const prisma = new PrismaClient({
-  adapter,
-});
+import prisma from "../../config/prisma.js";
 
 export class AuthRepository {
   async findByUsername(username: string) {
-    return prisma.user.findFirst({
+    return prisma.user.findUnique({
       where: {
         username,
         is_active: true,
@@ -20,7 +11,7 @@ export class AuthRepository {
     });
   }
 
-    async findUserWithPermissions(userId: string) {
+  async findUserWithPermissions(userId: string) {
     return prisma.user.findUnique({
       where: {
         id: userId,
@@ -39,6 +30,11 @@ export class AuthRepository {
                 },
               },
             },
+          },
+        },
+        userDepartments: {
+          include: {
+            department: true,
           },
         },
       },
