@@ -1,0 +1,64 @@
+import type { Request, Response } from "express";
+
+import { UserService } from "../services/user.service.js";
+
+export class UserController {
+  private service = new UserService();
+
+  async findAll(req: Request, res: Response) {
+    try {
+      const users = await this.service.findAll();
+
+      return res.json({
+        success: true,
+        message: "Users retrieved successfully",
+        data: users,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message:
+          error instanceof Error ? error.message : "Internal Server Error",
+      });
+    }
+  }
+
+  async findById(req: Request, res: Response) {
+  try {
+    const id = req.params.id;
+
+    if (!id || Array.isArray(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid user id",
+      });
+    }
+
+    const user = await this.service.findById(id);
+
+    return res.json({
+      success: true,
+      message: "User retrieved successfully",
+      data: user,
+    });
+  } catch (error) {
+    if (
+      error instanceof Error &&
+      error.message === "User not found"
+    ) {
+      return res.status(404).json({
+        success: false,
+        message: error.message,
+      });
+    }
+
+    return res.status(500).json({
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Internal Server Error",
+    });
+  }
+}
+}
