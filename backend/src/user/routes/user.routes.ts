@@ -37,4 +37,25 @@ router.put(
   controller.update.bind(controller),
 );
 
+router.patch(
+  "/:id/reset-password",
+  authenticate,
+  authorize("user", "update"),
+  controller.resetPassword.bind(controller),
+);
+
+router.patch(
+  "/:id/status",
+  authenticate,
+  authorize("user", "update"),
+  controller.updateStatus.bind(controller),
+);
+
+router.delete(
+  "/:id",
+  authenticate,
+  authorize("user", "delete"),
+  controller.softDelete.bind(controller),
+);
+
 export default router;

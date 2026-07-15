@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 
+import { AuthService } from "../../auth/services/auth.service.js";
 import { UserService } from "../services/user.service.js";
 
 export class UserController {
@@ -24,41 +25,36 @@ export class UserController {
   }
 
   async findById(req: Request, res: Response) {
-  try {
-    const id = req.params.id;
+    try {
+      const id = req.params.id;
 
-    if (!id || Array.isArray(id)) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid user id",
+      if (!id || Array.isArray(id)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid user id",
+        });
+      }
+
+      const user = await this.service.findById(id);
+
+      return res.json({
+        success: true,
+        message: "User retrieved successfully",
+        data: user,
       });
-    }
+    } catch (error) {
+      if (error instanceof Error && error.message === "User not found") {
+        return res.status(404).json({
+          success: false,
+          message: error.message,
+        });
+      }
 
-    const user = await this.service.findById(id);
-
-    return res.json({
-      success: true,
-      message: "User retrieved successfully",
-      data: user,
-    });
-  } catch (error) {
-    if (
-      error instanceof Error &&
-      error.message === "User not found"
-    ) {
-      return res.status(404).json({
+      return res.status(500).json({
         success: false,
-        message: error.message,
+        message:
+          error instanceof Error ? error.message : "Internal Server Error",
       });
-    }
-
-    return res.status(500).json({
-      success: false,
-      message:
-        error instanceof Error
-          ? error.message
-          : "Internal Server Error",
-    });
     }
   }
 
@@ -74,12 +70,10 @@ export class UserController {
     } catch (error) {
       if (
         error instanceof Error &&
-        (
-          error.message === "Username already exists" ||
+        (error.message === "Username already exists" ||
           error.message === "Email already exists" ||
           error.message === "Employee number already exists" ||
-          error.message === "Password is required"
-        )
+          error.message === "Password is required")
       ) {
         return res.status(400).json({
           success: false,
@@ -90,9 +84,7 @@ export class UserController {
       return res.status(500).json({
         success: false,
         message:
-          error instanceof Error
-            ? error.message
-            : "Internal Server Error",
+          error instanceof Error ? error.message : "Internal Server Error",
       });
     }
   }
@@ -121,10 +113,8 @@ export class UserController {
     } catch (error) {
       if (
         error instanceof Error &&
-        (
-          error.message === "Email already exists" ||
-          error.message === "Employee number already exists"
-        )
+        (error.message === "Email already exists" ||
+          error.message === "Employee number already exists")
       ) {
         return res.status(400).json({
           success: false,
@@ -132,10 +122,7 @@ export class UserController {
         });
       }
 
-      if (
-        error instanceof Error &&
-        error.message === "User not found"
-      ) {
+      if (error instanceof Error && error.message === "User not found") {
         return res.status(404).json({
           success: false,
           message: error.message,
@@ -145,11 +132,140 @@ export class UserController {
       return res.status(500).json({
         success: false,
         message:
-          error instanceof Error
-            ? error.message
-            : "Internal Server Error",
+          error instanceof Error ? error.message : "Internal Server Error",
       });
     }
   }
 
+  async resetPassword(req: Request, res: Response) {
+    try {
+      const id = req.params.id;
+
+      if (!id || Array.isArray(id)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid user id",
+        });
+      }
+
+      const result = await this.service.resetPassword({
+        ...req.body,
+        id,
+      });
+
+      return res.json({
+        success: true,
+        message: "Password reset successfully",
+        data: result,
+      });
+    } catch (error) {
+      if (error instanceof Error && error.message === "Password is required") {
+        return res.status(400).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
+      return res.status(500).json({
+        success: false,
+        message:
+          error instanceof Error ? error.message : "Internal Server Error",
+      });
+    }
+  }
+
+  async updateStatus(req: Request, res: Response) {
+    try {
+      const id = req.params.id;
+
+      if (!id || Array.isArray(id)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid user id",
+        });
+      }
+
+      const user = (
+        req as Request & {
+          user: Awaited<ReturnType<AuthService["getCurrentUser"]>>;
+        }
+      ).user;
+
+      const result = await this.service.updateStatus({
+        ...req.body,
+        id,
+        current_user_id: user.id,
+        updated_by: user.id,
+      });
+
+      return res.json({
+        success: true,
+        message: "User status updated successfully",
+        data: result,
+      });
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        error.message === "You cannot deactivate your own account"
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
+      return res.status(500).json({
+        success: false,
+        message:
+          error instanceof Error ? error.message : "Internal Server Error",
+      });
+    }
+  }
+
+  async softDelete(req: Request, res: Response) {
+    try {
+      const id = req.params.id;
+
+      if (!id || Array.isArray(id)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid user id",
+        });
+      }
+
+      const user = (
+        req as Request & {
+          user: Awaited<ReturnType<AuthService["getCurrentUser"]>>;
+        }
+      ).user;
+
+      const result = await this.service.softDelete({
+        id,
+        current_user_id: user.id,
+        deleted_by: user.id,
+      });
+
+      return res.json({
+        success: true,
+        message: "User deleted successfully",
+        data: result,
+      });
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        error.message === "You cannot delete your own account"
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
+      return res.status(500).json({
+        success: false,
+        message:
+          error instanceof Error ? error.message : "Internal Server Error",
+      });
+    }
+  }
 }

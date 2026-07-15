@@ -8,13 +8,9 @@ const router = Router();
 const controller = new AuthController();
 
 router.post("/login", controller.login.bind(controller));
-router.get(
-  "/me",
-  authenticate,
-  (req, res) => {
-    return res.json((req as typeof req & { user: unknown }).user);
-  },
-);
+router.get("/me", authenticate, (req, res) => {
+  return res.json((req as typeof req & { user: unknown }).user);
+});
 
 router.get(
   "/permission-test",

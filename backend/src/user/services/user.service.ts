@@ -24,23 +24,47 @@ type CreateUserInput = {
   created_by?: string | null;
 };
 
-  type UpdateUserInput = {
-    id: string;
+type UpdateUserInput = {
+  id: string;
 
-    employee_number: string;
-    full_name: string;
-    email: string;
-    phone?: string | null;
-    job_title?: string | null;
+  employee_number: string;
+  full_name: string;
+  email: string;
+  phone?: string | null;
+  job_title?: string | null;
 
-    role_ids: string[];
-    department_ids: string[];
+  role_ids: string[];
+  department_ids: string[];
 
-    is_active: boolean;
+  is_active: boolean;
 
-    updated_by?: string | null;
-  };
+  updated_by?: string | null;
+};
 
+type ResetPasswordInput = {
+  id: string;
+
+  password_mode: "auto" | "manual";
+  password?: string;
+
+  must_change_password: boolean;
+
+  updated_by?: string | null;
+};
+
+type UpdateUserStatusInput = {
+  id: string;
+  is_active: boolean;
+  current_user_id: string;
+  updated_by?: string | null;
+};
+
+type SoftDeleteUserInput = {
+  id: string;
+
+  current_user_id: string;
+  deleted_by?: string | null;
+};
 
 export class UserService {
   private repository = new UserRepository();
@@ -126,69 +150,87 @@ export class UserService {
         name: item.department.name,
       })),
     };
-
   }
 
   async createUser(input: CreateUserInput) {
     if (await this.repository.isUsernameExists(input.username)) {
-    throw new Error("Username already exists");
+      throw new Error("Username already exists");
     }
 
     if (await this.repository.isEmailExists(input.email)) {
-    throw new Error("Email already exists");
+      throw new Error("Email already exists");
     }
 
     if (
-    input.employee_number &&
-    await this.repository.isEmployeeNumberExists(
-      input.employee_number,
-    )
-  ) {
-    throw new Error("Employee number already exists");
+      input.employee_number &&
+      (await this.repository.isEmployeeNumberExists(input.employee_number))
+    ) {
+      throw new Error("Employee number already exists");
     }
 
-  const plainPassword =
-    input.password_mode === "auto"
-      ? generatePassword()
-      : input.password;
+    if (input.role_ids.length === 0) {
+      throw new Error("At least one role is required");
+    }
 
-  if (!plainPassword) {
-    throw new Error("Password is required");
-  }
+    if (input.department_ids.length === 0) {
+      throw new Error("At least one department is required");
+    }
 
-  const password_hash = await bcrypt.hash(
-    plainPassword,
-    10,
-  );
+    if (new Set(input.role_ids).size !== input.role_ids.length) {
+      throw new Error("Duplicate roles are not allowed");
+    }
 
-  const data = {
-    employee_number: input.employee_number,
-    username: input.username,
-    password_hash,
-    full_name: input.full_name,
-    email: input.email,
-    must_change_password: input.must_change_password,
-    is_active: input.is_active,
+    if (new Set(input.department_ids).size !== input.department_ids.length) {
+      throw new Error("Duplicate departments are not allowed");
+    }
 
-    ...(input.phone !== undefined && {
-      phone: input.phone,
-    }),
+    if (
+      (await this.repository.existingRoleCount(input.role_ids)) !==
+      input.role_ids.length
+    ) {
+      throw new Error("Invalid role selected");
+    }
 
-    ...(input.job_title !== undefined && {
-      job_title: input.job_title,
-    }),
+    if (
+      (await this.repository.existingDepartmentCount(input.department_ids)) !==
+      input.department_ids.length
+    ) {
+      throw new Error("Invalid department selected");
+    }
 
-    ...(input.created_by !== undefined && {
-      created_by: input.created_by,
-    }),
-  };
+    const plainPassword =
+      input.password_mode === "auto" ? generatePassword() : input.password;
 
-  const user = await prisma.$transaction(
-    async (tx) => {
-      const user = await this.repository.create(
-        tx,
-        data,
-      );
+    if (!plainPassword) {
+      throw new Error("Password is required");
+    }
+
+    const password_hash = await bcrypt.hash(plainPassword, 10);
+
+    const data = {
+      employee_number: input.employee_number,
+      username: input.username,
+      password_hash,
+      full_name: input.full_name,
+      email: input.email,
+      must_change_password: input.must_change_password,
+      is_active: input.is_active,
+
+      ...(input.phone !== undefined && {
+        phone: input.phone,
+      }),
+
+      ...(input.job_title !== undefined && {
+        job_title: input.job_title,
+      }),
+
+      ...(input.created_by !== undefined && {
+        created_by: input.created_by,
+      }),
+    };
+
+    const user = await prisma.$transaction(async (tx) => {
+      const user = await this.repository.create(tx, data);
 
       await this.repository.assignRoles(
         tx,
@@ -205,36 +247,57 @@ export class UserService {
       );
 
       return user;
-    },
-  );
+    });
 
-  return {
-    user: this.mapUserDto(user),
- 
-    temporaryPassword:
-      input.password_mode === "auto"
-        ? plainPassword
-        : null,
+    return {
+      user: this.mapUserDto(user),
+
+      temporaryPassword: input.password_mode === "auto" ? plainPassword : null,
     };
   }
   async updateUser(input: UpdateUserInput) {
-    if (
-      await this.repository.isEmailExistsExcept(
-        input.id,
-        input.email,
-      )
-    ) {
+    if (await this.repository.isEmailExistsExcept(input.id, input.email)) {
       throw new Error("Email already exists");
     }
 
     if (
       input.employee_number &&
-      await this.repository.isEmployeeNumberExistsExcept(
+      (await this.repository.isEmployeeNumberExistsExcept(
         input.id,
         input.employee_number,
-      )
+      ))
     ) {
       throw new Error("Employee number already exists");
+    }
+
+    if (input.role_ids.length === 0) {
+      throw new Error("At least one role is required");
+    }
+
+    if (input.department_ids.length === 0) {
+      throw new Error("At least one department is required");
+    }
+
+    if (new Set(input.role_ids).size !== input.role_ids.length) {
+      throw new Error("Duplicate roles are not allowed");
+    }
+
+    if (new Set(input.department_ids).size !== input.department_ids.length) {
+      throw new Error("Duplicate departments are not allowed");
+    }
+
+    if (
+      (await this.repository.existingRoleCount(input.role_ids)) !==
+      input.role_ids.length
+    ) {
+      throw new Error("Invalid role selected");
+    }
+
+    if (
+      (await this.repository.existingDepartmentCount(input.department_ids)) !==
+      input.department_ids.length
+    ) {
+      throw new Error("Invalid department selected");
     }
 
     const data = {
@@ -256,43 +319,95 @@ export class UserService {
       }),
     };
 
-    const user = await prisma.$transaction(
-      async (tx) => {
-        const user = await this.repository.update(
-          tx,
-          input.id,
-          data,
-        );
+    const user = await prisma.$transaction(async (tx) => {
+      const user = await this.repository.update(tx, input.id, data);
 
-        await this.repository.clearRoles(
-          tx,
-         input.id,
-        );
+      await this.repository.clearRoles(tx, input.id);
 
-        await this.repository.assignRoles(
-          tx,
-          input.id,
-          input.role_ids,
-          input.updated_by,
-        );
+      await this.repository.assignRoles(
+        tx,
+        input.id,
+        input.role_ids,
+        input.updated_by,
+      );
 
-        await this.repository.clearDepartments(
-          tx,
-          input.id,
-        );
+      await this.repository.clearDepartments(tx, input.id);
 
-        await this.repository.assignDepartments(
-          tx,
-          input.id,
-          input.department_ids,
-          input.updated_by,
-        );
+      await this.repository.assignDepartments(
+        tx,
+        input.id,
+        input.department_ids,
+        input.updated_by,
+      );
 
-        return user;
-      },
-    );
+      return user;
+    });
 
-   return this.mapUserDto(user);
+    return this.mapUserDto(user);
   }
 
+  async resetPassword(input: ResetPasswordInput) {
+    const plainPassword =
+      input.password_mode === "auto" ? generatePassword() : input.password;
+
+    if (!plainPassword) {
+      throw new Error("Password is required");
+    }
+
+    const password_hash = await bcrypt.hash(plainPassword, 10);
+
+    const user = await prisma.$transaction(async (tx) => {
+      return this.repository.resetPassword(tx, input.id, {
+        password_hash,
+        must_change_password: input.must_change_password,
+        password_changed_at: new Date(),
+
+        ...(input.updated_by !== undefined && {
+          updated_by: input.updated_by,
+        }),
+      });
+    });
+
+    return {
+      user: this.mapUserDto(user),
+
+      temporaryPassword: input.password_mode === "auto" ? plainPassword : null,
+    };
+  }
+
+  async updateStatus(input: UpdateUserStatusInput) {
+    if (input.id === input.current_user_id) {
+      throw new Error("You cannot deactivate your own account");
+    }
+
+    const user = await prisma.$transaction(async (tx) => {
+      return this.repository.updateStatus(tx, input.id, {
+        is_active: input.is_active,
+
+        ...(input.updated_by !== undefined && {
+          updated_by: input.updated_by,
+        }),
+      });
+    });
+
+    return this.mapUserDto(user);
+  }
+
+  async softDelete(input: SoftDeleteUserInput) {
+    if (input.id === input.current_user_id) {
+      throw new Error("You cannot delete your own account");
+    }
+
+    const user = await prisma.$transaction(async (tx) => {
+      return this.repository.softDelete(tx, input.id, {
+        deleted_at: new Date(),
+
+        ...(input.deleted_by !== undefined && {
+          deleted_by: input.deleted_by,
+        }),
+      });
+    });
+
+    return this.mapUserDto(user);
+  }
 }

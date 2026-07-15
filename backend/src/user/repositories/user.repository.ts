@@ -1,6 +1,4 @@
-import prisma, {
-  type DbClient,
-} from "../../config/prisma.js";
+import prisma, { type DbClient } from "../../config/prisma.js";
 
 export class UserRepository {
   async findAll() {
@@ -88,8 +86,8 @@ export class UserRepository {
       },
     });
   }
-  
-    async isUsernameExists(username: string) {
+
+  async isUsernameExists(username: string) {
     const count = await prisma.user.count({
       where: {
         username,
@@ -111,10 +109,7 @@ export class UserRepository {
     return count > 0;
   }
 
-  async isEmailExistsExcept(
-    id: string,
-    email: string,
-  ) {
+  async isEmailExistsExcept(id: string, email: string) {
     const count = await prisma.user.count({
       where: {
         email,
@@ -139,10 +134,7 @@ export class UserRepository {
     return count > 0;
   }
 
-  async isEmployeeNumberExistsExcept(
-    id: string,
-    employeeNumber: string,
-  ) {
+  async isEmployeeNumberExistsExcept(id: string, employeeNumber: string) {
     const count = await prisma.user.count({
       where: {
         employee_number: employeeNumber,
@@ -157,20 +149,21 @@ export class UserRepository {
   }
 
   async create(
-  db: DbClient,
-  data: {
-    employee_number: string;
-    username: string;
-    password_hash: string;
-    full_name: string;
-    email: string;
-    phone?: string | null;
-    job_title?: string | null;
-    avatar?: string | null;
-    password_changed_at?: Date | null;
-    is_active: boolean;
-    created_by?: string | null;
-  }) {
+    db: DbClient,
+    data: {
+      employee_number: string;
+      username: string;
+      password_hash: string;
+      full_name: string;
+      email: string;
+      phone?: string | null;
+      job_title?: string | null;
+      avatar?: string | null;
+      password_changed_at?: Date | null;
+      is_active: boolean;
+      created_by?: string | null;
+    },
+  ) {
     return db.user.create({
       data,
     });
@@ -197,13 +190,62 @@ export class UserRepository {
     });
   }
 
+  async resetPassword(
+    db: DbClient,
+    id: string,
+    data: {
+      password_hash: string;
+      must_change_password: boolean;
+      password_changed_at: Date;
+      updated_by?: string | null;
+    },
+  ) {
+    return db.user.update({
+      where: {
+        id,
+      },
+      data,
+    });
+  }
+
+  async updateStatus(
+    db: DbClient,
+    id: string,
+    data: {
+      is_active: boolean;
+      updated_by?: string | null;
+    },
+  ) {
+    return db.user.update({
+      where: {
+        id,
+      },
+      data,
+    });
+  }
+
+  async softDelete(
+    db: DbClient,
+    id: string,
+    data: {
+      deleted_at: Date;
+      deleted_by?: string | null;
+    },
+  ) {
+    return db.user.update({
+      where: {
+        id,
+      },
+      data,
+    });
+  }
+
   async assignRoles(
-      db: DbClient,
-      userId: string,
-      roleIds: string[],
-      createdBy?: string | null,
-    )
-   {
+    db: DbClient,
+    userId: string,
+    roleIds: string[],
+    createdBy?: string | null,
+  ) {
     return db.userRole.createMany({
       data: roleIds.map((roleId) => ({
         user_id: userId,
@@ -213,10 +255,7 @@ export class UserRepository {
     });
   }
 
-  async clearRoles(
-    db: DbClient,
-    userId: string,
-  ) {
+  async clearRoles(db: DbClient, userId: string) {
     return db.userRole.deleteMany({
       where: {
         user_id: userId,
@@ -229,8 +268,7 @@ export class UserRepository {
     userId: string,
     departmentIds: string[],
     createdBy?: string | null,
-  )
-    {
+  ) {
     return db.userDepartment.createMany({
       data: departmentIds.map((departmentId) => ({
         user_id: userId,
@@ -240,10 +278,7 @@ export class UserRepository {
     });
   }
 
-  async clearDepartments(
-    db: DbClient,
-    userId: string,
-  ) {
+  async clearDepartments(db: DbClient, userId: string) {
     return db.userDepartment.deleteMany({
       where: {
         user_id: userId,
@@ -251,4 +286,27 @@ export class UserRepository {
     });
   }
 
+  async existingRoleCount(roleIds: string[]) {
+    return prisma.role.count({
+      where: {
+        id: {
+          in: roleIds,
+        },
+        is_active: true,
+        deleted_at: null,
+      },
+    });
+  }
+
+  async existingDepartmentCount(departmentIds: string[]) {
+    return prisma.department.count({
+      where: {
+        id: {
+          in: departmentIds,
+        },
+        is_active: true,
+        deleted_at: null,
+      },
+    });
+  }
 }

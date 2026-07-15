@@ -21,10 +21,7 @@ export async function authenticate(
 
     const token = authHeader.substring(7);
 
-    const payload = jwt.verify(
-      token,
-      process.env.JWT_SECRET!,
-    ) as {
+    const payload = jwt.verify(token, process.env.JWT_SECRET!) as {
       userId: string;
       username: string;
     };
@@ -42,23 +39,20 @@ export async function authenticate(
 }
 
 export function authorize(module: string, action: string) {
-  return (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
-    const user = (req as Request & {
-      user: Awaited<ReturnType<AuthService["getCurrentUser"]>>;
-    }).user;
+  return (req: Request, res: Response, next: NextFunction) => {
+    const user = (
+      req as Request & {
+        user: Awaited<ReturnType<AuthService["getCurrentUser"]>>;
+      }
+    ).user;
 
-    const allowed =
-      user.userRoles.some((userRole) =>
-        userRole.role.rolePermissions.some(
-          (rolePermission) =>
-            rolePermission.permission.module === module &&
-            rolePermission.permission.action === action,
-        ),
-      );
+    const allowed = user.userRoles.some((userRole) =>
+      userRole.role.rolePermissions.some(
+        (rolePermission) =>
+          rolePermission.permission.module === module &&
+          rolePermission.permission.action === action,
+      ),
+    );
 
     if (!allowed) {
       return res.status(403).json({
