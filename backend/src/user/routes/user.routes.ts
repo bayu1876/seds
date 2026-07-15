@@ -16,6 +16,8 @@ router.get(
   controller.findAll.bind(controller),
 );
 
+router.get("/me", authenticate, controller.getMyProfile.bind(controller));
+
 router.get(
   "/:id",
   authenticate,
@@ -28,6 +30,14 @@ router.post(
   authenticate,
   authorize("user", "create"),
   controller.create.bind(controller),
+);
+
+router.put("/me", authenticate, controller.updateMyProfile.bind(controller));
+
+router.put(
+  "/me/change-password",
+  authenticate,
+  controller.changeMyPassword.bind(controller),
 );
 
 router.put(

@@ -240,6 +240,43 @@ export class UserRepository {
     });
   }
 
+  async updateMyProfile(
+    db: DbClient,
+    id: string,
+    data: {
+      full_name: string;
+      email: string;
+      phone?: string | null;
+      avatar?: string | null;
+      updated_by?: string | null;
+    },
+  ) {
+    return db.user.update({
+      where: {
+        id,
+      },
+      data,
+    });
+  }
+
+  async changeMyPassword(
+    db: DbClient,
+    id: string,
+    data: {
+      password_hash: string;
+      password_changed_at: Date;
+      must_change_password: boolean;
+      updated_by?: string | null;
+    },
+  ) {
+    return db.user.update({
+      where: {
+        id,
+      },
+      data,
+    });
+  }
+
   async assignRoles(
     db: DbClient,
     userId: string,

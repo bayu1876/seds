@@ -268,4 +268,99 @@ export class UserController {
       });
     }
   }
+
+  async updateMyProfile(req: Request, res: Response) {
+    try {
+      const user = (
+        req as Request & {
+          user: Awaited<ReturnType<AuthService["getCurrentUser"]>>;
+        }
+      ).user;
+
+      const result = await this.service.updateMyProfile({
+        ...req.body,
+        user_id: user.id,
+      });
+
+      return res.json({
+        success: true,
+        message: "Profile updated successfully",
+        data: result,
+      });
+    } catch (error) {
+      if (error instanceof Error && error.message === "Email already exists") {
+        return res.status(400).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
+      return res.status(500).json({
+        success: false,
+        message:
+          error instanceof Error ? error.message : "Internal Server Error",
+      });
+    }
+  }
+
+  async getMyProfile(req: Request, res: Response) {
+    try {
+      const user = (
+        req as Request & {
+          user: Awaited<ReturnType<AuthService["getCurrentUser"]>>;
+        }
+      ).user;
+
+      const result = await this.service.getMyProfile(user.id);
+
+      return res.json({
+        success: true,
+        message: "Profile retrieved successfully",
+        data: result,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        success: false,
+        message:
+          error instanceof Error ? error.message : "Internal Server Error",
+      });
+    }
+  }
+
+  async changeMyPassword(req: Request, res: Response) {
+    try {
+      const user = (
+        req as Request & {
+          user: Awaited<ReturnType<AuthService["getCurrentUser"]>>;
+        }
+      ).user;
+
+      await this.service.changeMyPassword({
+        ...req.body,
+        user_id: user.id,
+      });
+
+      return res.json({
+        success: true,
+        message: "Password changed successfully",
+      });
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        (error.message === "Current password is incorrect" ||
+          error.message === "Password confirmation does not match")
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
+      return res.status(500).json({
+        success: false,
+        message:
+          error instanceof Error ? error.message : "Internal Server Error",
+      });
+    }
+  }
 }

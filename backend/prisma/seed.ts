@@ -255,15 +255,44 @@ const tags = [
   },
 ];
 
-const superAdminUser = {
-  username: "admin",
-  password_hash: await bcrypt.hash("admin123", 10),
-  full_name: "Super Administrator",
-  employee_number: "000001",
-  email: "admin@localhost",
-  is_active: true,
-};
-
+const users = [
+  {
+    username: "admin",
+    password: "superadmin123",
+    full_name: "Super Administrator",
+    employee_number: "000001",
+    email: "admin@localhost",
+    role: "SUPER_ADMIN",
+    department: "IT",
+  },
+  {
+    username: "testadmin",
+    password: "admin123",
+    full_name: "Test Administrator",
+    employee_number: "900001",
+    email: "testadmin@localhost",
+    role: "ADMIN",
+    department: "IT",
+  },
+  {
+    username: "testmanager",
+    password: "manager123",
+    full_name: "Test Manager",
+    employee_number: "900002",
+    email: "testmanager@localhost",
+    role: "MANAGER",
+    department: "IT",
+  },
+  {
+    username: "teststaff",
+    password: "staff123",
+    full_name: "Test Staff",
+    employee_number: "900003",
+    email: "teststaff@localhost",
+    role: "STAFF",
+    department: "IT",
+  },
+];
 async function main() {
   console.log("🌱 SEDS Seed Started");
 
@@ -367,28 +396,43 @@ async function main() {
 
   console.log("✅ Tag Seeded");
 
+for (const item of users) {
+  const password_hash = await bcrypt.hash(
+    item.password,
+    10,
+  );
+
   const user = await prisma.user.upsert({
     where: {
-      username: superAdminUser.username,
+      username: item.username,
     },
-     update: {
-      password_hash: superAdminUser.password_hash,
-      full_name: superAdminUser.full_name,
-      employee_number: superAdminUser.employee_number,
-      email: superAdminUser.email,
-      is_active: superAdminUser.is_active,
+    update: {
+      password_hash,
+      full_name: item.full_name,
+      employee_number: item.employee_number,
+      email: item.email,
+      is_active: true,
     },
-    create: superAdminUser,
+    create: {
+      username: item.username,
+      password_hash,
+      full_name: item.full_name,
+      employee_number: item.employee_number,
+      email: item.email,
+      is_active: true,
+    },
   });
 
   const role = await prisma.role.findUnique({
     where: {
-        code: "SUPER_ADMIN",
+      code: item.role,
     },
   });
 
   if (!role) {
-    throw new Error("Role SUPER_ADMIN not found");
+    throw new Error(
+      `Role ${item.role} not found`,
+    );
   }
 
   await prisma.userRole.upsert({
@@ -405,14 +449,17 @@ async function main() {
     },
   });
 
-  const department = await prisma.department.findUnique({
-    where: {
-      code: "IT",
-    },
-  });
+  const department =
+    await prisma.department.findUnique({
+      where: {
+        code: item.department,
+      },
+    });
 
   if (!department) {
-    throw new Error("Department IT not found");
+    throw new Error(
+      `Department ${item.department} not found`,
+    );
   }
 
   await prisma.userDepartment.upsert({
@@ -429,9 +476,8 @@ async function main() {
     },
   });
 
-  console.log("✅ Super Admin Seeded");
-  console.log("✅ UserRole Seeded");
-  console.log("✅ UserDepartment Seeded");
+  console.log(`✅ ${item.username} Seeded`);
+}
 
 }
 main()

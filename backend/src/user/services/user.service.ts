@@ -66,6 +66,23 @@ type SoftDeleteUserInput = {
   deleted_by?: string | null;
 };
 
+type UpdateMyProfileInput = {
+  user_id: string;
+
+  full_name: string;
+  email: string;
+  phone?: string | null;
+  avatar?: string | null;
+};
+
+type ChangeMyPasswordInput = {
+  user_id: string;
+
+  current_password: string;
+  new_password: string;
+  confirm_password: string;
+};
+
 export class UserService {
   private repository = new UserRepository();
 
@@ -409,5 +426,74 @@ export class UserService {
     });
 
     return this.mapUserDto(user);
+  }
+
+  async updateMyProfile(input: UpdateMyProfileInput) {
+    if (await this.repository.isEmailExistsExcept(input.user_id, input.email)) {
+      throw new Error("Email already exists");
+    }
+
+    const data = {
+      full_name: input.full_name,
+      email: input.email,
+
+      ...(input.phone !== undefined && {
+        phone: input.phone,
+      }),
+
+      ...(input.avatar !== undefined && {
+        avatar: input.avatar,
+      }),
+
+      updated_by: input.user_id,
+    };
+
+    const user = await prisma.$transaction(async (tx) => {
+      return this.repository.updateMyProfile(tx, input.user_id, data);
+    });
+
+    return this.mapUserDto(user);
+  }
+
+  async getMyProfile(userId: string) {
+    const user = await this.repository.findById(userId);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    return this.mapUserDto(user);
+  }
+
+  async changeMyPassword(input: ChangeMyPasswordInput) {
+    const user = await this.repository.findById(input.user_id);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const isValidPassword = await bcrypt.compare(
+      input.current_password,
+      user.password_hash,
+    );
+
+    if (!isValidPassword) {
+      throw new Error("Current password is incorrect");
+    }
+
+    if (input.new_password !== input.confirm_password) {
+      throw new Error("Password confirmation does not match");
+    }
+
+    const password_hash = await bcrypt.hash(input.new_password, 10);
+
+    await prisma.$transaction(async (tx) => {
+      await this.repository.changeMyPassword(tx, input.user_id, {
+        password_hash,
+        password_changed_at: new Date(),
+        must_change_password: false,
+        updated_by: input.user_id,
+      });
+    });
   }
 }
