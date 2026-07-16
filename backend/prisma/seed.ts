@@ -154,6 +154,11 @@ const permissions = [
 
   { module: "role_permission", action: "view", description: "View Role Permission" },
   { module: "role_permission", action: "update", description: "Update Role Permission" },
+
+  { module: "category", action: "view", description: "View Category"},
+  { module: "category", action: "create", description: "Create Category"},
+  { module: "category", action: "update", description: "Update Category"},
+  { module: "category", action: "delete", description: "Delete Category"},
 ];
 
 const rolePermissions = [

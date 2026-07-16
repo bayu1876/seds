@@ -6,6 +6,7 @@ import departmentRoutes from "./department/routes/department.routes.js";
 import roleRoutes from "./role/routes/role.routes.js";
 import permissionRoutes from "./permission/routes/permission.routes.js";
 import rolePermissionRoutes from "./role-permission/routes/role-permission.routes.js";
+import categoryRoutes from "./category/routes/category.routes.js";
 
 const app = express();
 
@@ -17,5 +18,6 @@ app.use("/api/departments", departmentRoutes);
 app.use("/api/roles", roleRoutes);
 app.use("/api/permissions", permissionRoutes);
 app.use("/api", rolePermissionRoutes);
+app.use("/api/categories", categoryRoutes);
 
 export default app;
