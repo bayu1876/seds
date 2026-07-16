@@ -151,6 +151,9 @@ const permissions = [
 
   { module: "role", action: "view", description: "View Role" },
   { module: "permission", action: "view", description: "View Permission" },
+
+  { module: "role_permission", action: "view", description: "View Role Permission" },
+  { module: "role_permission", action: "update", description: "Update Role Permission" },
 ];
 
 const rolePermissions = [
