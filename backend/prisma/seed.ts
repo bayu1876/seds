@@ -165,6 +165,9 @@ const permissions = [
   { module: "tag", action: "update", description: "Update Tag" },
   { module: "tag", action: "delete", description: "Delete Tag" },
 
+  { module: "document_tag", action: "create", description: "Create Document Tag" },
+  { module: "document_tag", action: "delete", description: "Delete Document Tag" },
+
   { module: "confidential_level", action: "view", description: "View Confidential Level" },
 ];
 
