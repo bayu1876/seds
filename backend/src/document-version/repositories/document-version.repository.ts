@@ -41,6 +41,31 @@ export class DocumentVersionRepository {
     });
   }
 
+  async findForSetCurrent(id: string) {
+    return this.db.documentVersion.findFirst({
+      where: {
+        id,
+        deleted_at: null,
+      },
+      include: {
+        uploadedBy: {
+          select: {
+            id: true,
+            username: true,
+            full_name: true,
+          },
+        },
+        document: {
+          select: {
+            id: true,
+            current_version_id: true,
+            deleted_at: true,
+          },
+        },
+      },
+    });
+  }
+
   async findByDocumentId(
     documentId: string,
   ) {

@@ -16,6 +16,11 @@ export interface DownloadParams
   versionId: string;
 }
 
+export interface SetCurrentParams
+  extends ParamsDictionary {
+  versionId: string;
+}
+
 type UploadRequest =
   Request<UploadParams> & {
     file?: Express.Multer.File;
@@ -27,6 +32,44 @@ type UploadRequest =
 export class DocumentVersionController {
   private service =
     new DocumentVersionService();
+
+  async setCurrent(
+    req: Request<SetCurrentParams>,
+    res: Response,
+  ) {
+    try {
+      const version =
+        await this.service.setCurrent(
+          req.params.versionId,
+        );
+
+      return res.status(200).json({
+        success: true,
+        message:
+          "Current version updated successfully",
+        data: version,
+      });
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        error.message ===
+          "Document version not found"
+      ) {
+        return res.status(404).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
+      return res.status(500).json({
+        success: false,
+        message:
+          error instanceof Error
+            ? error.message
+            : "Failed to update current version",
+      });
+    }
+  }
 
   async download(
     req: Request<DownloadParams>,

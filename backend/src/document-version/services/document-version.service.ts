@@ -30,6 +30,42 @@ export class DocumentVersionService {
       .catch(() => undefined);
   }
 
+  async setCurrent(versionId: string) {
+    const version =
+      await this.repository.findForSetCurrent(
+        versionId,
+      );
+
+    if (
+      !version ||
+      version.document.deleted_at
+    ) {
+      throw new Error(
+        "Document version not found",
+      );
+    }
+
+    if (
+      version.document.current_version_id !==
+      version.id
+    ) {
+      await this.repository.updateCurrentVersion(
+        version.document_id,
+        version.id,
+      );
+    }
+
+    const { document, ...versionData } =
+      version;
+
+    void document;
+
+    return {
+      ...versionData,
+      is_current: true,
+    };
+  }
+
   async download(versionId: string) {
     const version =
       await this.repository.findForDownload(

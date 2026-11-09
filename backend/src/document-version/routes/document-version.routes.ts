@@ -3,6 +3,7 @@ import { upload } from "../../middleware/upload.middleware.js";
 import { DocumentVersionController } from "../controllers/document-version.controller.js";
 import type { UploadParams } from "../controllers/document-version.controller.js";
 import type { DownloadParams } from "../controllers/document-version.controller.js";
+import type { SetCurrentParams } from "../controllers/document-version.controller.js";
 import {
   authenticate,
   authorize,
@@ -20,6 +21,17 @@ router.get(
   ( req, res ) =>
     controller.download(
       req as Request<DownloadParams>,
+      res,
+    ),
+);
+
+router.patch(
+  "/:versionId/current",
+  authenticate,
+  authorize( "document_version", "set_current" ),
+  ( req, res ) =>
+    controller.setCurrent(
+      req as Request<SetCurrentParams>,
       res,
     ),
 );
