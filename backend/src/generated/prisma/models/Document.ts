@@ -35,7 +35,6 @@ export type DocumentMinAggregateOutputType = {
   current_version_id: string | null
   effective_date: Date | null
   expired_date: Date | null
-  search_vector: string | null
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
@@ -56,7 +55,6 @@ export type DocumentMaxAggregateOutputType = {
   current_version_id: string | null
   effective_date: Date | null
   expired_date: Date | null
-  search_vector: string | null
   is_active: boolean | null
   created_at: Date | null
   updated_at: Date | null
@@ -77,7 +75,6 @@ export type DocumentCountAggregateOutputType = {
   current_version_id: number
   effective_date: number
   expired_date: number
-  search_vector: number
   is_active: number
   created_at: number
   updated_at: number
@@ -100,7 +97,6 @@ export type DocumentMinAggregateInputType = {
   current_version_id?: true
   effective_date?: true
   expired_date?: true
-  search_vector?: true
   is_active?: true
   created_at?: true
   updated_at?: true
@@ -121,7 +117,6 @@ export type DocumentMaxAggregateInputType = {
   current_version_id?: true
   effective_date?: true
   expired_date?: true
-  search_vector?: true
   is_active?: true
   created_at?: true
   updated_at?: true
@@ -142,7 +137,6 @@ export type DocumentCountAggregateInputType = {
   current_version_id?: true
   effective_date?: true
   expired_date?: true
-  search_vector?: true
   is_active?: true
   created_at?: true
   updated_at?: true
@@ -236,7 +230,6 @@ export type DocumentGroupByOutputType = {
   current_version_id: string | null
   effective_date: Date | null
   expired_date: Date | null
-  search_vector: string | null
   is_active: boolean
   created_at: Date
   updated_at: Date
@@ -278,7 +271,6 @@ export type DocumentWhereInput = {
   current_version_id?: Prisma.UuidNullableFilter<"Document"> | string | null
   effective_date?: Prisma.DateTimeNullableFilter<"Document"> | Date | string | null
   expired_date?: Prisma.DateTimeNullableFilter<"Document"> | Date | string | null
-  search_vector?: Prisma.StringNullableFilter<"Document"> | string | null
   is_active?: Prisma.BoolFilter<"Document"> | boolean
   created_at?: Prisma.DateTimeFilter<"Document"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Document"> | Date | string
@@ -313,7 +305,6 @@ export type DocumentOrderByWithRelationInput = {
   current_version_id?: Prisma.SortOrderInput | Prisma.SortOrder
   effective_date?: Prisma.SortOrderInput | Prisma.SortOrder
   expired_date?: Prisma.SortOrderInput | Prisma.SortOrder
-  search_vector?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -351,7 +342,6 @@ export type DocumentWhereUniqueInput = Prisma.AtLeast<{
   current_version_id?: Prisma.UuidNullableFilter<"Document"> | string | null
   effective_date?: Prisma.DateTimeNullableFilter<"Document"> | Date | string | null
   expired_date?: Prisma.DateTimeNullableFilter<"Document"> | Date | string | null
-  search_vector?: Prisma.StringNullableFilter<"Document"> | string | null
   is_active?: Prisma.BoolFilter<"Document"> | boolean
   created_at?: Prisma.DateTimeFilter<"Document"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Document"> | Date | string
@@ -386,7 +376,6 @@ export type DocumentOrderByWithAggregationInput = {
   current_version_id?: Prisma.SortOrderInput | Prisma.SortOrder
   effective_date?: Prisma.SortOrderInput | Prisma.SortOrder
   expired_date?: Prisma.SortOrderInput | Prisma.SortOrder
-  search_vector?: Prisma.SortOrderInput | Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -413,7 +402,6 @@ export type DocumentScalarWhereWithAggregatesInput = {
   current_version_id?: Prisma.UuidNullableWithAggregatesFilter<"Document"> | string | null
   effective_date?: Prisma.DateTimeNullableWithAggregatesFilter<"Document"> | Date | string | null
   expired_date?: Prisma.DateTimeNullableWithAggregatesFilter<"Document"> | Date | string | null
-  search_vector?: Prisma.StringNullableWithAggregatesFilter<"Document"> | string | null
   is_active?: Prisma.BoolWithAggregatesFilter<"Document"> | boolean
   created_at?: Prisma.DateTimeWithAggregatesFilter<"Document"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"Document"> | Date | string
@@ -430,7 +418,6 @@ export type DocumentCreateInput = {
   description?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -462,7 +449,6 @@ export type DocumentUncheckedCreateInput = {
   current_version_id?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -486,7 +472,6 @@ export type DocumentUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -518,7 +503,6 @@ export type DocumentUncheckedUpdateInput = {
   current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -546,7 +530,6 @@ export type DocumentCreateManyInput = {
   current_version_id?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -563,7 +546,6 @@ export type DocumentUpdateManyMutationInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -581,7 +563,6 @@ export type DocumentUncheckedUpdateManyInput = {
   current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -612,7 +593,6 @@ export type DocumentCountOrderByAggregateInput = {
   current_version_id?: Prisma.SortOrder
   effective_date?: Prisma.SortOrder
   expired_date?: Prisma.SortOrder
-  search_vector?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -633,7 +613,6 @@ export type DocumentMaxOrderByAggregateInput = {
   current_version_id?: Prisma.SortOrder
   effective_date?: Prisma.SortOrder
   expired_date?: Prisma.SortOrder
-  search_vector?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -654,7 +633,6 @@ export type DocumentMinOrderByAggregateInput = {
   current_version_id?: Prisma.SortOrder
   effective_date?: Prisma.SortOrder
   expired_date?: Prisma.SortOrder
-  search_vector?: Prisma.SortOrder
   is_active?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -1075,7 +1053,6 @@ export type DocumentCreateWithoutDepartmentInput = {
   description?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1105,7 +1082,6 @@ export type DocumentUncheckedCreateWithoutDepartmentInput = {
   current_version_id?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1162,7 +1138,6 @@ export type DocumentScalarWhereInput = {
   current_version_id?: Prisma.UuidNullableFilter<"Document"> | string | null
   effective_date?: Prisma.DateTimeNullableFilter<"Document"> | Date | string | null
   expired_date?: Prisma.DateTimeNullableFilter<"Document"> | Date | string | null
-  search_vector?: Prisma.StringNullableFilter<"Document"> | string | null
   is_active?: Prisma.BoolFilter<"Document"> | boolean
   created_at?: Prisma.DateTimeFilter<"Document"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"Document"> | Date | string
@@ -1179,7 +1154,6 @@ export type DocumentCreateWithoutCreatedByInput = {
   description?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1210,7 +1184,6 @@ export type DocumentUncheckedCreateWithoutCreatedByInput = {
   current_version_id?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1243,7 +1216,6 @@ export type DocumentCreateWithoutUpdatedByInput = {
   description?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1274,7 +1246,6 @@ export type DocumentUncheckedCreateWithoutUpdatedByInput = {
   current_version_id?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1307,7 +1278,6 @@ export type DocumentCreateWithoutDeletedByInput = {
   description?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1338,7 +1308,6 @@ export type DocumentUncheckedCreateWithoutDeletedByInput = {
   current_version_id?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1419,7 +1388,6 @@ export type DocumentCreateWithoutCategoryInput = {
   description?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1449,7 +1417,6 @@ export type DocumentUncheckedCreateWithoutCategoryInput = {
   current_version_id?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1499,7 +1466,6 @@ export type DocumentCreateWithoutConfidentialLevelInput = {
   description?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1529,7 +1495,6 @@ export type DocumentUncheckedCreateWithoutConfidentialLevelInput = {
   current_version_id?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1579,7 +1544,6 @@ export type DocumentCreateWithoutVersionsInput = {
   description?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1610,7 +1574,6 @@ export type DocumentUncheckedCreateWithoutVersionsInput = {
   current_version_id?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1638,7 +1601,6 @@ export type DocumentCreateWithoutCurrentVersionInput = {
   description?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1668,7 +1630,6 @@ export type DocumentUncheckedCreateWithoutCurrentVersionInput = {
   confidential_level_id: string
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1713,7 +1674,6 @@ export type DocumentUpdateWithoutVersionsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1744,7 +1704,6 @@ export type DocumentUncheckedUpdateWithoutVersionsInput = {
   current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1783,7 +1742,6 @@ export type DocumentCreateWithoutDocumentTagsInput = {
   description?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1814,7 +1772,6 @@ export type DocumentUncheckedCreateWithoutDocumentTagsInput = {
   current_version_id?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1853,7 +1810,6 @@ export type DocumentUpdateWithoutDocumentTagsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1884,7 +1840,6 @@ export type DocumentUncheckedUpdateWithoutDocumentTagsInput = {
   current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1907,7 +1862,6 @@ export type DocumentCreateWithoutRelatedDocumentsInput = {
   description?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1938,7 +1892,6 @@ export type DocumentUncheckedCreateWithoutRelatedDocumentsInput = {
   current_version_id?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1966,7 +1919,6 @@ export type DocumentCreateWithoutRelatedToDocumentsInput = {
   description?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -1997,7 +1949,6 @@ export type DocumentUncheckedCreateWithoutRelatedToDocumentsInput = {
   current_version_id?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -2036,7 +1987,6 @@ export type DocumentUpdateWithoutRelatedDocumentsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2067,7 +2017,6 @@ export type DocumentUncheckedUpdateWithoutRelatedDocumentsInput = {
   current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2101,7 +2050,6 @@ export type DocumentUpdateWithoutRelatedToDocumentsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2132,7 +2080,6 @@ export type DocumentUncheckedUpdateWithoutRelatedToDocumentsInput = {
   current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2155,7 +2102,6 @@ export type DocumentCreateWithoutFavoritesInput = {
   description?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -2186,7 +2132,6 @@ export type DocumentUncheckedCreateWithoutFavoritesInput = {
   current_version_id?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -2225,7 +2170,6 @@ export type DocumentUpdateWithoutFavoritesInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2256,7 +2200,6 @@ export type DocumentUncheckedUpdateWithoutFavoritesInput = {
   current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2279,7 +2222,6 @@ export type DocumentCreateWithoutRecentViewsInput = {
   description?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -2310,7 +2252,6 @@ export type DocumentUncheckedCreateWithoutRecentViewsInput = {
   current_version_id?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -2349,7 +2290,6 @@ export type DocumentUpdateWithoutRecentViewsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2380,7 +2320,6 @@ export type DocumentUncheckedUpdateWithoutRecentViewsInput = {
   current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2403,7 +2342,6 @@ export type DocumentCreateWithoutAuditLogsInput = {
   description?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -2434,7 +2372,6 @@ export type DocumentUncheckedCreateWithoutAuditLogsInput = {
   current_version_id?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -2473,7 +2410,6 @@ export type DocumentUpdateWithoutAuditLogsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2504,7 +2440,6 @@ export type DocumentUncheckedUpdateWithoutAuditLogsInput = {
   current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2530,7 +2465,6 @@ export type DocumentCreateManyDepartmentInput = {
   current_version_id?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -2547,7 +2481,6 @@ export type DocumentUpdateWithoutDepartmentInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2577,7 +2510,6 @@ export type DocumentUncheckedUpdateWithoutDepartmentInput = {
   current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2604,7 +2536,6 @@ export type DocumentUncheckedUpdateManyWithoutDepartmentInput = {
   current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2625,7 +2556,6 @@ export type DocumentCreateManyCreatedByInput = {
   current_version_id?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -2645,7 +2575,6 @@ export type DocumentCreateManyUpdatedByInput = {
   current_version_id?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -2665,7 +2594,6 @@ export type DocumentCreateManyDeletedByInput = {
   current_version_id?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -2681,7 +2609,6 @@ export type DocumentUpdateWithoutCreatedByInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2712,7 +2639,6 @@ export type DocumentUncheckedUpdateWithoutCreatedByInput = {
   current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2739,7 +2665,6 @@ export type DocumentUncheckedUpdateManyWithoutCreatedByInput = {
   current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2755,7 +2680,6 @@ export type DocumentUpdateWithoutUpdatedByInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2786,7 +2710,6 @@ export type DocumentUncheckedUpdateWithoutUpdatedByInput = {
   current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2813,7 +2736,6 @@ export type DocumentUncheckedUpdateManyWithoutUpdatedByInput = {
   current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2829,7 +2751,6 @@ export type DocumentUpdateWithoutDeletedByInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2860,7 +2781,6 @@ export type DocumentUncheckedUpdateWithoutDeletedByInput = {
   current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2887,7 +2807,6 @@ export type DocumentUncheckedUpdateManyWithoutDeletedByInput = {
   current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2906,7 +2825,6 @@ export type DocumentCreateManyCategoryInput = {
   current_version_id?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -2923,7 +2841,6 @@ export type DocumentUpdateWithoutCategoryInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2953,7 +2870,6 @@ export type DocumentUncheckedUpdateWithoutCategoryInput = {
   current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2980,7 +2896,6 @@ export type DocumentUncheckedUpdateManyWithoutCategoryInput = {
   current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3000,7 +2915,6 @@ export type DocumentCreateManyConfidentialLevelInput = {
   current_version_id?: string | null
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -3017,7 +2931,6 @@ export type DocumentUpdateWithoutConfidentialLevelInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3047,7 +2960,6 @@ export type DocumentUncheckedUpdateWithoutConfidentialLevelInput = {
   current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3074,7 +2986,6 @@ export type DocumentUncheckedUpdateManyWithoutConfidentialLevelInput = {
   current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3094,7 +3005,6 @@ export type DocumentCreateManyCurrentVersionInput = {
   confidential_level_id: string
   effective_date?: Date | string | null
   expired_date?: Date | string | null
-  search_vector?: string | null
   is_active?: boolean
   created_at?: Date | string
   updated_at?: Date | string
@@ -3111,7 +3021,6 @@ export type DocumentUpdateWithoutCurrentVersionInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3141,7 +3050,6 @@ export type DocumentUncheckedUpdateWithoutCurrentVersionInput = {
   confidential_level_id?: Prisma.StringFieldUpdateOperationsInput | string
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3168,7 +3076,6 @@ export type DocumentUncheckedUpdateManyWithoutCurrentVersionInput = {
   confidential_level_id?: Prisma.StringFieldUpdateOperationsInput | string
   effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  search_vector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3274,7 +3181,6 @@ export type DocumentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   current_version_id?: boolean
   effective_date?: boolean
   expired_date?: boolean
-  search_vector?: boolean
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -3310,7 +3216,6 @@ export type DocumentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   current_version_id?: boolean
   effective_date?: boolean
   expired_date?: boolean
-  search_vector?: boolean
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -3338,7 +3243,6 @@ export type DocumentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   current_version_id?: boolean
   effective_date?: boolean
   expired_date?: boolean
-  search_vector?: boolean
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -3366,7 +3270,6 @@ export type DocumentSelectScalar = {
   current_version_id?: boolean
   effective_date?: boolean
   expired_date?: boolean
-  search_vector?: boolean
   is_active?: boolean
   created_at?: boolean
   updated_at?: boolean
@@ -3376,7 +3279,7 @@ export type DocumentSelectScalar = {
   deleted_by?: boolean
 }
 
-export type DocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "document_number" | "title" | "description" | "department_id" | "category_id" | "confidential_level_id" | "current_version_id" | "effective_date" | "expired_date" | "search_vector" | "is_active" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by" | "deleted_by", ExtArgs["result"]["document"]>
+export type DocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "document_number" | "title" | "description" | "department_id" | "category_id" | "confidential_level_id" | "current_version_id" | "effective_date" | "expired_date" | "is_active" | "created_at" | "updated_at" | "deleted_at" | "created_by" | "updated_by" | "deleted_by", ExtArgs["result"]["document"]>
 export type DocumentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   department?: boolean | Prisma.DepartmentDefaultArgs<ExtArgs>
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>
@@ -3442,7 +3345,6 @@ export type $DocumentPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     current_version_id: string | null
     effective_date: Date | null
     expired_date: Date | null
-    search_vector: string | null
     is_active: boolean
     created_at: Date
     updated_at: Date
@@ -3897,7 +3799,6 @@ export interface DocumentFieldRefs {
   readonly current_version_id: Prisma.FieldRef<"Document", 'String'>
   readonly effective_date: Prisma.FieldRef<"Document", 'DateTime'>
   readonly expired_date: Prisma.FieldRef<"Document", 'DateTime'>
-  readonly search_vector: Prisma.FieldRef<"Document", 'String'>
   readonly is_active: Prisma.FieldRef<"Document", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"Document", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"Document", 'DateTime'>
