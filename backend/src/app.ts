@@ -14,6 +14,7 @@ import uploadRoutes from "./upload/routes/upload.routes.js";
 import documentVersionRoutes from "./document-version/routes/document-version.routes.js";
 import documentTagRoutes from "./document-tag/routes/document-tag.routes.js";
 import documentRelationRoutes from "./document-relation/routes/document-relation.routes.js";
+import searchRoutes from "./search/routes/search.routes.js";
 
 const app = express();
 
@@ -33,5 +34,6 @@ app.use("/api/upload", uploadRoutes);
 app.use("/api/document-versions", documentVersionRoutes);
 app.use("/api/document-tags", documentTagRoutes);
 app.use("/api/document-relations", documentRelationRoutes);
+app.use("/api/search", searchRoutes);
 
 export default app;
