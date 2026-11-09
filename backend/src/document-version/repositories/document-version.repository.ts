@@ -24,6 +24,23 @@ export class DocumentVersionRepository {
     });
   }
 
+  async findForDownload(id: string) {
+    return this.db.documentVersion.findFirst({
+      where: {
+        id,
+        deleted_at: null,
+      },
+      include: {
+        document: {
+          select: {
+            id: true,
+            deleted_at: true,
+          },
+        },
+      },
+    });
+  }
+
   async findByDocumentId(
     documentId: string,
   ) {

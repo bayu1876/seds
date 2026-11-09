@@ -2,6 +2,7 @@ import { Router, type Request } from "express";
 import { upload } from "../../middleware/upload.middleware.js";
 import { DocumentVersionController } from "../controllers/document-version.controller.js";
 import type { UploadParams } from "../controllers/document-version.controller.js";
+import type { DownloadParams } from "../controllers/document-version.controller.js";
 import {
   authenticate,
   authorize,
@@ -11,6 +12,17 @@ const router = Router();
 
 const controller =
   new DocumentVersionController();
+
+router.get(
+  "/:versionId/download",
+  authenticate,
+  authorize( "document_version", "download" ),
+  ( req, res ) =>
+    controller.download(
+      req as Request<DownloadParams>,
+      res,
+    ),
+);
 
 router.get(
   "/:documentId",

@@ -11,6 +11,11 @@ export interface UploadParams
   documentId: string;
 }
 
+export interface DownloadParams
+  extends ParamsDictionary {
+  versionId: string;
+}
+
 type UploadRequest =
   Request<UploadParams> & {
     file?: Express.Multer.File;
@@ -22,6 +27,61 @@ type UploadRequest =
 export class DocumentVersionController {
   private service =
     new DocumentVersionService();
+
+  async download(
+    req: Request<DownloadParams>,
+    res: Response,
+  ) {
+    try {
+      const file =
+        await this.service.download(
+          req.params.versionId,
+        );
+
+      res.setHeader(
+        "Content-Type",
+        file.mimeType ||
+          "application/octet-stream",
+      );
+
+      return res.download(
+        file.filePath,
+        file.fileName,
+        (error) => {
+          if (
+            error &&
+            !res.headersSent
+          ) {
+            res.status(500).json({
+              success: false,
+              message: "Download failed",
+            });
+          }
+        },
+      );
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        (error.message ===
+          "Document version not found" ||
+          error.message ===
+            "File not found")
+      ) {
+        return res.status(404).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
+      return res.status(500).json({
+        success: false,
+        message:
+          error instanceof Error
+            ? error.message
+            : "Download failed",
+      });
+    }
+  }
 
   async findHistory(
     req: Request<UploadParams>,

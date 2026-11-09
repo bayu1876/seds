@@ -151,6 +151,7 @@ const permissions = [
 
   { module: "document_version", action: "upload", description: "Upload Document Version" },
   { module: "document_version", action: "view", description: "View Document Version History" },
+  { module: "document_version", action: "download", description: "Download Document Version" },
 
   { module: "role", action: "view", description: "View Role" },
   { module: "permission", action: "view", description: "View Permission" },

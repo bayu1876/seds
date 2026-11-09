@@ -30,6 +30,53 @@ export class DocumentVersionService {
       .catch(() => undefined);
   }
 
+  async download(versionId: string) {
+    const version =
+      await this.repository.findForDownload(
+        versionId,
+      );
+
+    if (
+      !version ||
+      version.document.deleted_at
+    ) {
+      throw new Error(
+        "Document version not found",
+      );
+    }
+
+    const storageRoot =
+      path.resolve("/srv/seds/storage");
+
+    const filePath = path.resolve(
+      storageRoot,
+      version.storage_path,
+    );
+
+    if (
+      !filePath.startsWith(
+        `${storageRoot}${path.sep}`,
+      )
+    ) {
+      throw new Error("File not found");
+    }
+
+    try {
+      await fs.promises.access(
+        filePath,
+        fs.constants.R_OK,
+      );
+    } catch {
+      throw new Error("File not found");
+    }
+
+    return {
+      filePath,
+      fileName: version.original_filename,
+      mimeType: version.mime_type,
+    };
+  }
+
   async findHistory(
     documentId: string,
   ) {
