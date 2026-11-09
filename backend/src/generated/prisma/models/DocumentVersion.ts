@@ -370,6 +370,7 @@ export type DocumentVersionOrderByWithRelationInput = {
 
 export type DocumentVersionWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  document_id_version_number?: Prisma.DocumentVersionDocument_idVersion_numberCompoundUniqueInput
   AND?: Prisma.DocumentVersionWhereInput | Prisma.DocumentVersionWhereInput[]
   OR?: Prisma.DocumentVersionWhereInput[]
   NOT?: Prisma.DocumentVersionWhereInput | Prisma.DocumentVersionWhereInput[]
@@ -397,7 +398,7 @@ export type DocumentVersionWhereUniqueInput = Prisma.AtLeast<{
   createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   deletedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-}, "id">
+}, "id" | "document_id_version_number">
 
 export type DocumentVersionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -617,6 +618,11 @@ export type DocumentVersionOrderByRelationAggregateInput = {
 export type DocumentVersionNullableScalarRelationFilter = {
   is?: Prisma.DocumentVersionWhereInput | null
   isNot?: Prisma.DocumentVersionWhereInput | null
+}
+
+export type DocumentVersionDocument_idVersion_numberCompoundUniqueInput = {
+  document_id: string
+  version_number: number
 }
 
 export type DocumentVersionCountOrderByAggregateInput = {

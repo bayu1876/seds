@@ -15,7 +15,7 @@ const controller =
 router.post(
   "/:documentId/upload",
   authenticate,
-  authorize( "document", "upload" ),
+  authorize( "document_version", "upload" ),
   upload.single( "file" ),
   ( req, res ) =>
     controller.upload(

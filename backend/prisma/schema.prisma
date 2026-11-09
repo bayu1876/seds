@@ -431,6 +431,7 @@ model DocumentVersion {
   updatedBy User? @relation("DocumentVersionUpdatedBy", fields: [updated_by], references: [id])
   deletedBy User? @relation("DocumentVersionDeletedBy", fields: [deleted_by], references: [id])
 
+  @@unique([document_id, version_number])
   @@map("document_version")
 }
 

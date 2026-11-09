@@ -149,6 +149,8 @@ const permissions = [
   { module: "document", action: "update", description: "Update Document" },
   { module: "document", action: "delete", description: "Delete Document" },
 
+  { module: "document_version", action: "upload", description: "Upload Document Version" },
+
   { module: "role", action: "view", description: "View Role" },
   { module: "permission", action: "view", description: "View Permission" },
 

@@ -2,9 +2,10 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import prisma from "../../config/prisma.js";
+import { Prisma } from "../../generated/prisma/client.js";
 import { DocumentVersionRepository } from "../repositories/document-version.repository.js";
 
-interface UploadFirstVersionDto {
+interface UploadVersionDto {
   documentId: string;
   uploadedBy: string;
   tempPath: string;
@@ -12,14 +13,25 @@ interface UploadFirstVersionDto {
   storedFilename: string;
   mimeType: string;
   fileSize: number;
+  versionNotes?: string | null;
 }
+
+const MAX_VERSION_ATTEMPTS = 3;
 
 export class DocumentVersionService {
   private repository =
     new DocumentVersionRepository();
 
+  private async deleteFile(
+    filePath: string,
+  ) {
+    await fs.promises
+      .unlink(filePath)
+      .catch(() => undefined);
+  }
+
   async upload(
-    data: UploadFirstVersionDto,
+    data: UploadVersionDto,
   ) {
     const {
       documentId,
@@ -29,159 +41,207 @@ export class DocumentVersionService {
       storedFilename,
       mimeType,
       fileSize,
+      versionNotes,
     } = data;
 
+    let destinationPath:
+      | string
+      | null = null;
+    let fileMoved = false;
 
-    const document =
-      await this.repository.findDocumentById(
-        documentId,
-      );
+    try {
+      const document =
+        await this.repository.findDocumentById(
+          documentId,
+        );
 
-    if (!document) {
-      throw new Error(
-        "Document not found",
-      );
-    }
+      if (!document) {
+        throw new Error(
+          "Document not found",
+        );
+      }
 
-    const latestVersion =
-      await this.repository.findLatestVersion(
-        documentId,
-      );
-
-    const nextVersion =
-      latestVersion
-        ? latestVersion.version_number + 1
-        : 1;
-
-
-    void uploadedBy;
-    void originalFilename;
-    void storedFilename;
-    void mimeType;
-    void fileSize;
-
-    const checksum =
-      await new Promise<string>(
-        (
-          resolve,
-          reject,
-        ) => {
-          const hash =
-            crypto.createHash(
-              "sha256",
-            );
-
-          const stream =
-            fs.createReadStream(
-              tempPath,
-            );
-	   
-          stream.on(
-            "data",
-	    (
- 	      chunk: Buffer,
-	     ) =>
-              hash.update(chunk),
-          );
-
-          stream.on(
-            "end",
-            () =>
-              resolve(
-                hash.digest("hex"),
-              ),
-          );
-
-          stream.on(
-            "error",
+      const checksum =
+        await new Promise<string>(
+          (
+            resolve,
             reject,
-          );
+          ) => {
+            const hash =
+              crypto.createHash(
+                "sha256",
+              );
+
+            const stream =
+              fs.createReadStream(
+                tempPath,
+              );
+
+            stream.on(
+              "data",
+              (chunk: Buffer) =>
+                hash.update(chunk),
+            );
+
+            stream.on(
+              "end",
+              () =>
+                resolve(
+                  hash.digest("hex"),
+                ),
+            );
+
+            stream.on(
+              "error",
+              reject,
+            );
+          },
+        );
+
+      void checksum;
+
+      const documentDirectory =
+        path.join(
+          "/srv/seds/storage/documents",
+          documentId.substring(
+            0,
+            2,
+          ),
+          documentId,
+        );
+
+      const originalDirectory =
+        path.join(
+          documentDirectory,
+          "original",
+        );
+
+      await fs.promises.mkdir(
+        originalDirectory,
+        {
+          recursive: true,
         },
       );
 
-    void checksum;
-    const documentDirectory =
-      path.join(
-        "/srv/seds/storage/documents",
-        documentId.substring(
-          0,
-          2,
-        ),
-        documentId,
-      );
-
-    const originalDirectory =
-      path.join(
-        documentDirectory,
-        "original",
-      );
-
-    await fs.promises.mkdir(
-      originalDirectory,
-      {
-        recursive: true,
-      },
-    );
-
-    const destinationPath =
-      path.join(
-        originalDirectory,
-        storedFilename,
-      );
-
-    await fs.promises.rename(
-      tempPath,
-      destinationPath,
-    );
-
-   const storagePath =
-     path.relative(
-       "/srv/seds/storage",
-       destinationPath,
-     );
-
-    await fs.promises.mkdir(
-      originalDirectory,
-      {
-        recursive: true,
-      },
-    );
-
-    return prisma.$transaction(
-      async (tx) => {
-        const repository =
-          new DocumentVersionRepository(
-            tx,
-          );
-
-        const documentVersion =
-          await repository.create({
-            document_id: documentId,
-            version_number: nextVersion,
-            original_filename:
-              originalFilename,
-            stored_filename:
-              storedFilename,
-            storage_path: storagePath,
-            mime_type: mimeType,
-            file_size: fileSize,
-            thumbnail_path: null,
-            preview_status:
-              "PENDING",
-            version_notes: null,
-            uploaded_by:
-              uploadedBy,
-            created_by:
-              uploadedBy,
-          });
-
-        await repository.updateCurrentVersion(
-          documentId,
-          documentVersion.id,
+      destinationPath =
+        path.join(
+          originalDirectory,
+          storedFilename,
         );
 
-        return documentVersion;
-      },
-    );
-   }
+      await fs.promises.rename(
+        tempPath,
+        destinationPath,
+      );
+
+      fileMoved = true;
+
+      const storagePath =
+        path.relative(
+          "/srv/seds/storage",
+          destinationPath,
+        );
+
+      for (
+        let attempt = 1;
+        attempt <=
+        MAX_VERSION_ATTEMPTS;
+        attempt++
+      ) {
+        const latestVersion =
+          await this.repository.findLatestVersion(
+            documentId,
+          );
+
+        const nextVersion =
+          latestVersion
+            ? latestVersion.version_number +
+              1
+            : 1;
+
+        try {
+          return await prisma.$transaction(
+            async (tx) => {
+              const repository =
+                new DocumentVersionRepository(
+                  tx,
+                );
+
+              const documentVersion =
+                await repository.create({
+                  document_id:
+                    documentId,
+                  version_number:
+                    nextVersion,
+                  original_filename:
+                    originalFilename,
+                  stored_filename:
+                    storedFilename,
+                  storage_path:
+                    storagePath,
+                  mime_type:
+                    mimeType,
+                  file_size:
+                    fileSize,
+                  thumbnail_path:
+                    null,
+                  preview_status:
+                    "PENDING",
+                  version_notes:
+                    versionNotes?.trim() ||
+                    null,
+                  uploaded_by:
+                    uploadedBy,
+                  created_by:
+                    uploadedBy,
+                });
+
+              await repository.updateCurrentVersion(
+                documentId,
+                documentVersion.id,
+              );
+
+              return documentVersion;
+            },
+          );
+        } catch (error) {
+          const isVersionConflict =
+            error instanceof
+              Prisma.PrismaClientKnownRequestError &&
+            error.code === "P2002";
+
+          if (
+            !isVersionConflict ||
+            attempt ===
+              MAX_VERSION_ATTEMPTS
+          ) {
+            if (isVersionConflict) {
+              throw new Error(
+                "Version conflict, please retry",
+              );
+            }
+
+            throw error;
+          }
+        }
+      }
+
+      throw new Error(
+        "Version conflict, please retry",
+      );
+    } catch (error) {
+      if (
+        destinationPath &&
+        fileMoved
+      ) {
+        await this.deleteFile(
+          destinationPath,
+        );
+      }
+
+      await this.deleteFile(tempPath);
+
+      throw error;
+    }
+  }
 }
