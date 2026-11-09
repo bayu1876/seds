@@ -173,6 +173,8 @@ const permissions = [
   { module: "document_tag", action: "create", description: "Create Document Tag" },
   { module: "document_tag", action: "delete", description: "Delete Document Tag" },
 
+  { module: "document_relation", action: "create", description: "Create Document Relation" },
+
   { module: "confidential_level", action: "view", description: "View Confidential Level" },
 ];
 
