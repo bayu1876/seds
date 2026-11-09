@@ -30,8 +30,21 @@ const storage = multer.diskStorage({
     file,
     callback,
   ) => {
+    const sanitizeFilename = (originalName: string) => {
+      const safeName = originalName
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9. _-]/g, "_")
+        .replace(/\s+/g, "_")
+        .replace(/_+/g, "_");
+      const ext = safeName.slice(safeName.lastIndexOf("."));
+      const nameWithoutExt = safeName.slice(0, safeName.lastIndexOf("."));
+      const safeNamePart = nameWithoutExt.replace(/\s/g, "_");
+      return `${Date.now()}-${safeNamePart}${ext}`;
+    };
+
     const filename =
-      `${Date.now()}-${file.originalname}`;
+      sanitizeFilename(file.originalname);
 
     callback(
       null,
@@ -45,6 +58,15 @@ export const upload =
     storage,
     limits: {
       fileSize:
-        100 * 1024 * 1024,
+        1 * 1024 * 1024 * 1024,
     },
   });
+
+export const cleanupTempFiles = () => {
+  const files = fs.readdirSync(tempDirectory);
+
+  for (const file of files) {
+    const filePath = path.join(tempDirectory, file);
+    fs.unlinkSync(filePath);
+  }
+};

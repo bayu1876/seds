@@ -89,6 +89,14 @@ export class DocumentVersionRepository {
     });
   }
 
+  /**
+   * Find the latest version of a document.
+   * 
+   * Note: The Prisma schema has @@unique([document_id, version_number]) on ALL document versions,
+   * including soft-deleted ones (where deleted_at is set). This function filters by deleted_at IS NULL
+   * to return the latest active version for version numbering purposes. The unique constraint
+   * ensures no duplicate (document_id, version_number) pairs exist regardless of soft-delete status.
+   */
   async findLatestVersion(
     documentId: string,
   ) {
