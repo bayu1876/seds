@@ -192,6 +192,7 @@ model User {
 
   favorites   Favorite[]
   recentViews RecentView[]
+  publications Publication[]
 
   createdUserRoles UserRole[] @relation("UserRoleCreatedBy")
 
@@ -379,6 +380,7 @@ model Document {
   favorites   Favorite[]
   recentViews RecentView[]
   auditLogs   AuditLog[]
+  publications Publication[]
 
   createdBy User? @relation("DocumentCreatedBy", fields: [created_by], references: [id])
   updatedBy User? @relation("DocumentUpdatedBy", fields: [updated_by], references: [id])
@@ -430,6 +432,8 @@ model DocumentVersion {
   createdBy User? @relation("DocumentVersionCreatedBy", fields: [created_by], references: [id])
   updatedBy User? @relation("DocumentVersionUpdatedBy", fields: [updated_by], references: [id])
   deletedBy User? @relation("DocumentVersionDeletedBy", fields: [deleted_by], references: [id])
+
+  publications Publication[]
 
   @@unique([document_id, version_number])
   @@map("document_version")
@@ -503,6 +507,29 @@ model RecentView {
 
   @@unique([user_id, document_id])
   @@map("recent_view")
+}
+
+model Publication {
+  id String @id @default(uuid()) @db.Uuid
+
+  user_id     String @db.Uuid
+  document_id String @db.Uuid
+  version_id String @db.Uuid
+
+  is_published Boolean @default(true)
+  featured Boolean @default(false)
+  display_order Int @default(0)
+
+  published_at DateTime? @default(now())
+
+  user User @relation(fields: [user_id], references: [id])
+
+  document Document @relation(fields: [document_id], references: [id])
+
+  documentVersion DocumentVersion @relation(fields: [version_id], references: [id])
+
+  @@unique([user_id, document_id, is_published])
+  @@map("publication")
 }
 
 model AuditLog {

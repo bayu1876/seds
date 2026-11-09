@@ -122,6 +122,11 @@ export type Favorite = Prisma.FavoriteModel
  */
 export type RecentView = Prisma.RecentViewModel
 /**
+ * Model Publication
+ * 
+ */
+export type Publication = Prisma.PublicationModel
+/**
  * Model AuditLog
  * 
  */

@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 
 import authRoutes from "./auth/routes/auth.routes.js";
 import userRoutes from "./user/routes/user.routes.js";
@@ -19,9 +20,16 @@ import favoriteRoutes from "./favorite/routes/favorite.routes.js";
 import recentViewRoutes from "./recent-view/routes/recent-view.routes.js";
 import auditLogRoutes from "./audit-log/routes/audit-log.routes.js";
 import searchRoutes from "./search/routes/search.routes.js";
+import dashboardRoutes from "./dashboard/dashboard.routes.js";
+import publicLibraryRoutes from "./public-library/routes/public-library.routes.js";
 const app = express();
 
 app.use(express.json());
+
+app.use(cors({
+  origin: ["http://localhost:3002", "http://192.168.40.6:3002"],
+  credentials: true,
+}));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
@@ -41,5 +49,7 @@ app.use("/api/audit-log", auditLogRoutes);
 app.use("/api/recent-view", recentViewRoutes);
 app.use("/api/favorite", favoriteRoutes);
 app.use("/api/search", searchRoutes);
+app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/public-library", publicLibraryRoutes);
 
 export default app;

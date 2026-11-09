@@ -324,6 +324,7 @@ export type UserWhereInput = {
   auditLogs?: Prisma.AuditLogListRelationFilter
   favorites?: Prisma.FavoriteListRelationFilter
   recentViews?: Prisma.RecentViewListRelationFilter
+  publications?: Prisma.PublicationListRelationFilter
   createdUserRoles?: Prisma.UserRoleListRelationFilter
   createdUserDepartments?: Prisma.UserDepartmentListRelationFilter
   createdRolePermissions?: Prisma.RolePermissionListRelationFilter
@@ -381,6 +382,7 @@ export type UserOrderByWithRelationInput = {
   auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
   favorites?: Prisma.FavoriteOrderByRelationAggregateInput
   recentViews?: Prisma.RecentViewOrderByRelationAggregateInput
+  publications?: Prisma.PublicationOrderByRelationAggregateInput
   createdUserRoles?: Prisma.UserRoleOrderByRelationAggregateInput
   createdUserDepartments?: Prisma.UserDepartmentOrderByRelationAggregateInput
   createdRolePermissions?: Prisma.RolePermissionOrderByRelationAggregateInput
@@ -441,6 +443,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   auditLogs?: Prisma.AuditLogListRelationFilter
   favorites?: Prisma.FavoriteListRelationFilter
   recentViews?: Prisma.RecentViewListRelationFilter
+  publications?: Prisma.PublicationListRelationFilter
   createdUserRoles?: Prisma.UserRoleListRelationFilter
   createdUserDepartments?: Prisma.UserDepartmentListRelationFilter
   createdRolePermissions?: Prisma.RolePermissionListRelationFilter
@@ -548,6 +551,7 @@ export type UserCreateInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -605,6 +609,7 @@ export type UserUncheckedCreateInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -662,6 +667,7 @@ export type UserUpdateInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -719,6 +725,7 @@ export type UserUncheckedUpdateInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1402,6 +1409,20 @@ export type UserUpdateOneRequiredWithoutRecentViewsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRecentViewsInput, Prisma.UserUpdateWithoutRecentViewsInput>, Prisma.UserUncheckedUpdateWithoutRecentViewsInput>
 }
 
+export type UserCreateNestedOneWithoutPublicationsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPublicationsInput, Prisma.UserUncheckedCreateWithoutPublicationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPublicationsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutPublicationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPublicationsInput, Prisma.UserUncheckedCreateWithoutPublicationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPublicationsInput
+  upsert?: Prisma.UserUpsertWithoutPublicationsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPublicationsInput, Prisma.UserUpdateWithoutPublicationsInput>, Prisma.UserUncheckedUpdateWithoutPublicationsInput>
+}
+
 export type UserCreateNestedOneWithoutAuditLogsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutAuditLogsInput, Prisma.UserUncheckedCreateWithoutAuditLogsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuditLogsInput
@@ -1467,6 +1488,7 @@ export type UserCreateWithoutCreatedDepartmentsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -1523,6 +1545,7 @@ export type UserUncheckedCreateWithoutCreatedDepartmentsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1584,6 +1607,7 @@ export type UserCreateWithoutUpdatedDepartmentsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -1640,6 +1664,7 @@ export type UserUncheckedCreateWithoutUpdatedDepartmentsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1701,6 +1726,7 @@ export type UserCreateWithoutDeletedDepartmentsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -1757,6 +1783,7 @@ export type UserUncheckedCreateWithoutDeletedDepartmentsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1829,6 +1856,7 @@ export type UserUpdateWithoutCreatedDepartmentsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -1885,6 +1913,7 @@ export type UserUncheckedUpdateWithoutCreatedDepartmentsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1952,6 +1981,7 @@ export type UserUpdateWithoutUpdatedDepartmentsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -2008,6 +2038,7 @@ export type UserUncheckedUpdateWithoutUpdatedDepartmentsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2075,6 +2106,7 @@ export type UserUpdateWithoutDeletedDepartmentsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -2131,6 +2163,7 @@ export type UserUncheckedUpdateWithoutDeletedDepartmentsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2187,6 +2220,7 @@ export type UserCreateWithoutCreatedRolesInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -2243,6 +2277,7 @@ export type UserUncheckedCreateWithoutCreatedRolesInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2304,6 +2339,7 @@ export type UserCreateWithoutUpdatedRolesInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -2360,6 +2396,7 @@ export type UserUncheckedCreateWithoutUpdatedRolesInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2421,6 +2458,7 @@ export type UserCreateWithoutDeletedRolesInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -2477,6 +2515,7 @@ export type UserUncheckedCreateWithoutDeletedRolesInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2549,6 +2588,7 @@ export type UserUpdateWithoutCreatedRolesInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -2605,6 +2645,7 @@ export type UserUncheckedUpdateWithoutCreatedRolesInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2672,6 +2713,7 @@ export type UserUpdateWithoutUpdatedRolesInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -2728,6 +2770,7 @@ export type UserUncheckedUpdateWithoutUpdatedRolesInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2795,6 +2838,7 @@ export type UserUpdateWithoutDeletedRolesInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -2851,6 +2895,7 @@ export type UserUncheckedUpdateWithoutDeletedRolesInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2907,6 +2952,7 @@ export type UserCreateWithoutCreatedPermissionsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -2963,6 +3009,7 @@ export type UserUncheckedCreateWithoutCreatedPermissionsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -3024,6 +3071,7 @@ export type UserCreateWithoutUpdatedPermissionsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -3080,6 +3128,7 @@ export type UserUncheckedCreateWithoutUpdatedPermissionsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -3141,6 +3190,7 @@ export type UserCreateWithoutDeletedPermissionsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -3197,6 +3247,7 @@ export type UserUncheckedCreateWithoutDeletedPermissionsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -3269,6 +3320,7 @@ export type UserUpdateWithoutCreatedPermissionsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -3325,6 +3377,7 @@ export type UserUncheckedUpdateWithoutCreatedPermissionsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -3392,6 +3445,7 @@ export type UserUpdateWithoutUpdatedPermissionsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -3448,6 +3502,7 @@ export type UserUncheckedUpdateWithoutUpdatedPermissionsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -3515,6 +3570,7 @@ export type UserUpdateWithoutDeletedPermissionsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -3571,6 +3627,7 @@ export type UserUncheckedUpdateWithoutDeletedPermissionsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -3628,6 +3685,7 @@ export type UserCreateWithoutCreatedRolePermissionsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   userRoles?: Prisma.UserRoleCreateNestedManyWithoutUserInput
@@ -3684,6 +3742,7 @@ export type UserUncheckedCreateWithoutCreatedRolePermissionsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutUserInput
@@ -3756,6 +3815,7 @@ export type UserUpdateWithoutCreatedRolePermissionsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   userRoles?: Prisma.UserRoleUpdateManyWithoutUserNestedInput
@@ -3812,6 +3872,7 @@ export type UserUncheckedUpdateWithoutCreatedRolePermissionsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutUserNestedInput
@@ -3868,6 +3929,7 @@ export type UserCreateWithoutUserRolesInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -3924,6 +3986,7 @@ export type UserUncheckedCreateWithoutUserRolesInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -3985,6 +4048,7 @@ export type UserCreateWithoutCreatedUserRolesInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
   userRoles?: Prisma.UserRoleCreateNestedManyWithoutUserInput
@@ -4041,6 +4105,7 @@ export type UserUncheckedCreateWithoutCreatedUserRolesInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
   userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutUserInput
@@ -4113,6 +4178,7 @@ export type UserUpdateWithoutUserRolesInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -4169,6 +4235,7 @@ export type UserUncheckedUpdateWithoutUserRolesInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -4236,6 +4303,7 @@ export type UserUpdateWithoutCreatedUserRolesInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
   userRoles?: Prisma.UserRoleUpdateManyWithoutUserNestedInput
@@ -4292,6 +4360,7 @@ export type UserUncheckedUpdateWithoutCreatedUserRolesInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
   userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutUserNestedInput
@@ -4348,6 +4417,7 @@ export type UserCreateWithoutUserDepartmentsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -4404,6 +4474,7 @@ export type UserUncheckedCreateWithoutUserDepartmentsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -4465,6 +4536,7 @@ export type UserCreateWithoutCreatedUserDepartmentsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
   userRoles?: Prisma.UserRoleCreateNestedManyWithoutUserInput
@@ -4521,6 +4593,7 @@ export type UserUncheckedCreateWithoutCreatedUserDepartmentsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
   userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutUserInput
@@ -4593,6 +4666,7 @@ export type UserUpdateWithoutUserDepartmentsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -4649,6 +4723,7 @@ export type UserUncheckedUpdateWithoutUserDepartmentsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -4716,6 +4791,7 @@ export type UserUpdateWithoutCreatedUserDepartmentsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
   userRoles?: Prisma.UserRoleUpdateManyWithoutUserNestedInput
@@ -4772,6 +4848,7 @@ export type UserUncheckedUpdateWithoutCreatedUserDepartmentsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
   userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutUserNestedInput
@@ -4827,6 +4904,7 @@ export type UserCreateWithoutCreatedCategoriesInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -4883,6 +4961,7 @@ export type UserUncheckedCreateWithoutCreatedCategoriesInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -4944,6 +5023,7 @@ export type UserCreateWithoutUpdatedCategoriesInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -5000,6 +5080,7 @@ export type UserUncheckedCreateWithoutUpdatedCategoriesInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -5061,6 +5142,7 @@ export type UserCreateWithoutDeletedCategoriesInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -5117,6 +5199,7 @@ export type UserUncheckedCreateWithoutDeletedCategoriesInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -5189,6 +5272,7 @@ export type UserUpdateWithoutCreatedCategoriesInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -5245,6 +5329,7 @@ export type UserUncheckedUpdateWithoutCreatedCategoriesInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -5312,6 +5397,7 @@ export type UserUpdateWithoutUpdatedCategoriesInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -5368,6 +5454,7 @@ export type UserUncheckedUpdateWithoutUpdatedCategoriesInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -5435,6 +5522,7 @@ export type UserUpdateWithoutDeletedCategoriesInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -5491,6 +5579,7 @@ export type UserUncheckedUpdateWithoutDeletedCategoriesInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -5547,6 +5636,7 @@ export type UserCreateWithoutCreatedTagsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -5603,6 +5693,7 @@ export type UserUncheckedCreateWithoutCreatedTagsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -5664,6 +5755,7 @@ export type UserCreateWithoutUpdatedTagsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -5720,6 +5812,7 @@ export type UserUncheckedCreateWithoutUpdatedTagsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -5781,6 +5874,7 @@ export type UserCreateWithoutDeletedTagsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -5837,6 +5931,7 @@ export type UserUncheckedCreateWithoutDeletedTagsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -5909,6 +6004,7 @@ export type UserUpdateWithoutCreatedTagsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -5965,6 +6061,7 @@ export type UserUncheckedUpdateWithoutCreatedTagsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -6032,6 +6129,7 @@ export type UserUpdateWithoutUpdatedTagsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -6088,6 +6186,7 @@ export type UserUncheckedUpdateWithoutUpdatedTagsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -6155,6 +6254,7 @@ export type UserUpdateWithoutDeletedTagsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -6211,6 +6311,7 @@ export type UserUncheckedUpdateWithoutDeletedTagsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -6267,6 +6368,7 @@ export type UserCreateWithoutCreatedConfidentialLevelsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -6323,6 +6425,7 @@ export type UserUncheckedCreateWithoutCreatedConfidentialLevelsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -6384,6 +6487,7 @@ export type UserCreateWithoutUpdatedConfidentialLevelsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -6440,6 +6544,7 @@ export type UserUncheckedCreateWithoutUpdatedConfidentialLevelsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -6501,6 +6606,7 @@ export type UserCreateWithoutDeletedConfidentialLevelsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -6557,6 +6663,7 @@ export type UserUncheckedCreateWithoutDeletedConfidentialLevelsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -6629,6 +6736,7 @@ export type UserUpdateWithoutCreatedConfidentialLevelsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -6685,6 +6793,7 @@ export type UserUncheckedUpdateWithoutCreatedConfidentialLevelsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -6752,6 +6861,7 @@ export type UserUpdateWithoutUpdatedConfidentialLevelsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -6808,6 +6918,7 @@ export type UserUncheckedUpdateWithoutUpdatedConfidentialLevelsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -6875,6 +6986,7 @@ export type UserUpdateWithoutDeletedConfidentialLevelsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -6931,6 +7043,7 @@ export type UserUncheckedUpdateWithoutDeletedConfidentialLevelsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -6987,6 +7100,7 @@ export type UserCreateWithoutCreatedDocumentsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -7043,6 +7157,7 @@ export type UserUncheckedCreateWithoutCreatedDocumentsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -7104,6 +7219,7 @@ export type UserCreateWithoutUpdatedDocumentsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -7160,6 +7276,7 @@ export type UserUncheckedCreateWithoutUpdatedDocumentsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -7221,6 +7338,7 @@ export type UserCreateWithoutDeletedDocumentsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -7277,6 +7395,7 @@ export type UserUncheckedCreateWithoutDeletedDocumentsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -7349,6 +7468,7 @@ export type UserUpdateWithoutCreatedDocumentsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -7405,6 +7525,7 @@ export type UserUncheckedUpdateWithoutCreatedDocumentsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -7472,6 +7593,7 @@ export type UserUpdateWithoutUpdatedDocumentsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -7528,6 +7650,7 @@ export type UserUncheckedUpdateWithoutUpdatedDocumentsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -7595,6 +7718,7 @@ export type UserUpdateWithoutDeletedDocumentsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -7651,6 +7775,7 @@ export type UserUncheckedUpdateWithoutDeletedDocumentsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -7707,6 +7832,7 @@ export type UserCreateWithoutUploadedDocumentVersionsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -7763,6 +7889,7 @@ export type UserUncheckedCreateWithoutUploadedDocumentVersionsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -7824,6 +7951,7 @@ export type UserCreateWithoutCreatedDocumentVersionsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -7880,6 +8008,7 @@ export type UserUncheckedCreateWithoutCreatedDocumentVersionsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -7941,6 +8070,7 @@ export type UserCreateWithoutUpdatedDocumentVersionsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -7997,6 +8127,7 @@ export type UserUncheckedCreateWithoutUpdatedDocumentVersionsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -8058,6 +8189,7 @@ export type UserCreateWithoutDeletedDocumentVersionsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -8114,6 +8246,7 @@ export type UserUncheckedCreateWithoutDeletedDocumentVersionsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -8186,6 +8319,7 @@ export type UserUpdateWithoutUploadedDocumentVersionsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -8242,6 +8376,7 @@ export type UserUncheckedUpdateWithoutUploadedDocumentVersionsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -8309,6 +8444,7 @@ export type UserUpdateWithoutCreatedDocumentVersionsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -8365,6 +8501,7 @@ export type UserUncheckedUpdateWithoutCreatedDocumentVersionsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -8432,6 +8569,7 @@ export type UserUpdateWithoutUpdatedDocumentVersionsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -8488,6 +8626,7 @@ export type UserUncheckedUpdateWithoutUpdatedDocumentVersionsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -8555,6 +8694,7 @@ export type UserUpdateWithoutDeletedDocumentVersionsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -8611,6 +8751,7 @@ export type UserUncheckedUpdateWithoutDeletedDocumentVersionsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -8667,6 +8808,7 @@ export type UserCreateWithoutCreatedDocumentTagsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -8723,6 +8865,7 @@ export type UserUncheckedCreateWithoutCreatedDocumentTagsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -8795,6 +8938,7 @@ export type UserUpdateWithoutCreatedDocumentTagsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -8851,6 +8995,7 @@ export type UserUncheckedUpdateWithoutCreatedDocumentTagsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -8907,6 +9052,7 @@ export type UserCreateWithoutCreatedDocumentRelationsInput = {
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -8963,6 +9109,7 @@ export type UserUncheckedCreateWithoutCreatedDocumentRelationsInput = {
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -9035,6 +9182,7 @@ export type UserUpdateWithoutCreatedDocumentRelationsInput = {
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -9091,6 +9239,7 @@ export type UserUncheckedUpdateWithoutCreatedDocumentRelationsInput = {
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -9147,6 +9296,7 @@ export type UserCreateWithoutFavoritesInput = {
   createdDocumentRelations?: Prisma.DocumentRelationCreateNestedManyWithoutCreatedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -9203,6 +9353,7 @@ export type UserUncheckedCreateWithoutFavoritesInput = {
   createdDocumentRelations?: Prisma.DocumentRelationUncheckedCreateNestedManyWithoutCreatedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -9275,6 +9426,7 @@ export type UserUpdateWithoutFavoritesInput = {
   createdDocumentRelations?: Prisma.DocumentRelationUpdateManyWithoutCreatedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -9331,6 +9483,7 @@ export type UserUncheckedUpdateWithoutFavoritesInput = {
   createdDocumentRelations?: Prisma.DocumentRelationUncheckedUpdateManyWithoutCreatedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -9387,6 +9540,7 @@ export type UserCreateWithoutRecentViewsInput = {
   createdDocumentRelations?: Prisma.DocumentRelationCreateNestedManyWithoutCreatedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -9443,6 +9597,7 @@ export type UserUncheckedCreateWithoutRecentViewsInput = {
   createdDocumentRelations?: Prisma.DocumentRelationUncheckedCreateNestedManyWithoutCreatedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -9515,6 +9670,7 @@ export type UserUpdateWithoutRecentViewsInput = {
   createdDocumentRelations?: Prisma.DocumentRelationUpdateManyWithoutCreatedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -9571,6 +9727,251 @@ export type UserUncheckedUpdateWithoutRecentViewsInput = {
   createdDocumentRelations?: Prisma.DocumentRelationUncheckedUpdateManyWithoutCreatedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
+  createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
+  userRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutUserNestedInput
+  userDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutPublicationsInput = {
+  id?: string
+  employee_number?: string | null
+  username: string
+  password_hash: string
+  full_name: string
+  email?: string | null
+  phone?: string | null
+  job_title?: string | null
+  avatar?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
+  must_change_password?: boolean
+  is_active?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  created_by?: string | null
+  updated_by?: string | null
+  deleted_by?: string | null
+  createdDepartments?: Prisma.DepartmentCreateNestedManyWithoutCreatedByInput
+  updatedDepartments?: Prisma.DepartmentCreateNestedManyWithoutUpdatedByInput
+  deletedDepartments?: Prisma.DepartmentCreateNestedManyWithoutDeletedByInput
+  createdRoles?: Prisma.RoleCreateNestedManyWithoutCreatedByInput
+  updatedRoles?: Prisma.RoleCreateNestedManyWithoutUpdatedByInput
+  deletedRoles?: Prisma.RoleCreateNestedManyWithoutDeletedByInput
+  createdPermissions?: Prisma.PermissionCreateNestedManyWithoutCreatedByInput
+  updatedPermissions?: Prisma.PermissionCreateNestedManyWithoutUpdatedByInput
+  deletedPermissions?: Prisma.PermissionCreateNestedManyWithoutDeletedByInput
+  createdCategories?: Prisma.CategoryCreateNestedManyWithoutCreatedByInput
+  updatedCategories?: Prisma.CategoryCreateNestedManyWithoutUpdatedByInput
+  deletedCategories?: Prisma.CategoryCreateNestedManyWithoutDeletedByInput
+  createdTags?: Prisma.TagCreateNestedManyWithoutCreatedByInput
+  updatedTags?: Prisma.TagCreateNestedManyWithoutUpdatedByInput
+  deletedTags?: Prisma.TagCreateNestedManyWithoutDeletedByInput
+  createdConfidentialLevels?: Prisma.ConfidentialLevelCreateNestedManyWithoutCreatedByInput
+  updatedConfidentialLevels?: Prisma.ConfidentialLevelCreateNestedManyWithoutUpdatedByInput
+  deletedConfidentialLevels?: Prisma.ConfidentialLevelCreateNestedManyWithoutDeletedByInput
+  createdDocuments?: Prisma.DocumentCreateNestedManyWithoutCreatedByInput
+  updatedDocuments?: Prisma.DocumentCreateNestedManyWithoutUpdatedByInput
+  deletedDocuments?: Prisma.DocumentCreateNestedManyWithoutDeletedByInput
+  createdDocumentVersions?: Prisma.DocumentVersionCreateNestedManyWithoutCreatedByInput
+  updatedDocumentVersions?: Prisma.DocumentVersionCreateNestedManyWithoutUpdatedByInput
+  deletedDocumentVersions?: Prisma.DocumentVersionCreateNestedManyWithoutDeletedByInput
+  uploadedDocumentVersions?: Prisma.DocumentVersionCreateNestedManyWithoutUploadedByInput
+  createdDocumentTags?: Prisma.DocumentTagCreateNestedManyWithoutCreatedByInput
+  createdDocumentRelations?: Prisma.DocumentRelationCreateNestedManyWithoutCreatedByInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
+  recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
+  createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
+  createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
+  userRoles?: Prisma.UserRoleCreateNestedManyWithoutUserInput
+  userDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutPublicationsInput = {
+  id?: string
+  employee_number?: string | null
+  username: string
+  password_hash: string
+  full_name: string
+  email?: string | null
+  phone?: string | null
+  job_title?: string | null
+  avatar?: string | null
+  last_login_at?: Date | string | null
+  password_changed_at?: Date | string | null
+  must_change_password?: boolean
+  is_active?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  created_by?: string | null
+  updated_by?: string | null
+  deleted_by?: string | null
+  createdDepartments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutCreatedByInput
+  updatedDepartments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutUpdatedByInput
+  deletedDepartments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutDeletedByInput
+  createdRoles?: Prisma.RoleUncheckedCreateNestedManyWithoutCreatedByInput
+  updatedRoles?: Prisma.RoleUncheckedCreateNestedManyWithoutUpdatedByInput
+  deletedRoles?: Prisma.RoleUncheckedCreateNestedManyWithoutDeletedByInput
+  createdPermissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutCreatedByInput
+  updatedPermissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutUpdatedByInput
+  deletedPermissions?: Prisma.PermissionUncheckedCreateNestedManyWithoutDeletedByInput
+  createdCategories?: Prisma.CategoryUncheckedCreateNestedManyWithoutCreatedByInput
+  updatedCategories?: Prisma.CategoryUncheckedCreateNestedManyWithoutUpdatedByInput
+  deletedCategories?: Prisma.CategoryUncheckedCreateNestedManyWithoutDeletedByInput
+  createdTags?: Prisma.TagUncheckedCreateNestedManyWithoutCreatedByInput
+  updatedTags?: Prisma.TagUncheckedCreateNestedManyWithoutUpdatedByInput
+  deletedTags?: Prisma.TagUncheckedCreateNestedManyWithoutDeletedByInput
+  createdConfidentialLevels?: Prisma.ConfidentialLevelUncheckedCreateNestedManyWithoutCreatedByInput
+  updatedConfidentialLevels?: Prisma.ConfidentialLevelUncheckedCreateNestedManyWithoutUpdatedByInput
+  deletedConfidentialLevels?: Prisma.ConfidentialLevelUncheckedCreateNestedManyWithoutDeletedByInput
+  createdDocuments?: Prisma.DocumentUncheckedCreateNestedManyWithoutCreatedByInput
+  updatedDocuments?: Prisma.DocumentUncheckedCreateNestedManyWithoutUpdatedByInput
+  deletedDocuments?: Prisma.DocumentUncheckedCreateNestedManyWithoutDeletedByInput
+  createdDocumentVersions?: Prisma.DocumentVersionUncheckedCreateNestedManyWithoutCreatedByInput
+  updatedDocumentVersions?: Prisma.DocumentVersionUncheckedCreateNestedManyWithoutUpdatedByInput
+  deletedDocumentVersions?: Prisma.DocumentVersionUncheckedCreateNestedManyWithoutDeletedByInput
+  uploadedDocumentVersions?: Prisma.DocumentVersionUncheckedCreateNestedManyWithoutUploadedByInput
+  createdDocumentTags?: Prisma.DocumentTagUncheckedCreateNestedManyWithoutCreatedByInput
+  createdDocumentRelations?: Prisma.DocumentRelationUncheckedCreateNestedManyWithoutCreatedByInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
+  recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
+  createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
+  createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
+  userRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutUserInput
+  userDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutPublicationsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPublicationsInput, Prisma.UserUncheckedCreateWithoutPublicationsInput>
+}
+
+export type UserUpsertWithoutPublicationsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPublicationsInput, Prisma.UserUncheckedUpdateWithoutPublicationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPublicationsInput, Prisma.UserUncheckedCreateWithoutPublicationsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPublicationsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPublicationsInput, Prisma.UserUncheckedUpdateWithoutPublicationsInput>
+}
+
+export type UserUpdateWithoutPublicationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  employee_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  job_title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdDepartments?: Prisma.DepartmentUpdateManyWithoutCreatedByNestedInput
+  updatedDepartments?: Prisma.DepartmentUpdateManyWithoutUpdatedByNestedInput
+  deletedDepartments?: Prisma.DepartmentUpdateManyWithoutDeletedByNestedInput
+  createdRoles?: Prisma.RoleUpdateManyWithoutCreatedByNestedInput
+  updatedRoles?: Prisma.RoleUpdateManyWithoutUpdatedByNestedInput
+  deletedRoles?: Prisma.RoleUpdateManyWithoutDeletedByNestedInput
+  createdPermissions?: Prisma.PermissionUpdateManyWithoutCreatedByNestedInput
+  updatedPermissions?: Prisma.PermissionUpdateManyWithoutUpdatedByNestedInput
+  deletedPermissions?: Prisma.PermissionUpdateManyWithoutDeletedByNestedInput
+  createdCategories?: Prisma.CategoryUpdateManyWithoutCreatedByNestedInput
+  updatedCategories?: Prisma.CategoryUpdateManyWithoutUpdatedByNestedInput
+  deletedCategories?: Prisma.CategoryUpdateManyWithoutDeletedByNestedInput
+  createdTags?: Prisma.TagUpdateManyWithoutCreatedByNestedInput
+  updatedTags?: Prisma.TagUpdateManyWithoutUpdatedByNestedInput
+  deletedTags?: Prisma.TagUpdateManyWithoutDeletedByNestedInput
+  createdConfidentialLevels?: Prisma.ConfidentialLevelUpdateManyWithoutCreatedByNestedInput
+  updatedConfidentialLevels?: Prisma.ConfidentialLevelUpdateManyWithoutUpdatedByNestedInput
+  deletedConfidentialLevels?: Prisma.ConfidentialLevelUpdateManyWithoutDeletedByNestedInput
+  createdDocuments?: Prisma.DocumentUpdateManyWithoutCreatedByNestedInput
+  updatedDocuments?: Prisma.DocumentUpdateManyWithoutUpdatedByNestedInput
+  deletedDocuments?: Prisma.DocumentUpdateManyWithoutDeletedByNestedInput
+  createdDocumentVersions?: Prisma.DocumentVersionUpdateManyWithoutCreatedByNestedInput
+  updatedDocumentVersions?: Prisma.DocumentVersionUpdateManyWithoutUpdatedByNestedInput
+  deletedDocumentVersions?: Prisma.DocumentVersionUpdateManyWithoutDeletedByNestedInput
+  uploadedDocumentVersions?: Prisma.DocumentVersionUpdateManyWithoutUploadedByNestedInput
+  createdDocumentTags?: Prisma.DocumentTagUpdateManyWithoutCreatedByNestedInput
+  createdDocumentRelations?: Prisma.DocumentRelationUpdateManyWithoutCreatedByNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
+  recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
+  createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
+  createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
+  userRoles?: Prisma.UserRoleUpdateManyWithoutUserNestedInput
+  userDepartments?: Prisma.UserDepartmentUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPublicationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  employee_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  password_hash?: Prisma.StringFieldUpdateOperationsInput | string
+  full_name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  job_title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  last_login_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  password_changed_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  must_change_password?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdDepartments?: Prisma.DepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
+  updatedDepartments?: Prisma.DepartmentUncheckedUpdateManyWithoutUpdatedByNestedInput
+  deletedDepartments?: Prisma.DepartmentUncheckedUpdateManyWithoutDeletedByNestedInput
+  createdRoles?: Prisma.RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+  updatedRoles?: Prisma.RoleUncheckedUpdateManyWithoutUpdatedByNestedInput
+  deletedRoles?: Prisma.RoleUncheckedUpdateManyWithoutDeletedByNestedInput
+  createdPermissions?: Prisma.PermissionUncheckedUpdateManyWithoutCreatedByNestedInput
+  updatedPermissions?: Prisma.PermissionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  deletedPermissions?: Prisma.PermissionUncheckedUpdateManyWithoutDeletedByNestedInput
+  createdCategories?: Prisma.CategoryUncheckedUpdateManyWithoutCreatedByNestedInput
+  updatedCategories?: Prisma.CategoryUncheckedUpdateManyWithoutUpdatedByNestedInput
+  deletedCategories?: Prisma.CategoryUncheckedUpdateManyWithoutDeletedByNestedInput
+  createdTags?: Prisma.TagUncheckedUpdateManyWithoutCreatedByNestedInput
+  updatedTags?: Prisma.TagUncheckedUpdateManyWithoutUpdatedByNestedInput
+  deletedTags?: Prisma.TagUncheckedUpdateManyWithoutDeletedByNestedInput
+  createdConfidentialLevels?: Prisma.ConfidentialLevelUncheckedUpdateManyWithoutCreatedByNestedInput
+  updatedConfidentialLevels?: Prisma.ConfidentialLevelUncheckedUpdateManyWithoutUpdatedByNestedInput
+  deletedConfidentialLevels?: Prisma.ConfidentialLevelUncheckedUpdateManyWithoutDeletedByNestedInput
+  createdDocuments?: Prisma.DocumentUncheckedUpdateManyWithoutCreatedByNestedInput
+  updatedDocuments?: Prisma.DocumentUncheckedUpdateManyWithoutUpdatedByNestedInput
+  deletedDocuments?: Prisma.DocumentUncheckedUpdateManyWithoutDeletedByNestedInput
+  createdDocumentVersions?: Prisma.DocumentVersionUncheckedUpdateManyWithoutCreatedByNestedInput
+  updatedDocumentVersions?: Prisma.DocumentVersionUncheckedUpdateManyWithoutUpdatedByNestedInput
+  deletedDocumentVersions?: Prisma.DocumentVersionUncheckedUpdateManyWithoutDeletedByNestedInput
+  uploadedDocumentVersions?: Prisma.DocumentVersionUncheckedUpdateManyWithoutUploadedByNestedInput
+  createdDocumentTags?: Prisma.DocumentTagUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdDocumentRelations?: Prisma.DocumentRelationUncheckedUpdateManyWithoutCreatedByNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
+  recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -9627,6 +10028,7 @@ export type UserCreateWithoutAuditLogsInput = {
   createdDocumentRelations?: Prisma.DocumentRelationCreateNestedManyWithoutCreatedByInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionCreateNestedManyWithoutCreatedByInput
@@ -9683,6 +10085,7 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   createdDocumentRelations?: Prisma.DocumentRelationUncheckedCreateNestedManyWithoutCreatedByInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutUserInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutUserInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutUserInput
   createdUserRoles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutCreatedByInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedCreateNestedManyWithoutCreatedByInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedCreateNestedManyWithoutCreatedByInput
@@ -9755,6 +10158,7 @@ export type UserUpdateWithoutAuditLogsInput = {
   createdDocumentRelations?: Prisma.DocumentRelationUpdateManyWithoutCreatedByNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUpdateManyWithoutCreatedByNestedInput
@@ -9811,6 +10215,7 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   createdDocumentRelations?: Prisma.DocumentRelationUncheckedUpdateManyWithoutCreatedByNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutUserNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutUserNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutUserNestedInput
   createdUserRoles?: Prisma.UserRoleUncheckedUpdateManyWithoutCreatedByNestedInput
   createdUserDepartments?: Prisma.UserDepartmentUncheckedUpdateManyWithoutCreatedByNestedInput
   createdRolePermissions?: Prisma.RolePermissionUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -9854,6 +10259,7 @@ export type UserCountOutputType = {
   auditLogs: number
   favorites: number
   recentViews: number
+  publications: number
   createdUserRoles: number
   createdUserDepartments: number
   createdRolePermissions: number
@@ -9892,6 +10298,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
   favorites?: boolean | UserCountOutputTypeCountFavoritesArgs
   recentViews?: boolean | UserCountOutputTypeCountRecentViewsArgs
+  publications?: boolean | UserCountOutputTypeCountPublicationsArgs
   createdUserRoles?: boolean | UserCountOutputTypeCountCreatedUserRolesArgs
   createdUserDepartments?: boolean | UserCountOutputTypeCountCreatedUserDepartmentsArgs
   createdRolePermissions?: boolean | UserCountOutputTypeCountCreatedRolePermissionsArgs
@@ -10122,6 +10529,13 @@ export type UserCountOutputTypeCountRecentViewsArgs<ExtArgs extends runtime.Type
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountPublicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PublicationWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountCreatedUserRolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.UserRoleWhereInput
 }
@@ -10205,6 +10619,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   favorites?: boolean | Prisma.User$favoritesArgs<ExtArgs>
   recentViews?: boolean | Prisma.User$recentViewsArgs<ExtArgs>
+  publications?: boolean | Prisma.User$publicationsArgs<ExtArgs>
   createdUserRoles?: boolean | Prisma.User$createdUserRolesArgs<ExtArgs>
   createdUserDepartments?: boolean | Prisma.User$createdUserDepartmentsArgs<ExtArgs>
   createdRolePermissions?: boolean | Prisma.User$createdRolePermissionsArgs<ExtArgs>
@@ -10311,6 +10726,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   favorites?: boolean | Prisma.User$favoritesArgs<ExtArgs>
   recentViews?: boolean | Prisma.User$recentViewsArgs<ExtArgs>
+  publications?: boolean | Prisma.User$publicationsArgs<ExtArgs>
   createdUserRoles?: boolean | Prisma.User$createdUserRolesArgs<ExtArgs>
   createdUserDepartments?: boolean | Prisma.User$createdUserDepartmentsArgs<ExtArgs>
   createdRolePermissions?: boolean | Prisma.User$createdRolePermissionsArgs<ExtArgs>
@@ -10354,6 +10770,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
     favorites: Prisma.$FavoritePayload<ExtArgs>[]
     recentViews: Prisma.$RecentViewPayload<ExtArgs>[]
+    publications: Prisma.$PublicationPayload<ExtArgs>[]
     createdUserRoles: Prisma.$UserRolePayload<ExtArgs>[]
     createdUserDepartments: Prisma.$UserDepartmentPayload<ExtArgs>[]
     createdRolePermissions: Prisma.$RolePermissionPayload<ExtArgs>[]
@@ -10804,6 +11221,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   auditLogs<T extends Prisma.User$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   favorites<T extends Prisma.User$favoritesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$favoritesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   recentViews<T extends Prisma.User$recentViewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$recentViewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecentViewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  publications<T extends Prisma.User$publicationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$publicationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PublicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdUserRoles<T extends Prisma.User$createdUserRolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdUserRolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserRolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdUserDepartments<T extends Prisma.User$createdUserDepartmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdUserDepartmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserDepartmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdRolePermissions<T extends Prisma.User$createdRolePermissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdRolePermissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RolePermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -11967,6 +12385,30 @@ export type User$recentViewsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.RecentViewScalarFieldEnum | Prisma.RecentViewScalarFieldEnum[]
+}
+
+/**
+ * User.publications
+ */
+export type User$publicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Publication
+   */
+  select?: Prisma.PublicationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Publication
+   */
+  omit?: Prisma.PublicationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PublicationInclude<ExtArgs> | null
+  where?: Prisma.PublicationWhereInput
+  orderBy?: Prisma.PublicationOrderByWithRelationInput | Prisma.PublicationOrderByWithRelationInput[]
+  cursor?: Prisma.PublicationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PublicationScalarFieldEnum | Prisma.PublicationScalarFieldEnum[]
 }
 
 /**

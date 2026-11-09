@@ -289,6 +289,7 @@ export type DocumentWhereInput = {
   favorites?: Prisma.FavoriteListRelationFilter
   recentViews?: Prisma.RecentViewListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
+  publications?: Prisma.PublicationListRelationFilter
   createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   deletedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -323,6 +324,7 @@ export type DocumentOrderByWithRelationInput = {
   favorites?: Prisma.FavoriteOrderByRelationAggregateInput
   recentViews?: Prisma.RecentViewOrderByRelationAggregateInput
   auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
+  publications?: Prisma.PublicationOrderByRelationAggregateInput
   createdBy?: Prisma.UserOrderByWithRelationInput
   updatedBy?: Prisma.UserOrderByWithRelationInput
   deletedBy?: Prisma.UserOrderByWithRelationInput
@@ -360,6 +362,7 @@ export type DocumentWhereUniqueInput = Prisma.AtLeast<{
   favorites?: Prisma.FavoriteListRelationFilter
   recentViews?: Prisma.RecentViewListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
+  publications?: Prisma.PublicationListRelationFilter
   createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   updatedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   deletedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -433,6 +436,7 @@ export type DocumentCreateInput = {
   favorites?: Prisma.FavoriteCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutDocumentInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDocumentsInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDocumentsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDocumentsInput
@@ -463,6 +467,7 @@ export type DocumentUncheckedCreateInput = {
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUpdateInput = {
@@ -487,6 +492,7 @@ export type DocumentUpdateInput = {
   favorites?: Prisma.FavoriteUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutDocumentNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDocumentsNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDocumentsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedDocumentsNestedInput
@@ -517,6 +523,7 @@ export type DocumentUncheckedUpdateInput = {
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentCreateManyInput = {
@@ -1030,6 +1037,20 @@ export type DocumentUpdateOneRequiredWithoutRecentViewsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DocumentUpdateToOneWithWhereWithoutRecentViewsInput, Prisma.DocumentUpdateWithoutRecentViewsInput>, Prisma.DocumentUncheckedUpdateWithoutRecentViewsInput>
 }
 
+export type DocumentCreateNestedOneWithoutPublicationsInput = {
+  create?: Prisma.XOR<Prisma.DocumentCreateWithoutPublicationsInput, Prisma.DocumentUncheckedCreateWithoutPublicationsInput>
+  connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutPublicationsInput
+  connect?: Prisma.DocumentWhereUniqueInput
+}
+
+export type DocumentUpdateOneRequiredWithoutPublicationsNestedInput = {
+  create?: Prisma.XOR<Prisma.DocumentCreateWithoutPublicationsInput, Prisma.DocumentUncheckedCreateWithoutPublicationsInput>
+  connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutPublicationsInput
+  upsert?: Prisma.DocumentUpsertWithoutPublicationsInput
+  connect?: Prisma.DocumentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DocumentUpdateToOneWithWhereWithoutPublicationsInput, Prisma.DocumentUpdateWithoutPublicationsInput>, Prisma.DocumentUncheckedUpdateWithoutPublicationsInput>
+}
+
 export type DocumentCreateNestedOneWithoutAuditLogsInput = {
   create?: Prisma.XOR<Prisma.DocumentCreateWithoutAuditLogsInput, Prisma.DocumentUncheckedCreateWithoutAuditLogsInput>
   connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutAuditLogsInput
@@ -1067,6 +1088,7 @@ export type DocumentCreateWithoutDepartmentInput = {
   favorites?: Prisma.FavoriteCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutDocumentInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDocumentsInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDocumentsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDocumentsInput
@@ -1096,6 +1118,7 @@ export type DocumentUncheckedCreateWithoutDepartmentInput = {
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutDepartmentInput = {
@@ -1169,6 +1192,7 @@ export type DocumentCreateWithoutCreatedByInput = {
   favorites?: Prisma.FavoriteCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutDocumentInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDocumentsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDocumentsInput
 }
@@ -1197,6 +1221,7 @@ export type DocumentUncheckedCreateWithoutCreatedByInput = {
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutCreatedByInput = {
@@ -1231,6 +1256,7 @@ export type DocumentCreateWithoutUpdatedByInput = {
   favorites?: Prisma.FavoriteCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutDocumentInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDocumentsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDocumentsInput
 }
@@ -1259,6 +1285,7 @@ export type DocumentUncheckedCreateWithoutUpdatedByInput = {
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutUpdatedByInput = {
@@ -1293,6 +1320,7 @@ export type DocumentCreateWithoutDeletedByInput = {
   favorites?: Prisma.FavoriteCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutDocumentInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDocumentsInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDocumentsInput
 }
@@ -1321,6 +1349,7 @@ export type DocumentUncheckedCreateWithoutDeletedByInput = {
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutDeletedByInput = {
@@ -1402,6 +1431,7 @@ export type DocumentCreateWithoutCategoryInput = {
   favorites?: Prisma.FavoriteCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutDocumentInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDocumentsInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDocumentsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDocumentsInput
@@ -1431,6 +1461,7 @@ export type DocumentUncheckedCreateWithoutCategoryInput = {
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutCategoryInput = {
@@ -1480,6 +1511,7 @@ export type DocumentCreateWithoutConfidentialLevelInput = {
   favorites?: Prisma.FavoriteCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutDocumentInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDocumentsInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDocumentsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDocumentsInput
@@ -1509,6 +1541,7 @@ export type DocumentUncheckedCreateWithoutConfidentialLevelInput = {
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutConfidentialLevelInput = {
@@ -1558,6 +1591,7 @@ export type DocumentCreateWithoutVersionsInput = {
   favorites?: Prisma.FavoriteCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutDocumentInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDocumentsInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDocumentsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDocumentsInput
@@ -1587,6 +1621,7 @@ export type DocumentUncheckedCreateWithoutVersionsInput = {
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutVersionsInput = {
@@ -1615,6 +1650,7 @@ export type DocumentCreateWithoutCurrentVersionInput = {
   favorites?: Prisma.FavoriteCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutDocumentInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDocumentsInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDocumentsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDocumentsInput
@@ -1644,6 +1680,7 @@ export type DocumentUncheckedCreateWithoutCurrentVersionInput = {
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutCurrentVersionInput = {
@@ -1688,6 +1725,7 @@ export type DocumentUpdateWithoutVersionsInput = {
   favorites?: Prisma.FavoriteUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutDocumentNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDocumentsNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDocumentsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedDocumentsNestedInput
@@ -1717,6 +1755,7 @@ export type DocumentUncheckedUpdateWithoutVersionsInput = {
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUpsertWithWhereUniqueWithoutCurrentVersionInput = {
@@ -1756,6 +1795,7 @@ export type DocumentCreateWithoutDocumentTagsInput = {
   favorites?: Prisma.FavoriteCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutDocumentInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDocumentsInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDocumentsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDocumentsInput
@@ -1785,6 +1825,7 @@ export type DocumentUncheckedCreateWithoutDocumentTagsInput = {
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutDocumentTagsInput = {
@@ -1824,6 +1865,7 @@ export type DocumentUpdateWithoutDocumentTagsInput = {
   favorites?: Prisma.FavoriteUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutDocumentNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDocumentsNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDocumentsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedDocumentsNestedInput
@@ -1853,6 +1895,7 @@ export type DocumentUncheckedUpdateWithoutDocumentTagsInput = {
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentCreateWithoutRelatedDocumentsInput = {
@@ -1876,6 +1919,7 @@ export type DocumentCreateWithoutRelatedDocumentsInput = {
   favorites?: Prisma.FavoriteCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutDocumentInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDocumentsInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDocumentsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDocumentsInput
@@ -1905,6 +1949,7 @@ export type DocumentUncheckedCreateWithoutRelatedDocumentsInput = {
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutRelatedDocumentsInput = {
@@ -1933,6 +1978,7 @@ export type DocumentCreateWithoutRelatedToDocumentsInput = {
   favorites?: Prisma.FavoriteCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutDocumentInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDocumentsInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDocumentsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDocumentsInput
@@ -1962,6 +2008,7 @@ export type DocumentUncheckedCreateWithoutRelatedToDocumentsInput = {
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutRelatedToDocumentsInput = {
@@ -2001,6 +2048,7 @@ export type DocumentUpdateWithoutRelatedDocumentsInput = {
   favorites?: Prisma.FavoriteUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutDocumentNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDocumentsNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDocumentsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedDocumentsNestedInput
@@ -2030,6 +2078,7 @@ export type DocumentUncheckedUpdateWithoutRelatedDocumentsInput = {
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUpsertWithoutRelatedToDocumentsInput = {
@@ -2064,6 +2113,7 @@ export type DocumentUpdateWithoutRelatedToDocumentsInput = {
   favorites?: Prisma.FavoriteUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutDocumentNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDocumentsNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDocumentsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedDocumentsNestedInput
@@ -2093,6 +2143,7 @@ export type DocumentUncheckedUpdateWithoutRelatedToDocumentsInput = {
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentCreateWithoutFavoritesInput = {
@@ -2116,6 +2167,7 @@ export type DocumentCreateWithoutFavoritesInput = {
   relatedToDocuments?: Prisma.DocumentRelationCreateNestedManyWithoutRelatedDocumentInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutDocumentInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDocumentsInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDocumentsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDocumentsInput
@@ -2145,6 +2197,7 @@ export type DocumentUncheckedCreateWithoutFavoritesInput = {
   relatedToDocuments?: Prisma.DocumentRelationUncheckedCreateNestedManyWithoutRelatedDocumentInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutFavoritesInput = {
@@ -2184,6 +2237,7 @@ export type DocumentUpdateWithoutFavoritesInput = {
   relatedToDocuments?: Prisma.DocumentRelationUpdateManyWithoutRelatedDocumentNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutDocumentNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDocumentsNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDocumentsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedDocumentsNestedInput
@@ -2213,6 +2267,7 @@ export type DocumentUncheckedUpdateWithoutFavoritesInput = {
   relatedToDocuments?: Prisma.DocumentRelationUncheckedUpdateManyWithoutRelatedDocumentNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentCreateWithoutRecentViewsInput = {
@@ -2236,6 +2291,7 @@ export type DocumentCreateWithoutRecentViewsInput = {
   relatedToDocuments?: Prisma.DocumentRelationCreateNestedManyWithoutRelatedDocumentInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutDocumentInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDocumentsInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDocumentsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDocumentsInput
@@ -2265,6 +2321,7 @@ export type DocumentUncheckedCreateWithoutRecentViewsInput = {
   relatedToDocuments?: Prisma.DocumentRelationUncheckedCreateNestedManyWithoutRelatedDocumentInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutDocumentInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutRecentViewsInput = {
@@ -2304,6 +2361,7 @@ export type DocumentUpdateWithoutRecentViewsInput = {
   relatedToDocuments?: Prisma.DocumentRelationUpdateManyWithoutRelatedDocumentNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutDocumentNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDocumentsNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDocumentsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedDocumentsNestedInput
@@ -2333,6 +2391,131 @@ export type DocumentUncheckedUpdateWithoutRecentViewsInput = {
   relatedToDocuments?: Prisma.DocumentRelationUncheckedUpdateManyWithoutRelatedDocumentNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutDocumentNestedInput
+}
+
+export type DocumentCreateWithoutPublicationsInput = {
+  id?: string
+  document_number?: string | null
+  title: string
+  description?: string | null
+  effective_date?: Date | string | null
+  expired_date?: Date | string | null
+  is_active?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  department: Prisma.DepartmentCreateNestedOneWithoutDocumentsInput
+  category: Prisma.CategoryCreateNestedOneWithoutDocumentsInput
+  confidentialLevel: Prisma.ConfidentialLevelCreateNestedOneWithoutDocumentsInput
+  currentVersion?: Prisma.DocumentVersionCreateNestedOneWithoutCurrentForDocumentsInput
+  versions?: Prisma.DocumentVersionCreateNestedManyWithoutDocumentInput
+  documentTags?: Prisma.DocumentTagCreateNestedManyWithoutDocumentInput
+  relatedDocuments?: Prisma.DocumentRelationCreateNestedManyWithoutDocumentInput
+  relatedToDocuments?: Prisma.DocumentRelationCreateNestedManyWithoutRelatedDocumentInput
+  favorites?: Prisma.FavoriteCreateNestedManyWithoutDocumentInput
+  recentViews?: Prisma.RecentViewCreateNestedManyWithoutDocumentInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutDocumentInput
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDocumentsInput
+  updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDocumentsInput
+  deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDocumentsInput
+}
+
+export type DocumentUncheckedCreateWithoutPublicationsInput = {
+  id?: string
+  document_number?: string | null
+  title: string
+  description?: string | null
+  department_id: string
+  category_id: string
+  confidential_level_id: string
+  current_version_id?: string | null
+  effective_date?: Date | string | null
+  expired_date?: Date | string | null
+  is_active?: boolean
+  created_at?: Date | string
+  updated_at?: Date | string
+  deleted_at?: Date | string | null
+  created_by?: string | null
+  updated_by?: string | null
+  deleted_by?: string | null
+  versions?: Prisma.DocumentVersionUncheckedCreateNestedManyWithoutDocumentInput
+  documentTags?: Prisma.DocumentTagUncheckedCreateNestedManyWithoutDocumentInput
+  relatedDocuments?: Prisma.DocumentRelationUncheckedCreateNestedManyWithoutDocumentInput
+  relatedToDocuments?: Prisma.DocumentRelationUncheckedCreateNestedManyWithoutRelatedDocumentInput
+  favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutDocumentInput
+  recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutDocumentInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutDocumentInput
+}
+
+export type DocumentCreateOrConnectWithoutPublicationsInput = {
+  where: Prisma.DocumentWhereUniqueInput
+  create: Prisma.XOR<Prisma.DocumentCreateWithoutPublicationsInput, Prisma.DocumentUncheckedCreateWithoutPublicationsInput>
+}
+
+export type DocumentUpsertWithoutPublicationsInput = {
+  update: Prisma.XOR<Prisma.DocumentUpdateWithoutPublicationsInput, Prisma.DocumentUncheckedUpdateWithoutPublicationsInput>
+  create: Prisma.XOR<Prisma.DocumentCreateWithoutPublicationsInput, Prisma.DocumentUncheckedCreateWithoutPublicationsInput>
+  where?: Prisma.DocumentWhereInput
+}
+
+export type DocumentUpdateToOneWithWhereWithoutPublicationsInput = {
+  where?: Prisma.DocumentWhereInput
+  data: Prisma.XOR<Prisma.DocumentUpdateWithoutPublicationsInput, Prisma.DocumentUncheckedUpdateWithoutPublicationsInput>
+}
+
+export type DocumentUpdateWithoutPublicationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  document_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  department?: Prisma.DepartmentUpdateOneRequiredWithoutDocumentsNestedInput
+  category?: Prisma.CategoryUpdateOneRequiredWithoutDocumentsNestedInput
+  confidentialLevel?: Prisma.ConfidentialLevelUpdateOneRequiredWithoutDocumentsNestedInput
+  currentVersion?: Prisma.DocumentVersionUpdateOneWithoutCurrentForDocumentsNestedInput
+  versions?: Prisma.DocumentVersionUpdateManyWithoutDocumentNestedInput
+  documentTags?: Prisma.DocumentTagUpdateManyWithoutDocumentNestedInput
+  relatedDocuments?: Prisma.DocumentRelationUpdateManyWithoutDocumentNestedInput
+  relatedToDocuments?: Prisma.DocumentRelationUpdateManyWithoutRelatedDocumentNestedInput
+  favorites?: Prisma.FavoriteUpdateManyWithoutDocumentNestedInput
+  recentViews?: Prisma.RecentViewUpdateManyWithoutDocumentNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutDocumentNestedInput
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedDocumentsNestedInput
+  updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDocumentsNestedInput
+  deletedBy?: Prisma.UserUpdateOneWithoutDeletedDocumentsNestedInput
+}
+
+export type DocumentUncheckedUpdateWithoutPublicationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  document_number?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department_id?: Prisma.StringFieldUpdateOperationsInput | string
+  category_id?: Prisma.StringFieldUpdateOperationsInput | string
+  confidential_level_id?: Prisma.StringFieldUpdateOperationsInput | string
+  current_version_id?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  effective_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expired_date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  is_active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deleted_at?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  created_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updated_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deleted_by?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  versions?: Prisma.DocumentVersionUncheckedUpdateManyWithoutDocumentNestedInput
+  documentTags?: Prisma.DocumentTagUncheckedUpdateManyWithoutDocumentNestedInput
+  relatedDocuments?: Prisma.DocumentRelationUncheckedUpdateManyWithoutDocumentNestedInput
+  relatedToDocuments?: Prisma.DocumentRelationUncheckedUpdateManyWithoutRelatedDocumentNestedInput
+  favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutDocumentNestedInput
+  recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutDocumentNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentCreateWithoutAuditLogsInput = {
@@ -2356,6 +2539,7 @@ export type DocumentCreateWithoutAuditLogsInput = {
   relatedToDocuments?: Prisma.DocumentRelationCreateNestedManyWithoutRelatedDocumentInput
   favorites?: Prisma.FavoriteCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationCreateNestedManyWithoutDocumentInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedDocumentsInput
   updatedBy?: Prisma.UserCreateNestedOneWithoutUpdatedDocumentsInput
   deletedBy?: Prisma.UserCreateNestedOneWithoutDeletedDocumentsInput
@@ -2385,6 +2569,7 @@ export type DocumentUncheckedCreateWithoutAuditLogsInput = {
   relatedToDocuments?: Prisma.DocumentRelationUncheckedCreateNestedManyWithoutRelatedDocumentInput
   favorites?: Prisma.FavoriteUncheckedCreateNestedManyWithoutDocumentInput
   recentViews?: Prisma.RecentViewUncheckedCreateNestedManyWithoutDocumentInput
+  publications?: Prisma.PublicationUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutAuditLogsInput = {
@@ -2424,6 +2609,7 @@ export type DocumentUpdateWithoutAuditLogsInput = {
   relatedToDocuments?: Prisma.DocumentRelationUpdateManyWithoutRelatedDocumentNestedInput
   favorites?: Prisma.FavoriteUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutDocumentNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDocumentsNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDocumentsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedDocumentsNestedInput
@@ -2453,6 +2639,7 @@ export type DocumentUncheckedUpdateWithoutAuditLogsInput = {
   relatedToDocuments?: Prisma.DocumentRelationUncheckedUpdateManyWithoutRelatedDocumentNestedInput
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentCreateManyDepartmentInput = {
@@ -2495,6 +2682,7 @@ export type DocumentUpdateWithoutDepartmentInput = {
   favorites?: Prisma.FavoriteUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutDocumentNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDocumentsNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDocumentsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedDocumentsNestedInput
@@ -2524,6 +2712,7 @@ export type DocumentUncheckedUpdateWithoutDepartmentInput = {
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateManyWithoutDepartmentInput = {
@@ -2624,6 +2813,7 @@ export type DocumentUpdateWithoutCreatedByInput = {
   favorites?: Prisma.FavoriteUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutDocumentNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDocumentsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedDocumentsNestedInput
 }
@@ -2652,6 +2842,7 @@ export type DocumentUncheckedUpdateWithoutCreatedByInput = {
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateManyWithoutCreatedByInput = {
@@ -2695,6 +2886,7 @@ export type DocumentUpdateWithoutUpdatedByInput = {
   favorites?: Prisma.FavoriteUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutDocumentNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDocumentsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedDocumentsNestedInput
 }
@@ -2723,6 +2915,7 @@ export type DocumentUncheckedUpdateWithoutUpdatedByInput = {
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateManyWithoutUpdatedByInput = {
@@ -2766,6 +2959,7 @@ export type DocumentUpdateWithoutDeletedByInput = {
   favorites?: Prisma.FavoriteUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutDocumentNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDocumentsNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDocumentsNestedInput
 }
@@ -2794,6 +2988,7 @@ export type DocumentUncheckedUpdateWithoutDeletedByInput = {
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateManyWithoutDeletedByInput = {
@@ -2855,6 +3050,7 @@ export type DocumentUpdateWithoutCategoryInput = {
   favorites?: Prisma.FavoriteUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutDocumentNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDocumentsNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDocumentsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedDocumentsNestedInput
@@ -2884,6 +3080,7 @@ export type DocumentUncheckedUpdateWithoutCategoryInput = {
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateManyWithoutCategoryInput = {
@@ -2945,6 +3142,7 @@ export type DocumentUpdateWithoutConfidentialLevelInput = {
   favorites?: Prisma.FavoriteUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutDocumentNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDocumentsNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDocumentsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedDocumentsNestedInput
@@ -2974,6 +3172,7 @@ export type DocumentUncheckedUpdateWithoutConfidentialLevelInput = {
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateManyWithoutConfidentialLevelInput = {
@@ -3035,6 +3234,7 @@ export type DocumentUpdateWithoutCurrentVersionInput = {
   favorites?: Prisma.FavoriteUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUpdateManyWithoutDocumentNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedDocumentsNestedInput
   updatedBy?: Prisma.UserUpdateOneWithoutUpdatedDocumentsNestedInput
   deletedBy?: Prisma.UserUpdateOneWithoutDeletedDocumentsNestedInput
@@ -3064,6 +3264,7 @@ export type DocumentUncheckedUpdateWithoutCurrentVersionInput = {
   favorites?: Prisma.FavoriteUncheckedUpdateManyWithoutDocumentNestedInput
   recentViews?: Prisma.RecentViewUncheckedUpdateManyWithoutDocumentNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutDocumentNestedInput
+  publications?: Prisma.PublicationUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateManyWithoutCurrentVersionInput = {
@@ -3098,6 +3299,7 @@ export type DocumentCountOutputType = {
   favorites: number
   recentViews: number
   auditLogs: number
+  publications: number
 }
 
 export type DocumentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3108,6 +3310,7 @@ export type DocumentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensio
   favorites?: boolean | DocumentCountOutputTypeCountFavoritesArgs
   recentViews?: boolean | DocumentCountOutputTypeCountRecentViewsArgs
   auditLogs?: boolean | DocumentCountOutputTypeCountAuditLogsArgs
+  publications?: boolean | DocumentCountOutputTypeCountPublicationsArgs
 }
 
 /**
@@ -3169,6 +3372,13 @@ export type DocumentCountOutputTypeCountAuditLogsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.AuditLogWhereInput
 }
 
+/**
+ * DocumentCountOutputType without action
+ */
+export type DocumentCountOutputTypeCountPublicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PublicationWhereInput
+}
+
 
 export type DocumentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -3199,6 +3409,7 @@ export type DocumentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   favorites?: boolean | Prisma.Document$favoritesArgs<ExtArgs>
   recentViews?: boolean | Prisma.Document$recentViewsArgs<ExtArgs>
   auditLogs?: boolean | Prisma.Document$auditLogsArgs<ExtArgs>
+  publications?: boolean | Prisma.Document$publicationsArgs<ExtArgs>
   createdBy?: boolean | Prisma.Document$createdByArgs<ExtArgs>
   updatedBy?: boolean | Prisma.Document$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.Document$deletedByArgs<ExtArgs>
@@ -3292,6 +3503,7 @@ export type DocumentInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   favorites?: boolean | Prisma.Document$favoritesArgs<ExtArgs>
   recentViews?: boolean | Prisma.Document$recentViewsArgs<ExtArgs>
   auditLogs?: boolean | Prisma.Document$auditLogsArgs<ExtArgs>
+  publications?: boolean | Prisma.Document$publicationsArgs<ExtArgs>
   createdBy?: boolean | Prisma.Document$createdByArgs<ExtArgs>
   updatedBy?: boolean | Prisma.Document$updatedByArgs<ExtArgs>
   deletedBy?: boolean | Prisma.Document$deletedByArgs<ExtArgs>
@@ -3330,6 +3542,7 @@ export type $DocumentPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     favorites: Prisma.$FavoritePayload<ExtArgs>[]
     recentViews: Prisma.$RecentViewPayload<ExtArgs>[]
     auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
+    publications: Prisma.$PublicationPayload<ExtArgs>[]
     createdBy: Prisma.$UserPayload<ExtArgs> | null
     updatedBy: Prisma.$UserPayload<ExtArgs> | null
     deletedBy: Prisma.$UserPayload<ExtArgs> | null
@@ -3757,6 +3970,7 @@ export interface Prisma__DocumentClient<T, Null = never, ExtArgs extends runtime
   favorites<T extends Prisma.Document$favoritesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$favoritesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   recentViews<T extends Prisma.Document$recentViewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$recentViewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecentViewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   auditLogs<T extends Prisma.Document$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  publications<T extends Prisma.Document$publicationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$publicationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PublicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdBy<T extends Prisma.Document$createdByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$createdByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   updatedBy<T extends Prisma.Document$updatedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$updatedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   deletedBy<T extends Prisma.Document$deletedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$deletedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -4391,6 +4605,30 @@ export type Document$auditLogsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.AuditLogScalarFieldEnum | Prisma.AuditLogScalarFieldEnum[]
+}
+
+/**
+ * Document.publications
+ */
+export type Document$publicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Publication
+   */
+  select?: Prisma.PublicationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Publication
+   */
+  omit?: Prisma.PublicationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PublicationInclude<ExtArgs> | null
+  where?: Prisma.PublicationWhereInput
+  orderBy?: Prisma.PublicationOrderByWithRelationInput | Prisma.PublicationOrderByWithRelationInput[]
+  cursor?: Prisma.PublicationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PublicationScalarFieldEnum | Prisma.PublicationScalarFieldEnum[]
 }
 
 /**

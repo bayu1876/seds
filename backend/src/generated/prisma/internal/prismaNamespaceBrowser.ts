@@ -67,6 +67,7 @@ export const ModelName = {
   DocumentRelation: 'DocumentRelation',
   Favorite: 'Favorite',
   RecentView: 'RecentView',
+  Publication: 'Publication',
   AuditLog: 'AuditLog'
 } as const
 
@@ -347,6 +348,20 @@ export const RecentViewScalarFieldEnum = {
 } as const
 
 export type RecentViewScalarFieldEnum = (typeof RecentViewScalarFieldEnum)[keyof typeof RecentViewScalarFieldEnum]
+
+
+export const PublicationScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  document_id: 'document_id',
+  version_id: 'version_id',
+  is_published: 'is_published',
+  featured: 'featured',
+  display_order: 'display_order',
+  published_at: 'published_at'
+} as const
+
+export type PublicationScalarFieldEnum = (typeof PublicationScalarFieldEnum)[keyof typeof PublicationScalarFieldEnum]
 
 
 export const AuditLogScalarFieldEnum = {
