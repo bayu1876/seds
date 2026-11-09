@@ -13,9 +13,12 @@ import documentRoutes from "./document/routes/document.routes.js";
 import uploadRoutes from "./upload/routes/upload.routes.js";
 import documentVersionRoutes from "./document-version/routes/document-version.routes.js";
 import documentTagRoutes from "./document-tag/routes/document-tag.routes.js";
-import documentRelationRoutes from "./document-relation/routes/document-relation.routes.js";
-import searchRoutes from "./search/routes/search.routes.js";
 
+import documentRelationRoutes from "./document-relation/routes/document-relation.routes.js";
+import favoriteRoutes from "./favorite/routes/favorite.routes.js";
+import recentViewRoutes from "./recent-view/routes/recent-view.routes.js";
+import auditLogRoutes from "./audit-log/routes/audit-log.routes.js";
+import searchRoutes from "./search/routes/search.routes.js";
 const app = express();
 
 app.use(express.json());
@@ -34,6 +37,9 @@ app.use("/api/upload", uploadRoutes);
 app.use("/api/document-versions", documentVersionRoutes);
 app.use("/api/document-tags", documentTagRoutes);
 app.use("/api/document-relations", documentRelationRoutes);
+app.use("/api/audit-log", auditLogRoutes);
+app.use("/api/recent-view", recentViewRoutes);
+app.use("/api/favorite", favoriteRoutes);
 app.use("/api/search", searchRoutes);
 
 export default app;
