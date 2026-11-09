@@ -7,6 +7,12 @@ import roleRoutes from "./role/routes/role.routes.js";
 import permissionRoutes from "./permission/routes/permission.routes.js";
 import rolePermissionRoutes from "./role-permission/routes/role-permission.routes.js";
 import categoryRoutes from "./category/routes/category.routes.js";
+import tagRoutes from "./tag/routes/tag.routes.js";
+import confidentialLevelRoutes from "./confidential-level/routes/confidential-level.routes.js";
+import documentRoutes from "./document/routes/document.routes.js";
+import uploadRoutes from "./upload/routes/upload.routes.js";
+import documentVersionRoutes from "./document-version/routes/document-version.routes.js";
+import documentTagRoutes from "./document-tag/routes/document-tag.routes.js";
 
 const app = express();
 
@@ -19,5 +25,11 @@ app.use("/api/roles", roleRoutes);
 app.use("/api/permissions", permissionRoutes);
 app.use("/api", rolePermissionRoutes);
 app.use("/api/categories", categoryRoutes);
+app.use("/api/tags", tagRoutes);
+app.use("/api/confidential-levels", confidentialLevelRoutes);
+app.use("/api/documents", documentRoutes);
+app.use("/api/upload", uploadRoutes);
+app.use("/api/document-versions", documentVersionRoutes);
+app.use("/api/document-tags", documentTagRoutes);
 
 export default app;

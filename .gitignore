@@ -1,0 +1,5 @@
+# Runtime uploads (managed by the backend)
+/storage/
+
+# Local project backups
+/backup/

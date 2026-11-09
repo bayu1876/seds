@@ -1,0 +1,26 @@
+import { Router, type Request } from "express";
+import { upload } from "../../middleware/upload.middleware.js";
+import { DocumentVersionController } from "../controllers/document-version.controller.js";
+import type { UploadParams } from "../controllers/document-version.controller.js";
+import {
+  authenticate,
+  authorize,
+} from "../../auth/middleware/auth.middleware.js";
+
+const router = Router();
+
+const controller =
+  new DocumentVersionController();
+
+router.post(
+  "/:documentId/upload",
+  authenticate,
+  authorize( "document", "upload" ),
+  upload.single( "file" ),
+  ( req, res ) =>
+    controller.upload(
+      req as Request<UploadParams>,
+      res,
+    ),
+);
+export default router;

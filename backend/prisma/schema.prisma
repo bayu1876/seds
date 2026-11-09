@@ -336,7 +336,7 @@ model ConfidentialLevel {
 model Document {
   id String @id @default(uuid()) @db.Uuid
 
-  document_number String? @db.VarChar(100)
+  document_number String? @unique @db.VarChar(100)
 
   title       String  @db.VarChar(255)
   description String?
@@ -401,7 +401,7 @@ model DocumentVersion {
 
   mime_type String @db.VarChar(100)
 
-  file_size BigInt
+  file_size Int
 
   thumbnail_path String?
 

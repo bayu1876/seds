@@ -159,6 +159,13 @@ const permissions = [
   { module: "category", action: "create", description: "Create Category"},
   { module: "category", action: "update", description: "Update Category"},
   { module: "category", action: "delete", description: "Delete Category"},
+
+  { module: "tag", action: "view", description: "View Tag" },
+  { module: "tag", action: "create", description: "Create Tag" },
+  { module: "tag", action: "update", description: "Update Tag" },
+  { module: "tag", action: "delete", description: "Delete Tag" },
+
+  { module: "confidential_level", action: "view", description: "View Confidential Level" },
 ];
 
 const rolePermissions = [
