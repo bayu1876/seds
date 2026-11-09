@@ -88,6 +88,81 @@ export class SearchService {
     };
   }
 
+  async searchFulltext(
+    input: SearchDocumentsInput,
+  ) {
+    const q = input.q?.trim();
+
+    if (!q) {
+      throw new Error("q is required");
+    }
+
+    const page = this.parseInteger(
+      input.page,
+      "page",
+      1,
+    );
+
+    const limit = this.parseInteger(
+      input.limit,
+      "limit",
+      1,
+      100,
+    );
+
+    const is_active =
+      this.parseBoolean(
+        input.is_active,
+        "is_active",
+      );
+
+    const department_id =
+      this.parseUuid(
+        input.department_id,
+        "department_id",
+      );
+
+    const category_id =
+      this.parseUuid(
+        input.category_id,
+        "category_id",
+      );
+
+    const confidential_level_id =
+      this.parseUuid(
+        input.confidential_level_id,
+        "confidential_level_id",
+      );
+
+    const result =
+      await this.repository.searchFulltext(
+        {
+          q,
+          department_id,
+          category_id,
+          confidential_level_id,
+          is_active,
+          page: page ?? 1,
+          limit: limit ?? 20,
+        },
+      );
+
+    const currentPage = page ?? 1;
+    const currentLimit = limit ?? 20;
+
+    return {
+      data: result.data,
+      meta: {
+        page: currentPage,
+        limit: currentLimit,
+        total: result.total,
+        total_pages: Math.ceil(
+          result.total / currentLimit,
+        ),
+      },
+    };
+  }
+
   private parseInteger(
     value: string | number | undefined,
     name: string,

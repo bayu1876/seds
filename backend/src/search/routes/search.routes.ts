@@ -11,6 +11,13 @@ const controller =
   new SearchController();
 
 router.get(
+  "/documents/fulltext",
+  authenticate,
+  authorize("document", "view"),
+  controller.searchFulltext.bind(controller),
+);
+
+router.get(
   "/documents",
   authenticate,
   authorize("document", "view"),

@@ -350,7 +350,7 @@ model Document {
   effective_date DateTime?
   expired_date   DateTime?
 
-  search_vector String?
+  search_vector Unsupported("tsvector")?
 
   is_active Boolean @default(true)
 
