@@ -35,6 +35,15 @@ export class DocumentVersionRepository {
       orderBy: {
         version_number: "desc",
       },
+      include: {
+        uploadedBy: {
+          select: {
+            id: true,
+            username: true,
+            full_name: true,
+          },
+        },
+      },
     });
   }
 

@@ -30,6 +30,33 @@ export class DocumentVersionService {
       .catch(() => undefined);
   }
 
+  async findHistory(
+    documentId: string,
+  ) {
+    const document =
+      await this.repository.findDocumentById(
+        documentId,
+      );
+
+    if (!document) {
+      throw new Error(
+        "Document not found",
+      );
+    }
+
+    const versions =
+      await this.repository.findByDocumentId(
+        documentId,
+      );
+
+    return versions.map((version) => ({
+      ...version,
+      is_current:
+        version.id ===
+        document.current_version_id,
+    }));
+  }
+
   async upload(
     data: UploadVersionDto,
   ) {

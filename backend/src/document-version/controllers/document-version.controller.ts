@@ -23,6 +23,44 @@ export class DocumentVersionController {
   private service =
     new DocumentVersionService();
 
+  async findHistory(
+    req: Request<UploadParams>,
+    res: Response,
+  ) {
+    try {
+      const versions =
+        await this.service.findHistory(
+          req.params.documentId,
+        );
+
+      return res.status(200).json({
+        success: true,
+        message:
+          "Document version history retrieved successfully",
+        data: versions,
+      });
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        error.message ===
+          "Document not found"
+      ) {
+        return res.status(404).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
+      return res.status(500).json({
+        success: false,
+        message:
+          error instanceof Error
+            ? error.message
+            : "Failed to retrieve version history",
+      });
+    }
+  }
+
   async upload(
     req: Request<UploadParams>,
     res: Response,

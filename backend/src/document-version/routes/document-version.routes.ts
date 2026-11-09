@@ -12,6 +12,17 @@ const router = Router();
 const controller =
   new DocumentVersionController();
 
+router.get(
+  "/:documentId",
+  authenticate,
+  authorize( "document_version", "view" ),
+  ( req, res ) =>
+    controller.findHistory(
+      req as Request<UploadParams>,
+      res,
+    ),
+);
+
 router.post(
   "/:documentId/upload",
   authenticate,
