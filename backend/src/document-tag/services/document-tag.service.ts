@@ -8,6 +8,11 @@ type AssignTagInput = {
   created_by?: string | null;
 };
 
+type RemoveTagInput = {
+  document_id: string;
+  tag_id: string;
+};
+
 export class DocumentTagService {
   private repository =
     new DocumentTagRepository();
@@ -57,6 +62,27 @@ export class DocumentTagService {
 
     return this.repository.create(
       input,
+    );
+  }
+
+  async removeTag(
+    input: RemoveTagInput,
+  ) {
+    const existing =
+      await this.repository.findByDocumentAndTag(
+        input.document_id,
+        input.tag_id,
+      );
+
+    if (!existing) {
+      throw new Error(
+        "Tag is not assigned to document",
+      );
+    }
+
+    return this.repository.delete(
+      input.document_id,
+      input.tag_id,
     );
   }
 }

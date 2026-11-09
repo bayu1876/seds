@@ -17,4 +17,11 @@ router.post(
   controller.assignTag.bind(controller),
 );
 
+router.delete(
+  "/:documentId/:tagId",
+  authenticate,
+  authorize("document_tag", "delete"),
+  controller.removeTag.bind(controller),
+);
+
 export default router;

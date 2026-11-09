@@ -67,4 +67,44 @@ export class DocumentTagController {
       });
     }
   }
+
+  async removeTag(
+    req: Request<{
+      documentId: string;
+      tagId: string;
+    }>,
+    res: Response,
+  ) {
+    try {
+      await this.service.removeTag({
+        document_id: req.params.documentId,
+        tag_id: req.params.tagId,
+      });
+
+      return res.json({
+        success: true,
+        message:
+          "Tag removed successfully",
+      });
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        error.message ===
+          "Tag is not assigned to document"
+      ) {
+        return res.status(404).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
+      return res.status(500).json({
+        success: false,
+        message:
+          error instanceof Error
+            ? error.message
+            : "Internal Server Error",
+      });
+    }
+  }
 }
