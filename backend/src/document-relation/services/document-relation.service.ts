@@ -7,6 +7,11 @@ type CreateRelationInput = {
   created_by?: string | null;
 };
 
+type RemoveRelationInput = {
+  document_id: string;
+  related_document_id: string;
+};
+
 export class DocumentRelationService {
   private repository =
     new DocumentRelationRepository();
@@ -61,5 +66,26 @@ export class DocumentRelationService {
     }
 
     return this.repository.create(input);
+  }
+
+  async removeRelation(
+    input: RemoveRelationInput,
+  ) {
+    const existing =
+      await this.repository.findByDocumentAndRelated(
+        input.document_id,
+        input.related_document_id,
+      );
+
+    if (!existing) {
+      throw new Error(
+        "Document relation not found",
+      );
+    }
+
+    return this.repository.delete(
+      input.document_id,
+      input.related_document_id,
+    );
   }
 }

@@ -23,6 +23,22 @@ export class DocumentRelationRepository {
     });
   }
 
+  async delete(
+    documentId: string,
+    relatedDocumentId: string,
+  ) {
+    return this.db.documentRelation.delete({
+      where: {
+        document_id_related_document_id:
+          {
+            document_id: documentId,
+            related_document_id:
+              relatedDocumentId,
+          },
+      },
+    });
+  }
+
   async create(data: {
     document_id: string;
     related_document_id: string;

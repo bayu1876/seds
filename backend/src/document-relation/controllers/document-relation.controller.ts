@@ -72,4 +72,46 @@ export class DocumentRelationController {
       });
     }
   }
+
+  async removeRelation(
+    req: Request<{
+      documentId: string;
+      relatedDocumentId: string;
+    }>,
+    res: Response,
+  ) {
+    try {
+      await this.service.removeRelation({
+        document_id:
+          req.params.documentId,
+        related_document_id:
+          req.params.relatedDocumentId,
+      });
+
+      return res.json({
+        success: true,
+        message:
+          "Document relation removed successfully",
+      });
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        error.message ===
+          "Document relation not found"
+      ) {
+        return res.status(404).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
+      return res.status(500).json({
+        success: false,
+        message:
+          error instanceof Error
+            ? error.message
+            : "Internal Server Error",
+      });
+    }
+  }
 }

@@ -17,4 +17,11 @@ router.post(
   controller.createRelation.bind(controller),
 );
 
+router.delete(
+  "/:documentId/:relatedDocumentId",
+  authenticate,
+  authorize("document_relation", "delete"),
+  controller.removeRelation.bind(controller),
+);
+
 export default router;
