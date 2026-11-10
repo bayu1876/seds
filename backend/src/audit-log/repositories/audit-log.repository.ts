@@ -1,5 +1,23 @@
 import prisma from "../../config/prisma.js";
 
+const includeRelations = {
+  user: {
+    select: {
+      id: true,
+      username: true,
+      full_name: true,
+      employee_number: true,
+    },
+  },
+  document: {
+    select: {
+      id: true,
+      title: true,
+      document_number: true,
+    },
+  },
+} as const;
+
 export class AuditLogRepository {
   async create(data: {
     user_id: string;
@@ -14,6 +32,12 @@ export class AuditLogRepository {
     });
   }
 
+  async count(where: any = {}) {
+    return prisma.auditLog.count({
+      where,
+    });
+  }
+
   async findMany(
     where: any = {},
     orderBy: "created_at_desc" | "created_at_asc" = "created_at_desc",
@@ -22,39 +46,45 @@ export class AuditLogRepository {
   ) {
     return prisma.auditLog.findMany({
       where,
-      orderBy: orderBy === "created_at_desc" ? { created_at: "desc" } : { created_at: "asc" },
+      include: includeRelations,
+      orderBy:
+        orderBy === "created_at_desc"
+          ? { created_at: "desc" }
+          : { created_at: "asc" },
       take,
       skip,
     });
   }
 
-  async count(where: any = {}) {
-    return prisma.auditLog.count({
-      where,
-    });
-  }
-
-  async findByUser(userId: string, take: number = 100) {
+  async findByUser(userId: string, take: number = 100, skip: number = 0) {
     return prisma.auditLog.findMany({
       where: {
         user_id: userId,
       },
+      include: includeRelations,
       orderBy: {
         created_at: "desc",
       },
       take,
+      skip,
     });
   }
 
-  async findByDocument(documentId: string, take: number = 100) {
+  async findByDocument(
+    documentId: string,
+    take: number = 100,
+    skip: number = 0,
+  ) {
     return prisma.auditLog.findMany({
       where: {
         document_id: documentId,
       },
+      include: includeRelations,
       orderBy: {
         created_at: "desc",
       },
       take,
+      skip,
     });
   }
 }

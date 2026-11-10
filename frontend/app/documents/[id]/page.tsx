@@ -448,13 +448,21 @@ export default function DocumentDetailPage({
                     Version {currentVersion.version_number}
                   </p>
                 </div>
-                <div className="text-right">
-                  <p className="text-sm text-slate-900 font-medium">
-                    {(currentVersion.file_size / 1024 / 1024).toFixed(2)} MB
-                  </p>
-                  <p className="text-xs text-slate-500 mt-1">
-                    {new Date(currentVersion.uploaded_at).toLocaleString("id-ID")}
-                  </p>
+                <div className="flex items-center gap-4">
+                  <Link
+                    href={`/documents/${documentId}/view`}
+                    className="px-3 py-1.5 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700"
+                  >
+                    View
+                  </Link>
+                  <div className="text-right">
+                    <p className="text-sm text-slate-900 font-medium">
+                      {(currentVersion.file_size / 1024 / 1024).toFixed(2)} MB
+                    </p>
+                    <p className="text-xs text-slate-500 mt-1">
+                      {new Date(currentVersion.uploaded_at).toLocaleString("id-ID")}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

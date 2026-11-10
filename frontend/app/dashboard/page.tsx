@@ -20,6 +20,7 @@ interface DashboardSection {
 }
 
 interface DashboardData {
+  latestMemo: DashboardSection[];
   featuredKnowledge: DashboardSection[];
   recentlyPublished: DashboardSection[];
   myFavorites: DashboardSection[];
@@ -52,6 +53,7 @@ async function fetchThumb(versionId: string): Promise<string | null> {
 export default function DashboardPage() {
   const router = useRouter();
   const [data, setData] = useState<DashboardData>({
+    latestMemo: [],
     featuredKnowledge: [],
     recentlyPublished: [],
     myFavorites: [],
@@ -61,12 +63,16 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searching, setSearching] = useState(false);
+  const [showResults, setShowResults] = useState(false);
 
   useEffect(() => {
     async function load() {
       try {
         const result = await api.get("/dashboard");
         setData(result.data || {
+          latestMemo: [],
           featuredKnowledge: [],
           recentlyPublished: [],
           myFavorites: [],
@@ -83,7 +89,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     let cancelled = false;
-    const all = [...data.featuredKnowledge, ...data.recentlyPublished];
+    const all = [...data.latestMemo, ...data.featuredKnowledge, ...data.recentlyPublished];
     async function loadThumbs() {
       for (const item of all) {
         const key = item.publicationId || item.id;
@@ -99,20 +105,47 @@ export default function DashboardPage() {
     loadThumbs();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data.featuredKnowledge, data.recentlyPublished]);
+  }, [data.latestMemo, data.featuredKnowledge, data.recentlyPublished]);
 
   useEffect(() => {
     return () => { Object.values(thumbs).forEach((u) => URL.revokeObjectURL(u)); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    const query = searchQuery.trim();
+    if (!query) {
+      setSearchResults([]);
+      setSearching(false);
+      return;
+    }
+
+    let cancelled = false;
+    const timer = setTimeout(async () => {
+      try {
+        setSearching(true);
+        const res = await api.get(`/search/documents?q=${encodeURIComponent(query)}&limit=8`);
+        if (!cancelled) {
+          setSearchResults(res.data || []);
+        }
+      } catch {
+        if (!cancelled) setSearchResults([]);
+      } finally {
+        if (!cancelled) setSearching(false);
+      }
+    }, 300);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
+  }, [searchQuery]);
+
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     const query = searchQuery.trim();
     if (!query) return;
-    try {
-      await api.get(`/search/documents?q=${encodeURIComponent(query)}`);
-    } catch {}
+    setShowResults(false);
     router.push(`/documents?q=${encodeURIComponent(query)}`);
   };
 
@@ -127,7 +160,7 @@ export default function DashboardPage() {
 
   const renderPubCard = (item: DashboardSection) => {
     const key = item.publicationId || item.id;
-    const href = item.publicationId ? `/public-library?publicationId=${item.publicationId}` : `/documents/${item.documentId}`;
+    const href = `/documents/${item.documentId}/view`;
     return (
       <Link
         key={key}
@@ -165,7 +198,12 @@ export default function DashboardPage() {
             type="text"
             placeholder="Search documents, SOP, training, policy..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setShowResults(true);
+            }}
+            onFocus={() => setShowResults(true)}
+            onBlur={() => setTimeout(() => setShowResults(false), 150)}
             className="w-full pl-10 pr-24 py-4 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm"
           />
           <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -174,7 +212,87 @@ export default function DashboardPage() {
           <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 px-4 py-2 bg-blue-600 text-white rounded-xl text-sm font-medium hover:bg-blue-700">
             Search
           </button>
+
+          {showResults && searchQuery.trim() && (
+            <div className="absolute left-0 right-0 top-full mt-2 bg-white border border-slate-200 rounded-2xl shadow-lg z-20 overflow-hidden">
+              {searching ? (
+                <div className="px-4 py-3 text-sm text-slate-500">Mencari...</div>
+              ) : searchResults.length > 0 ? (
+                <div>
+                  <ul className="max-h-96 overflow-auto">
+                    {searchResults.map((doc: any) => (
+                      <li key={doc.id} className="border-b border-slate-100 last:border-b-0">
+                        <Link
+                          href={`/documents/${doc.id}/view`}
+                          className="block px-4 py-3 hover:bg-slate-50"
+                          onMouseDown={(e) => e.preventDefault()}
+                          onClick={() => setShowResults(false)}
+                        >
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="min-w-0">
+                              <p className="text-sm font-medium text-slate-900 truncate">{doc.title || "Untitled"}</p>
+                              <p className="text-xs text-slate-500 mt-0.5 truncate">
+                                {[doc.document_number, doc.department?.name, doc.category?.name].filter(Boolean).join(" · ") || "Dokumen"}
+                              </p>
+                              {doc.description ? (
+                                <p className="text-xs text-slate-500 mt-1 line-clamp-1">{doc.description}</p>
+                              ) : null}
+                            </div>
+                            <span className="text-xs text-blue-600 whitespace-nowrap">Lihat</span>
+                          </div>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="px-4 py-2 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+                    <span className="text-xs text-slate-500">Hasil untuk &quot;{searchQuery.trim()}&quot;</span>
+                    <Link
+                      href={`/documents?q=${encodeURIComponent(searchQuery.trim())}`}
+                      className="text-xs font-medium text-blue-600 hover:text-blue-700"
+                      onMouseDown={(e) => e.preventDefault()}
+                      onClick={() => setShowResults(false)}
+                    >
+                      Lihat semua hasil →
+                    </Link>
+                  </div>
+                </div>
+              ) : (
+                <div className="px-4 py-3">
+                  <p className="text-sm text-slate-500">Tidak ada hasil untuk &quot;{searchQuery.trim()}&quot;</p>
+                  <Link
+                    href={`/documents?q=${encodeURIComponent(searchQuery.trim())}`}
+                    className="inline-block mt-2 text-xs font-medium text-blue-600 hover:text-blue-700"
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => setShowResults(false)}
+                  >
+                    Buka pencarian di Documents →
+                  </Link>
+                </div>
+              )}
+            </div>
+          )}
         </form>
+      </div>
+
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+              <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-red-100 text-red-700 text-sm font-extrabold" aria-hidden="true">!</span>
+              MEMO Terbaru
+            </h2>
+            <p className="text-sm text-slate-500">Memo terbaru dari kategori IOM</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {data.latestMemo.length > 0 ? (
+            data.latestMemo.map(renderPubCard)
+          ) : (
+            <div className="col-span-3 bg-white rounded-2xl border border-slate-100 p-12 text-center text-slate-500">
+              <p>Tidak ada MEMO terbaru</p>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="mb-8">
@@ -218,7 +336,7 @@ export default function DashboardPage() {
             <ul className="space-y-2">
               {data.myFavorites.map((item) => (
                 <li key={item.id}>
-                  <Link href={`/documents/${item.documentId}`} className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50">
+                  <Link href={`/documents/${item.documentId}/view`} className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50">
                     <span className="text-slate-400">★</span>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-slate-900 font-medium truncate">{item.title}</p>
@@ -239,7 +357,7 @@ export default function DashboardPage() {
             <ul className="space-y-2">
               {data.recentlyOpened.map((item) => (
                 <li key={item.id}>
-                  <Link href={`/documents/${item.documentId}`} className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50">
+                  <Link href={`/documents/${item.documentId}/view`} className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50">
                     <span className="text-slate-400">🕒</span>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-slate-900 font-medium truncate">{item.title}</p>

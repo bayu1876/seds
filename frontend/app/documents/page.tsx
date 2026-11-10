@@ -154,7 +154,8 @@ export default function DocumentsPage({
                   </td>
                   <td className="px-4 py-3 text-center">
                     <div className="flex items-center justify-center gap-3">
-                      <Link href={`/documents/${doc.id}`} className="text-blue-600 hover:text-blue-700 text-sm">View</Link>
+                      <Link href={`/documents/${doc.id}/view`} className="text-blue-600 hover:text-blue-700 text-sm">View</Link>
+                      <Link href={`/documents/${doc.id}`} className="text-slate-600 hover:text-slate-800 text-sm">Properties</Link>
                       <Link href={`/documents/${doc.id}/edit`} className="text-slate-600 hover:text-slate-800 text-sm">Edit</Link>
                       <button
                         onClick={() => handleDelete(doc.id, doc.title)}

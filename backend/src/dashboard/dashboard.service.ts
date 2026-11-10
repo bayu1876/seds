@@ -15,6 +15,7 @@ export type DashboardSection = {
 };
 
 export type DashboardData = {
+  latestMemo: DashboardSection[];
   featuredKnowledge: DashboardSection[];
   recentlyPublished: DashboardSection[];
   myFavorites: DashboardSection[];
@@ -25,8 +26,9 @@ export class DashboardService {
   async getDashboardData(
     userId: string,
   ): Promise<DashboardData> {
-    const [featuredKnowledge, recentlyPublished, myFavorites, recentlyOpened] =
+    const [latestMemo, featuredKnowledge, recentlyPublished, myFavorites, recentlyOpened] =
       await Promise.all([
+        this.getLatestMemo(),
         this.getFeaturedKnowledge(userId),
         this.getRecentlyPublished(userId),
         this.getMyFavorites(userId),
@@ -34,11 +36,53 @@ export class DashboardService {
       ]);
 
     return {
+      latestMemo,
       featuredKnowledge,
       recentlyPublished,
       myFavorites,
       recentlyOpened,
     };
+  }
+
+  async getLatestMemo(): Promise<DashboardSection[]> {
+    const result = await prisma.$queryRaw<Array<any>>`SELECT
+      d.id,
+      d.id AS "documentId",
+      d.title,
+      d.description,
+      d.document_number AS "documentNumber",
+      dv.id AS "versionId",
+      dv.mime_type AS "mimeType",
+      dv.thumbnail_path AS "thumbnailPath",
+      d.is_active AS "isPublished",
+      COALESCE(d.updated_at, d.created_at) AS "createdAt"
+    FROM document d
+    JOIN category c ON c.id = d.category_id
+    LEFT JOIN LATERAL (
+      SELECT dv.id, dv.mime_type, dv.thumbnail_path
+      FROM document_version dv
+      WHERE dv.document_id = d.id AND dv.deleted_at IS NULL
+      ORDER BY (dv.id = d.current_version_id) DESC, dv.version_number DESC, dv.uploaded_at DESC
+      LIMIT 1
+    ) dv ON true
+    WHERE d.deleted_at IS NULL
+      AND (c.code = 'IOM' OR c.name ILIKE '%IOM%' OR c.name ILIKE '%Internal Office Memo%')
+    ORDER BY d.created_at DESC
+    LIMIT 1`;
+
+    return result.map((row) => ({
+      id: row.id,
+      title: row.title,
+      description: row.description,
+      documentId: row.documentId,
+      publicationId: null,
+      versionId: row.versionId,
+      documentNumber: row.documentNumber,
+      mimeType: row.mimeType,
+      thumbnailPath: row.thumbnailPath,
+      isPublished: row.isPublished,
+      createdAt: row.createdAt,
+    }));
   }
 
   async getFeaturedKnowledge(

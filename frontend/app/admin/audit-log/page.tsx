@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { api } from "@/lib/api";
 
 interface AuditLog {
@@ -13,6 +12,11 @@ interface AuditLog {
   user_agent: string | null;
   description: string | null;
   created_at: string;
+  user_name?: string | null;
+  document_name?: string | null;
+  document_title?: string | null;
+  user?: { full_name?: string | null; username?: string | null } | null;
+  document?: { title?: string | null; document_number?: string | null } | null;
 }
 
 export default function AuditLogPage() {
@@ -33,6 +37,15 @@ export default function AuditLogPage() {
     }
     load();
   }, []);
+
+  const displayUser = (item: AuditLog) =>
+    item.user_name || item.user?.full_name || item.user?.username || "-";
+
+  const displayDocument = (item: AuditLog) =>
+    item.document_title ||
+    item.document?.title ||
+    item.document_name ||
+    "-";
 
   if (loading) {
     return (
@@ -76,11 +89,11 @@ export default function AuditLogPage() {
                   <td className="px-4 py-3 text-sm text-slate-900 font-medium">
                     {item.action}
                   </td>
-                  <td className="px-4 py-3 text-sm text-slate-600">
-                    {item.user_id || "-"}
+                  <td className="px-4 py-3 text-sm text-slate-700">
+                    {displayUser(item)}
                   </td>
-                  <td className="px-4 py-3 text-sm text-slate-600">
-                    {item.document_id || "-"}
+                  <td className="px-4 py-3 text-sm text-slate-700">
+                    {displayDocument(item)}
                   </td>
                   <td className="px-4 py-3 text-sm text-slate-600">
                     {item.description || "-"}

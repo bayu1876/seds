@@ -59,8 +59,11 @@ export default function DocumentEditPage({
   const [departments, setDepartments] = useState<Department[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [confidentialLevels, setConfidentialLevels] = useState<ConfidentialLevel[]>([]);
+  const [versionFile, setVersionFile] = useState<File | null>(null);
+  const [versionNotes, setVersionNotes] = useState("");
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [uploadingVersion, setUploadingVersion] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -98,6 +101,30 @@ export default function DocumentEditPage({
     }
     load();
   }, [documentId]);
+
+  const handleUploadVersion = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!versionFile) {
+      setError("Pilih file untuk versi baru");
+      return;
+    }
+    setUploadingVersion(true);
+    setError("");
+    setSuccess("");
+    try {
+      const fd = new FormData();
+      fd.append("file", versionFile);
+      if (versionNotes.trim()) fd.append("version_notes", versionNotes.trim());
+      await api.upload(`/document-versions/${documentId}/upload`, fd);
+      setSuccess("Versi baru berhasil diupload (penomoran versi & penamaan file otomatis)");
+      setVersionFile(null);
+      setVersionNotes("");
+    } catch (err: any) {
+      setError(err.message || "Gagal upload versi baru");
+    } finally {
+      setUploadingVersion(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -286,6 +313,39 @@ export default function DocumentEditPage({
             className="py-3 px-6 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed font-medium transition-colors"
           >
             {submitting ? "Saving..." : "Save Changes"}
+          </button>
+        </form>
+      </div>
+
+      <div className="bg-white rounded-lg border border-slate-200 p-8 mt-6">
+        <h2 className="text-lg font-semibold text-slate-900 mb-1">Upload New Version</h2>
+        <p className="text-sm text-slate-500 mb-4">Upload file untuk membuat versi baru. Nomor versi dan penamaan/penyimpanan file dibuat otomatis oleh sistem.</p>
+        <form onSubmit={handleUploadVersion} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1">File Versi Baru *</label>
+            <input
+              type="file"
+              onChange={(e) => setVersionFile(e.target.files?.[0] || null)}
+              className="w-full text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-slate-100 file:text-sm file:font-medium file:text-slate-700 hover:file:bg-slate-200"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Version Notes (opsional)</label>
+            <textarea
+              rows={2}
+              value={versionNotes}
+              onChange={(e) => setVersionNotes(e.target.value)}
+              className="w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              placeholder="Catatan perubahan versi..."
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={uploadingVersion || !versionFile}
+            className="py-2.5 px-5 bg-slate-900 text-white rounded-md hover:bg-slate-800 disabled:bg-slate-300 disabled:cursor-not-allowed font-medium transition-colors"
+          >
+            {uploadingVersion ? "Uploading..." : "Upload Versi Baru"}
           </button>
         </form>
       </div>
