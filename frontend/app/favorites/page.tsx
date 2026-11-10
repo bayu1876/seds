@@ -6,10 +6,14 @@ import { api } from "@/lib/api";
 
 interface FavoriteItem {
   id: string;
-  title: string;
-  documentNumber: string | null;
-  documentId: string;
-  createdAt: string;
+  user_id: string;
+  document_id: string;
+  created_at: string;
+  document: {
+    id: string;
+    title: string;
+    document_number: string | null;
+  } | null;
 }
 
 export default function FavoritesPage() {
@@ -62,15 +66,15 @@ export default function FavoritesPage() {
               <li key={fav.id} className="px-4 py-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <Link href={`/documents/${fav.documentId}`} className="text-sm font-medium text-slate-900 hover:text-blue-600">
-                      {fav.title}
+                    <Link href={`/documents/${fav.document?.id}`} className="text-sm font-medium text-slate-900 hover:text-blue-600">
+                      {fav.document?.title || "Untitled Document"}
                     </Link>
-                    {fav.documentNumber && (
-                      <p className="text-xs text-slate-500 mt-0.5">#{fav.documentNumber}</p>
+                    {fav.document?.document_number && (
+                      <p className="text-xs text-slate-500 mt-0.5">#{fav.document.document_number}</p>
                     )}
                   </div>
                   <span className="text-xs text-slate-400">
-                    {new Date(fav.createdAt).toLocaleDateString("id-ID")}
+                    {new Date(fav.created_at).toLocaleDateString("id-ID")}
                   </span>
                 </div>
               </li>

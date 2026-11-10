@@ -41,7 +41,6 @@ router.put(
 router.delete(
   "/:id",
   authenticate,
-  authorize("document", "delete"),
   controller.softDelete.bind(controller),
 );
 export default router;

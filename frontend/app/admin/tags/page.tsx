@@ -6,8 +6,8 @@ import { api } from "@/lib/api";
 
 interface Tag {
   id: string;
-  code: string;
   name: string;
+  color: string | null;
   description: string | null;
   is_active: boolean;
   is_system: boolean;
@@ -64,8 +64,8 @@ export default function TagsPage() {
         <table className="w-full text-left">
           <thead className="bg-slate-50 border-b border-slate-200">
             <tr>
-              <th className="px-4 py-3 text-xs font-semibold text-slate-500 uppercase">Code</th>
               <th className="px-4 py-3 text-xs font-semibold text-slate-500 uppercase">Name</th>
+              <th className="px-4 py-3 text-xs font-semibold text-slate-500 uppercase">Color</th>
               <th className="px-4 py-3 text-xs font-semibold text-slate-500 uppercase">Description</th>
               <th className="px-4 py-3 text-xs font-semibold text-slate-500 uppercase text-center">Type</th>
               <th className="px-4 py-3 text-xs font-semibold text-slate-500 uppercase text-center">Status</th>
@@ -75,10 +75,15 @@ export default function TagsPage() {
             {items.length > 0 ? (
               items.map((item) => (
                 <tr key={item.id} className="border-b border-slate-100 hover:bg-slate-50">
-                  <td className="px-4 py-3 text-sm font-medium text-slate-900">
-                    {item.code}
+                  <td className="px-4 py-3 text-sm font-medium text-slate-900">{item.name}</td>
+                  <td className="px-4 py-3 text-sm text-slate-600">
+                    {item.color ? (
+                      <span className="inline-flex items-center gap-2">
+                        <span className="inline-block w-3 h-3 rounded-full border border-slate-200" style={{ backgroundColor: item.color }} />
+                        {item.color}
+                      </span>
+                    ) : "-"}
                   </td>
-                  <td className="px-4 py-3 text-sm text-slate-900">{item.name}</td>
                   <td className="px-4 py-3 text-sm text-slate-600">
                     {item.description || "-"}
                   </td>

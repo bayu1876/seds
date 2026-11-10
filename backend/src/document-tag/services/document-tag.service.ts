@@ -4,7 +4,8 @@ import { DocumentTagRepository } from "../repositories/document-tag.repository.j
 
 type AssignTagInput = {
   document_id: string;
-  tag_id: string;
+  tag_id?: string;
+  tag_name?: string;
   created_by?: string | null;
 };
 
@@ -23,6 +24,10 @@ export class DocumentTagService {
   private tagRepository =
     new TagRepository();
 
+  private normalizeTagName(name: string) {
+    return (name || "").trim().replace(/\s+/g, " ");
+  }
+
   async assignTag(
     input: AssignTagInput,
   ) {
@@ -37,9 +42,36 @@ export class DocumentTagService {
       );
     }
 
+    let tagId = input.tag_id;
+
+    if (input.tag_name) {
+      const name = this.normalizeTagName(input.tag_name);
+      if (!name) {
+        throw new Error("Tag name is required");
+      }
+      let tag = await this.tagRepository.findByNameInsensitive(name);
+      if (!tag) {
+        tag = await this.tagRepository.create({
+          name,
+          color: null,
+          description: null,
+          is_system: false,
+          is_active: true,
+          created_by: input.created_by ?? null,
+        });
+      }
+      tagId = tag.id;
+    }
+
+    if (!tagId) {
+      throw new Error(
+        "Tag not found",
+      );
+    }
+
     const tag =
       await this.tagRepository.findById(
-        input.tag_id,
+        tagId,
       );
 
     if (!tag) {
@@ -51,7 +83,7 @@ export class DocumentTagService {
     const existing =
       await this.repository.findByDocumentAndTag(
         input.document_id,
-        input.tag_id,
+        tagId,
       );
 
     if (existing) {
@@ -60,9 +92,11 @@ export class DocumentTagService {
       );
     }
 
-    return this.repository.create(
-      input,
-    );
+    return this.repository.create({
+      document_id: input.document_id,
+      tag_id: tagId,
+      created_by: input.created_by ?? null,
+    });
   }
 
   async removeTag(

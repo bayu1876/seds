@@ -26,6 +26,10 @@ export class TagService {
   private repository =
     new TagRepository();
 
+  normalizeName(name: string) {
+    return (name || "").trim().replace(/\s+/g, " ");
+  }
+
   async findAll() {
     return this.repository.findAll();
   }
@@ -46,9 +50,13 @@ export class TagService {
   async create(
     input: CreateTagInput,
   ) {
+    const name = this.normalizeName(input.name);
+    if (!name) {
+      throw new Error("Tag name is required");
+    }
     const existing =
-      await this.repository.findByName(
-        input.name,
+      await this.repository.findByNameInsensitive(
+        name,
       );
 
     if (existing) {
@@ -57,7 +65,11 @@ export class TagService {
       );
     }
 
-    return this.repository.create(input);
+    return this.repository.create({
+      ...input,
+      name,
+      is_system: false,
+    });
   }
 
   async update(
@@ -73,9 +85,14 @@ export class TagService {
       );
     }
 
+    const name = this.normalizeName(input.name);
+    if (!name) {
+      throw new Error("Tag name is required");
+    }
+
     const existing =
-      await this.repository.findByName(
-        input.name,
+      await this.repository.findByNameInsensitive(
+        name,
       );
 
     if (
@@ -89,7 +106,11 @@ export class TagService {
 
     return this.repository.update(
       id,
-      input,
+      {
+        ...input,
+        name,
+        is_system: false,
+      },
     );
   }
 

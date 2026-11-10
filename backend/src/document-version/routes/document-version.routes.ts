@@ -25,6 +25,17 @@ router.get(
     ),
 );
 
+router.get(
+  "/:versionId/thumbnail",
+  authenticate,
+  authorize( "document_version", "view" ),
+  ( req, res ) =>
+    controller.thumbnail(
+      req as Request<DownloadParams>,
+      res,
+    ),
+);
+
 router.patch(
   "/:versionId/current",
   authenticate,

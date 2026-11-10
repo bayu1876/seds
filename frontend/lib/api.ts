@@ -64,7 +64,27 @@ export const api = {
     request(endpoint, { method: "POST", body: JSON.stringify(body) }),
   put: (endpoint: string, body: any) =>
     request(endpoint, { method: "PUT", body: JSON.stringify(body) }),
+  patch: (endpoint: string, body: any) =>
+    request(endpoint, { method: "PATCH", body: JSON.stringify(body) }),
   delete: (endpoint: string) => request(endpoint, { method: "DELETE" }),
+  upload: (endpoint: string, formData: FormData) =>
+    fetch(`${API_URL}${endpoint}`, {
+      method: "POST",
+      body: formData,
+      headers: getToken()
+        ? { Authorization: `Bearer ${getToken()}` }
+        : {},
+    }).then(async (res: Response) => {
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new ApiError(
+          data.message || "Upload failed",
+          res.status,
+          data,
+        );
+      }
+      return data;
+    }),
 };
 
 export const auth = {
@@ -85,5 +105,26 @@ export const auth = {
   getUser,
   isAuthenticated: () => !!getToken(),
 };
+
+export async function downloadFile(endpoint: string, fallbackName: string) {
+  const token = getToken();
+  const res = await fetch(`${API_URL}${endpoint}`, {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  });
+
+  if (!res.ok) {
+    throw new Error("Download failed");
+  }
+
+  const blob = await res.blob();
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = fallbackName;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  window.URL.revokeObjectURL(url);
+}
 
 export { ApiError };

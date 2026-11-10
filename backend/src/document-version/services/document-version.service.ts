@@ -4,6 +4,7 @@ import path from "node:path";
 import prisma from "../../config/prisma.js";
 import { Prisma } from "../../generated/prisma/client.js";
 import { DocumentVersionRepository } from "../repositories/document-version.repository.js";
+import { ThumbnailService } from "./thumbnail.service.js";
 
 interface UploadVersionDto {
   documentId: string;
@@ -111,6 +112,27 @@ export class DocumentVersionService {
       fileName: version.original_filename,
       mimeType: version.mime_type,
     };
+  }
+
+  async thumbnail(versionId: string) {
+    const version = await this.repository.findById(versionId);
+    if (!version || (version as any).document?.deleted_at) {
+      throw new Error("Document version not found");
+    }
+    if (!version.thumbnail_path) {
+      throw new Error("Thumbnail not found");
+    }
+    const storageRoot = path.resolve("/srv/seds/storage");
+    const filePath = path.resolve(storageRoot, version.thumbnail_path);
+    if (!filePath.startsWith(`${storageRoot}${path.sep}`)) {
+      throw new Error("Thumbnail not found");
+    }
+    try {
+      await fs.promises.access(filePath, fs.constants.R_OK);
+    } catch {
+      throw new Error("Thumbnail not found");
+    }
+    return { filePath, mimeType: "image/jpeg" };
   }
 
   async findHistory(
@@ -313,7 +335,13 @@ export class DocumentVersionService {
 
               return documentVersion;
             },
-          );
+          ).then((result) => {
+            // fire-and-forget thumbnail generation
+            new ThumbnailService()
+              .generateForVersion(result.id)
+              .catch(() => undefined);
+            return result;
+          });
         } catch (error) {
           const isVersionConflict =
             error instanceof

@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { use } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { api } from "@/lib/api";
 
@@ -30,38 +32,65 @@ interface BackendDocument {
   is_active: boolean;
 }
 
-export default function DocumentsPage() {
+export default function DocumentsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const resolvedSearchParams = use(searchParams);
+  const queryParam = resolvedSearchParams?.q;
+  const q =
+    typeof queryParam === "string"
+      ? queryParam
+      : Array.isArray(queryParam)
+        ? queryParam[0]
+        : undefined;
+
   const [documents, setDocuments] = useState<DocumentItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    async function load() {
-      try {
-        const result = await api.get("/documents");
-        const raw = result.data || [];
-        setDocuments(
-          raw.map((doc: BackendDocument) => ({
-            id: doc.id,
-            title: doc.title,
-            documentNumber: doc.document_number,
-            description: doc.description,
-            department: doc.department?.name || "-",
-            category: doc.category?.name || "-",
-            confidentialLevel: doc.confidentialLevel?.name || "-",
-            effectiveDate: doc.effective_date,
-            expiredDate: doc.expired_date,
-            isActive: doc.is_active,
-          }))
-        );
-      } catch (err: any) {
-        setError(err.message || "Failed to load documents");
-      } finally {
-        setLoading(false);
-      }
+  const loadDocuments = async () => {
+    try {
+      const endpoint = q
+        ? `/search/documents?q=${encodeURIComponent(q)}`
+        : "/documents";
+      const result = await api.get(endpoint);
+      const raw = result.data || [];
+      setDocuments(
+        raw.map((doc: BackendDocument) => ({
+          id: doc.id,
+          title: doc.title,
+          documentNumber: doc.document_number,
+          description: doc.description,
+          department: doc.department?.name || "-",
+          category: doc.category?.name || "-",
+          confidentialLevel: doc.confidentialLevel?.name || "-",
+          effectiveDate: doc.effective_date,
+          expiredDate: doc.expired_date,
+          isActive: doc.is_active,
+        }))
+      );
+    } catch (err: any) {
+      setError(err.message || "Failed to load documents");
+    } finally {
+      setLoading(false);
     }
-    load();
-  }, []);
+  };
+
+  useEffect(() => {
+    loadDocuments();
+  }, [q]);
+
+  const handleDelete = async (id: string, title: string) => {
+    if (!window.confirm(`Delete document "${title}"? This action cannot be undone.`)) return;
+    try {
+      await api.delete(`/documents/${id}`);
+      setDocuments((prev) => prev.filter((d) => d.id !== id));
+    } catch (err: any) {
+      setError(err.message || "Failed to delete document");
+    }
+  };
 
   if (loading) {
     return (
@@ -124,7 +153,16 @@ export default function DocumentsPage() {
                     </span>
                   </td>
                   <td className="px-4 py-3 text-center">
-                    <Link href={`/documents/${doc.id}`} className="text-blue-600 hover:text-blue-700 text-sm">View</Link>
+                    <div className="flex items-center justify-center gap-3">
+                      <Link href={`/documents/${doc.id}`} className="text-blue-600 hover:text-blue-700 text-sm">View</Link>
+                      <Link href={`/documents/${doc.id}/edit`} className="text-slate-600 hover:text-slate-800 text-sm">Edit</Link>
+                      <button
+                        onClick={() => handleDelete(doc.id, doc.title)}
+                        className="text-red-600 hover:text-red-700 text-sm"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))

@@ -138,6 +138,19 @@ export class DocumentVersionRepository {
     });
   }
 
+  async updateThumbnail(
+    id: string,
+    data: {
+      thumbnail_path: string | null;
+      preview_status: string;
+    },
+  ) {
+    return this.db.documentVersion.update({
+      where: { id },
+      data,
+    });
+  }
+
   async create(
     data: {
       document_id: string;

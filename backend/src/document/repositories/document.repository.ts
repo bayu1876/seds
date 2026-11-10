@@ -10,6 +10,11 @@ export class DocumentRepository {
         department: true,
         category: true,
         confidentialLevel: true,
+        documentTags: {
+          include: {
+            tag: true,
+          },
+        },
       },
       orderBy: [
         {
@@ -29,6 +34,11 @@ export class DocumentRepository {
         department: true,
         category: true,
         confidentialLevel: true,
+        documentTags: {
+          include: {
+            tag: true,
+          },
+        },
       },
     });
   }
@@ -41,6 +51,36 @@ export class DocumentRepository {
         document_number: documentNumber,
         deleted_at: null,
       },
+    });
+  }
+
+  async findLatestByNumberPrefix(prefix: string) {
+    return prisma.document.findFirst({
+      where: {
+        document_number: {
+          startsWith: prefix,
+        },
+      },
+      orderBy: {
+        document_number: "desc",
+      },
+      select: {
+        document_number: true,
+      },
+    });
+  }
+
+  async findDepartmentCode(id: string) {
+    return prisma.department.findUnique({
+      where: { id },
+      select: { code: true },
+    });
+  }
+
+  async findCategoryCode(id: string) {
+    return prisma.category.findUnique({
+      where: { id },
+      select: { code: true },
     });
   }
 

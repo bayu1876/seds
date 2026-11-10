@@ -5,7 +5,11 @@ export type DashboardSection = {
   title: string;
   description: string | null;
   documentId: string;
+  publicationId?: string | null;
+  versionId?: string | null;
   documentNumber: string | null;
+  mimeType?: string | null;
+  thumbnailPath?: string | null;
   isPublished: boolean;
   createdAt: Date;
 };
@@ -40,17 +44,24 @@ export class DashboardService {
   async getFeaturedKnowledge(
     userId: string,
   ): Promise<DashboardSection[]> {
-    const result = await prisma.$queryRaw<Array<DashboardSection>>`SELECT
-      p.id,
+    const result = await prisma.$queryRaw<Array<any>>`SELECT
+      p.id AS "id",
+      p.id AS "publicationId",
+      d.id AS "documentId",
+      p.version_id AS "versionId",
       d.title,
       d.description,
-      d.document_number AS documentNumber,
-      d.is_active AS isPublished,
-      d.created_at AS createdAt
+      d.document_number AS "documentNumber",
+      dv.mime_type AS "mimeType",
+      dv.thumbnail_path AS "thumbnailPath",
+      p.is_published AS "isPublished",
+      p.published_at AS "createdAt"
     FROM publication p
     JOIN document d ON d.id = p.document_id
+    LEFT JOIN document_version dv ON dv.id = p.version_id
     WHERE p.is_published = true
       AND p.featured = true
+      AND d.deleted_at IS NULL
     ORDER BY p.published_at DESC
     LIMIT 5`;
 
@@ -58,8 +69,12 @@ export class DashboardService {
       id: row.id,
       title: row.title,
       description: row.description,
-      documentId: row.id,
+      documentId: row.documentId,
+      publicationId: row.publicationId,
+      versionId: row.versionId,
       documentNumber: row.documentNumber,
+      mimeType: row.mimeType,
+      thumbnailPath: row.thumbnailPath,
       isPublished: row.isPublished,
       createdAt: row.createdAt,
     }));
@@ -68,16 +83,23 @@ export class DashboardService {
   async getRecentlyPublished(
     userId: string,
   ): Promise<DashboardSection[]> {
-    const result = await prisma.$queryRaw<Array<DashboardSection>>`SELECT
-      p.id,
+    const result = await prisma.$queryRaw<Array<any>>`SELECT
+      p.id AS "id",
+      p.id AS "publicationId",
+      d.id AS "documentId",
+      p.version_id AS "versionId",
       d.title,
       d.description,
-      d.document_number AS documentNumber,
-      d.is_active AS isPublished,
-      d.created_at AS createdAt
+      d.document_number AS "documentNumber",
+      dv.mime_type AS "mimeType",
+      dv.thumbnail_path AS "thumbnailPath",
+      p.is_published AS "isPublished",
+      p.published_at AS "createdAt"
     FROM publication p
     JOIN document d ON d.id = p.document_id
+    LEFT JOIN document_version dv ON dv.id = p.version_id
     WHERE p.is_published = true
+      AND d.deleted_at IS NULL
     ORDER BY p.published_at DESC
     LIMIT 5`;
 
@@ -85,8 +107,12 @@ export class DashboardService {
       id: row.id,
       title: row.title,
       description: row.description,
-      documentId: row.id,
+      documentId: row.documentId,
+      publicationId: row.publicationId,
+      versionId: row.versionId,
       documentNumber: row.documentNumber,
+      mimeType: row.mimeType,
+      thumbnailPath: row.thumbnailPath,
       isPublished: row.isPublished,
       createdAt: row.createdAt,
     }));
@@ -95,16 +121,18 @@ export class DashboardService {
   async getMyFavorites(
     userId: string,
   ): Promise<DashboardSection[]> {
-    const result = await prisma.$queryRaw<Array<DashboardSection>>`SELECT
+    const result = await prisma.$queryRaw<Array<any>>`SELECT
       d.id,
+      d.id AS "documentId",
       d.title,
       d.description,
-      d.document_number AS documentNumber,
-      d.is_active AS isPublished,
-      d.created_at AS createdAt
+      d.document_number AS "documentNumber",
+      d.is_active AS "isPublished",
+      d.created_at AS "createdAt"
     FROM favorite f
     JOIN document d ON d.id = f.document_id
     WHERE f.user_id = ${userId}::uuid
+      AND d.deleted_at IS NULL
     ORDER BY f.created_at DESC
     LIMIT 5`;
 
@@ -112,8 +140,12 @@ export class DashboardService {
       id: row.id,
       title: row.title,
       description: row.description,
-      documentId: row.id,
+      documentId: row.documentId,
+      publicationId: null,
+      versionId: null,
       documentNumber: row.documentNumber,
+      mimeType: null,
+      thumbnailPath: null,
       isPublished: row.isPublished,
       createdAt: row.createdAt,
     }));
@@ -122,25 +154,34 @@ export class DashboardService {
   async getRecentlyOpened(
     userId: string,
   ): Promise<DashboardSection[]> {
-    const result = await prisma.$queryRaw<Array<DashboardSection>>`SELECT DISTINCT ON (d.id)
+    const result = await prisma.$queryRaw<Array<any>>`SELECT DISTINCT ON (d.id)
       d.id,
+      d.id AS "documentId",
       d.title,
       d.description,
-      d.document_number AS documentNumber,
-      d.is_active AS isPublished,
-      d.created_at AS createdAt
+      d.document_number AS "documentNumber",
+      d.is_active AS "isPublished",
+      rv.viewed_at AS "createdAt"
     FROM recent_view rv
     JOIN document d ON d.id = rv.document_id
     WHERE rv.user_id = ${userId}::uuid
+      AND d.deleted_at IS NULL
     ORDER BY d.id, rv.viewed_at DESC
     LIMIT 5`;
 
-    return result.map((row) => ({
+    // re-order by viewed time desc after distinct selection
+    result.sort((a,b)=> new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+    return result.slice(0,5).map((row) => ({
       id: row.id,
       title: row.title,
       description: row.description,
-      documentId: row.id,
+      documentId: row.documentId,
+      publicationId: null,
+      versionId: null,
       documentNumber: row.documentNumber,
+      mimeType: null,
+      thumbnailPath: null,
       isPublished: row.isPublished,
       createdAt: row.createdAt,
     }));

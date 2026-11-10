@@ -6,10 +6,14 @@ import { api } from "@/lib/api";
 
 interface RecentItem {
   id: string;
-  title: string;
-  documentNumber: string | null;
-  documentId: string;
-  viewedAt: string;
+  user_id: string;
+  document_id: string;
+  viewed_at: string;
+  document: {
+    id: string;
+    title: string;
+    document_number: string | null;
+  } | null;
 }
 
 export default function RecentlyOpenedPage() {
@@ -62,15 +66,15 @@ export default function RecentlyOpenedPage() {
               <li key={item.id} className="px-4 py-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <Link href={`/documents/${item.documentId}`} className="text-sm font-medium text-slate-900 hover:text-blue-600">
-                      {item.title}
+                    <Link href={`/documents/${item.document?.id}`} className="text-sm font-medium text-slate-900 hover:text-blue-600">
+                      {item.document?.title || "Untitled Document"}
                     </Link>
-                    {item.documentNumber && (
-                      <p className="text-xs text-slate-500 mt-0.5">#{item.documentNumber}</p>
+                    {item.document?.document_number && (
+                      <p className="text-xs text-slate-500 mt-0.5">#{item.document.document_number}</p>
                     )}
                   </div>
                   <span className="text-xs text-slate-400">
-                    {new Date(item.viewedAt).toLocaleDateString("id-ID")}
+                    {new Date(item.viewed_at).toLocaleDateString("id-ID")}
                   </span>
                 </div>
               </li>

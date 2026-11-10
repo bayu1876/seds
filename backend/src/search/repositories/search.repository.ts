@@ -41,6 +41,19 @@ export class SearchRepository {
             mode: "insensitive",
           },
         },
+        {
+          documentTags: {
+            some: {
+              tag: {
+                name: {
+                  contains: params.q,
+                  mode: "insensitive",
+                },
+                deleted_at: null,
+              },
+            },
+          },
+        },
       ];
     }
 
@@ -76,6 +89,7 @@ export class SearchRepository {
             department: true,
             category: true,
             confidentialLevel: true,
+            documentTags: { include: { tag: true } },
           },
           orderBy: {
             created_at: "desc",
@@ -179,6 +193,7 @@ export class SearchRepository {
           department: true,
           category: true,
           confidentialLevel: true,
+          documentTags: { include: { tag: true } },
         },
       });
 

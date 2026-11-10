@@ -299,7 +299,6 @@ model Tag {
 
   documentTags DocumentTag[]
 
-  @@unique([name])
   @@map("tag")
 }
 

@@ -192,8 +192,27 @@ export class DocumentController {
         }
       ).user;
 
+      const documentId = req.params.id as string;
+      const document = await this.service.findById(documentId);
+
+      const hasDeletePermission = user.userRoles.some((userRole) =>
+        userRole.role.rolePermissions.some(
+          (rolePermission) =>
+            rolePermission.permission.module === "document" &&
+            rolePermission.permission.action === "delete",
+        ),
+      );
+      const isOwner = document.created_by === user.id;
+
+      if (!hasDeletePermission && !isOwner) {
+        return res.status(403).json({
+          success: false,
+          message: "Forbidden",
+        });
+      }
+
       await this.service.softDelete(
-        req.params.id as string,
+        documentId,
         {
           deleted_by: user.id,
         },

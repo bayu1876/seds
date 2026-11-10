@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "@/lib/api";
 import Link from "next/link";
@@ -12,25 +12,31 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  useEffect(() => {
+    if (auth.isAuthenticated()) {
+      router.push("/dashboard");
+    }
+  }, [router]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
-      await auth.login(username, password);
-      router.push("/dashboard");
+      const result = await auth.login(username, password);
+
+      if (result.user?.must_change_password) {
+        router.push("/change-password");
+      } else {
+        router.push("/dashboard");
+      }
     } catch (err: any) {
       setError(err.message || "Login gagal");
     } finally {
       setLoading(false);
     }
   };
-
-  if (auth.isAuthenticated()) {
-    router.push("/dashboard");
-    return null;
-  }
 
   return (
     <div className="min-h-full flex flex-col justify-center items-center bg-slate-50 px-4 py-12">

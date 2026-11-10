@@ -126,6 +126,29 @@ export class DocumentVersionController {
     }
   }
 
+  async thumbnail(
+    req: Request<DownloadParams>,
+    res: Response,
+  ) {
+    try {
+      const file = await this.service.thumbnail(req.params.versionId);
+      res.setHeader("Content-Type", file.mimeType || "image/jpeg");
+      res.setHeader("Cache-Control", "public, max-age=3600");
+      return res.sendFile(file.filePath);
+    } catch (error) {
+      if (error instanceof Error && (error.message === "Document version not found" || error.message === "Thumbnail not found")) {
+        return res.status(404).json({
+          success: false,
+          message: error.message,
+        });
+      }
+      return res.status(500).json({
+        success: false,
+        message: error instanceof Error ? error.message : "Failed to load thumbnail",
+      });
+    }
+  }
+
   async findHistory(
     req: Request<UploadParams>,
     res: Response,

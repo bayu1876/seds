@@ -3,11 +3,14 @@ import prisma from "../../config/prisma.js";
 export type PublicationItem = {
   id: string;
   document_id: string;
+  version_id: string;
   document_number: string | null;
   title: string;
   description: string | null;
   department_name: string | null;
   category_name: string | null;
+  mime_type: string | null;
+  thumbnail_path: string | null;
   is_published: boolean;
   featured: boolean;
   display_order: number;
@@ -30,6 +33,7 @@ export class PublicLibraryRepository {
             category: true,
           },
         },
+        documentVersion: true,
       },
       orderBy: [
         { featured: "desc" },
@@ -41,11 +45,14 @@ export class PublicLibraryRepository {
     return result.map((pub: any) => ({
       id: pub.id,
       document_id: pub.document_id,
+      version_id: pub.version_id,
       document_number: pub.document.document_number,
       title: pub.document.title,
       description: pub.document.description,
       department_name: pub.document.department?.name || null,
       category_name: pub.document.category?.name || null,
+      mime_type: pub.documentVersion?.mime_type || null,
+      thumbnail_path: pub.documentVersion?.thumbnail_path || null,
       is_published: pub.is_published,
       featured: pub.featured,
       display_order: pub.display_order,
@@ -62,6 +69,7 @@ export class PublicLibraryRepository {
             category: true,
           },
         },
+        documentVersion: true,
       },
       orderBy: [
         { published_at: "desc" },
@@ -71,11 +79,14 @@ export class PublicLibraryRepository {
     return result.map((pub: any) => ({
       id: pub.id,
       document_id: pub.document_id,
+      version_id: pub.version_id,
       document_number: pub.document.document_number,
       title: pub.document.title,
       description: pub.document.description,
       department_name: pub.document.department?.name || null,
       category_name: pub.document.category?.name || null,
+      mime_type: pub.documentVersion?.mime_type || null,
+      thumbnail_path: pub.documentVersion?.thumbnail_path || null,
       is_published: pub.is_published,
       featured: pub.featured,
       display_order: pub.display_order,
@@ -93,6 +104,7 @@ export class PublicLibraryRepository {
             category: true,
           },
         },
+        documentVersion: true,
       },
     });
 
@@ -101,11 +113,14 @@ export class PublicLibraryRepository {
     return {
       id: result.id,
       document_id: result.document_id,
+      version_id: result.version_id,
       document_number: result.document.document_number,
       title: result.document.title,
       description: result.document.description,
       department_name: result.document.department?.name || null,
       category_name: result.document.category?.name || null,
+      mime_type: result.documentVersion?.mime_type || null,
+      thumbnail_path: result.documentVersion?.thumbnail_path || null,
       is_published: result.is_published,
       featured: result.featured,
       display_order: result.display_order,

@@ -9,7 +9,7 @@ const navItems = [
   { name: "Documents", href: "/documents", icon: "📄" },
   { name: "Public Library", href: "/public-library", icon: "📚" },
   { name: "Favorites", href: "/favorites", icon: "⭐" },
-  { name: "Recently Opened", href: "/recently-opened", icon: "🕒" },
+  { name: "Recent", href: "/recently-opened", icon: "🕒" },
 ];
 
 export default function Topbar() {
@@ -17,7 +17,7 @@ export default function Topbar() {
   const pathname = usePathname();
 
   return (
-    <header className="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-6">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 h-16 flex items-center justify-between px-6">
       <div className="flex items-center gap-4">
         <button
           onClick={() => setMenuOpen(!menuOpen)}
@@ -37,7 +37,6 @@ export default function Topbar() {
       </div>
 
       <div className="hidden md:flex items-center gap-8">
-        {/* Main Navigation moved to topbar */}
         <nav className="flex items-center gap-6">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
@@ -62,7 +61,7 @@ export default function Topbar() {
           <input
             type="text"
             placeholder="Search documents..."
-            className="pl-10 pr-4 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm w-full"
+            className="pl-10 pr-4 py-2 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm w-full"
           />
           <svg
             className="absolute left-3 top-3 w-4 h-4 text-slate-400"

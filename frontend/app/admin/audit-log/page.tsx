@@ -6,11 +6,12 @@ import { api } from "@/lib/api";
 
 interface AuditLog {
   id: string;
+  user_id: string | null;
+  document_id: string | null;
   action: string;
-  module: string;
-  user_full_name: string | null;
-  user_username: string | null;
-  document_title: string | null;
+  ip_address: string | null;
+  user_agent: string | null;
+  description: string | null;
   created_at: string;
 }
 
@@ -22,7 +23,7 @@ export default function AuditLogPage() {
   useEffect(() => {
     async function load() {
       try {
-        const result = await api.get("/audit-log");
+        const result = await api.get("/audit-log/user?page=1&limit=50");
         setItems(result.data || []);
       } catch (err: any) {
         setError(err.message || "Failed to load audit log");
@@ -62,9 +63,9 @@ export default function AuditLogPage() {
           <thead className="bg-slate-50 border-b border-slate-200">
             <tr>
               <th className="px-4 py-3 text-xs font-semibold text-slate-500 uppercase">Action</th>
-              <th className="px-4 py-3 text-xs font-semibold text-slate-500 uppercase">Module</th>
               <th className="px-4 py-3 text-xs font-semibold text-slate-500 uppercase">User</th>
               <th className="px-4 py-3 text-xs font-semibold text-slate-500 uppercase">Document</th>
+              <th className="px-4 py-3 text-xs font-semibold text-slate-500 uppercase">Description</th>
               <th className="px-4 py-3 text-xs font-semibold text-slate-500 uppercase text-center">Created</th>
             </tr>
           </thead>
@@ -75,12 +76,14 @@ export default function AuditLogPage() {
                   <td className="px-4 py-3 text-sm text-slate-900 font-medium">
                     {item.action}
                   </td>
-                  <td className="px-4 py-3 text-sm text-slate-600">{item.module}</td>
                   <td className="px-4 py-3 text-sm text-slate-600">
-                    {item.user_full_name || item.user_username || "-"}
+                    {item.user_id || "-"}
                   </td>
                   <td className="px-4 py-3 text-sm text-slate-600">
-                    {item.document_title || "-"}
+                    {item.document_id || "-"}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-slate-600">
+                    {item.description || "-"}
                   </td>
                   <td className="px-4 py-3 text-sm text-slate-500 text-center">
                     {new Date(item.created_at).toLocaleString("id-ID")}

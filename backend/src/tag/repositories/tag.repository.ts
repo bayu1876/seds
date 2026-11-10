@@ -31,6 +31,18 @@ export class TagRepository {
       },
     });
   }
+
+  async findByNameInsensitive(name: string) {
+    return prisma.tag.findFirst({
+      where: {
+        deleted_at: null,
+        name: {
+          equals: name,
+          mode: "insensitive",
+        },
+      },
+    });
+  }
   async create(data: {
     name: string;
     color?: string | null;

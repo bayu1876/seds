@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { api } from "@/lib/api";
 
 interface Permission {
@@ -46,12 +45,6 @@ export default function PermissionsPage() {
     <div>
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold text-slate-900">Permissions</h1>
-        <Link
-          href="/admin/permissions/create"
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium transition-colors"
-        >
-          Add Permission
-        </Link>
       </div>
 
       {error && (
