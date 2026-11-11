@@ -1,7 +1,15 @@
 export const API_URL =
   typeof process !== "undefined" && process.env.NEXT_PUBLIC_API_URL
     ? process.env.NEXT_PUBLIC_API_URL
-    : "http://localhost:3001/api";
+    : "/api";
+
+export type AccessInfo = {
+  permissions: string[];
+  roles: string[];
+  departments: { id: string; code: string; name: string }[];
+};
+
+const EMPTY_ACCESS: AccessInfo = { permissions: [], roles: [], departments: [] };
 
 class ApiError extends Error {
   status: number;
@@ -23,6 +31,51 @@ function getUser(): any {
   if (typeof window === "undefined") return null;
   const user = localStorage.getItem("sed_user");
   return user ? JSON.parse(user) : null;
+}
+
+function getAccess(): AccessInfo {
+  if (typeof window === "undefined") return EMPTY_ACCESS;
+  try {
+    const raw = localStorage.getItem("sed_access");
+    if (!raw) return EMPTY_ACCESS;
+    const parsed = JSON.parse(raw);
+    if (!parsed || !Array.isArray(parsed.permissions)) return EMPTY_ACCESS;
+    return {
+      permissions: parsed.permissions.filter(
+        (p: unknown): p is string => typeof p === "string",
+      ),
+      roles: Array.isArray(parsed.roles)
+        ? parsed.roles.filter((r: unknown): r is string => typeof r === "string")
+        : [],
+      departments: Array.isArray(parsed.departments) ? parsed.departments : [],
+    };
+  } catch {
+    return EMPTY_ACCESS;
+  }
+}
+
+function saveAccess(access: AccessInfo) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem("sed_access", JSON.stringify(access));
+}
+
+function hasPermission(module: string, action: string): boolean {
+  return getAccess().permissions.includes(`${module}:${action}`);
+}
+
+function handleUnauthorized(endpoint: string): boolean {
+  if (typeof window === "undefined") return false;
+  if (endpoint.startsWith("/auth/login")) return false;
+  try {
+    localStorage.removeItem("sed_token");
+    localStorage.removeItem("sed_user");
+    localStorage.removeItem("sed_access");
+  } catch {}
+  const current = window.location.pathname + window.location.search;
+  if (window.location.pathname !== "/login") {
+    window.location.replace(`/login?redirect=${encodeURIComponent(current)}`);
+  }
+  return true;
 }
 
 async function request(
@@ -48,8 +101,13 @@ async function request(
   const data = await res.json().catch(() => ({}));
 
   if (!res.ok) {
+    if (res.status === 401) {
+      handleUnauthorized(endpoint);
+    }
     throw new ApiError(
-      data.message || "Request failed",
+      res.status === 403
+        ? "Anda tidak memiliki izin untuk tindakan ini."
+        : data.message || "Request failed",
       res.status,
       data,
     );
@@ -66,7 +124,11 @@ export const api = {
     request(endpoint, { method: "PUT", body: JSON.stringify(body) }),
   patch: (endpoint: string, body: any) =>
     request(endpoint, { method: "PATCH", body: JSON.stringify(body) }),
-  delete: (endpoint: string) => request(endpoint, { method: "DELETE" }),
+  delete: (endpoint: string, body?: unknown) =>
+    request(endpoint, {
+      method: "DELETE",
+      ...(body === undefined ? {} : { body: JSON.stringify(body) }),
+    }),
   upload: (endpoint: string, formData: FormData) =>
     fetch(`${API_URL}${endpoint}`, {
       method: "POST",
@@ -77,8 +139,13 @@ export const api = {
     }).then(async (res: Response) => {
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
+        if (res.status === 401) {
+          handleUnauthorized(endpoint);
+        }
         throw new ApiError(
-          data.message || "Upload failed",
+          res.status === 403
+            ? "Anda tidak memiliki izin untuk tindakan ini."
+            : data.message || "Upload failed",
           res.status,
           data,
         );
@@ -93,16 +160,28 @@ export const auth = {
       if (typeof window !== "undefined" && res.token) {
         localStorage.setItem("sed_token", res.token);
         localStorage.setItem("sed_user", JSON.stringify(res.user));
+        if (res.access) saveAccess(res.access);
       }
       return res;
+    }),
+  refresh: () =>
+    api.get("/auth/me").then((res: any) => {
+      if (typeof window !== "undefined") {
+        if (res.user) localStorage.setItem("sed_user", JSON.stringify(res.user));
+        if (res.access) saveAccess(res.access);
+      }
+      return res as { user: any; access: AccessInfo };
     }),
   logout: () => {
     if (typeof window !== "undefined") {
       localStorage.removeItem("sed_token");
       localStorage.removeItem("sed_user");
+      localStorage.removeItem("sed_access");
     }
   },
   getUser,
+  getAccess,
+  hasPermission,
   isAuthenticated: () => !!getToken(),
 };
 
@@ -113,6 +192,9 @@ export async function downloadFile(endpoint: string, fallbackName: string) {
   });
 
   if (!res.ok) {
+    if (res.status === 401) {
+      handleUnauthorized(endpoint);
+    }
     throw new Error("Download failed");
   }
 

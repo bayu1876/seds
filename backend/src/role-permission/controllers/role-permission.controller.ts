@@ -69,6 +69,13 @@ export class RolePermissionController {
     res: Response,
   ) {
     try {
+      if (!req.body?.permissionId) {
+        return res.status(400).json({
+          success: false,
+          message: "permissionId is required",
+        });
+      }
+
       await this.service.assignPermission({
         roleId: req.params.roleId,
         permissionId: req.body.permissionId,
@@ -80,12 +87,16 @@ export class RolePermissionController {
           "Permission assigned successfully",
       });
     } catch (error) {
-      return res.status(500).json({
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Internal Server Error";
+
+      return res.status(
+        message === "Role not found" ? 404 : 400,
+      ).json({
         success: false,
-        message:
-          error instanceof Error
-            ? error.message
-            : "Internal Server Error",
+        message,
       });
     }
   }
@@ -99,6 +110,13 @@ export class RolePermissionController {
     res: Response,
   ) {
     try {
+      if (!req.body?.permissionId) {
+        return res.status(400).json({
+          success: false,
+          message: "permissionId is required",
+        });
+      }
+
       await this.service.unassignPermission({
         roleId: req.params.roleId,
         permissionId: req.body.permissionId,
@@ -110,12 +128,16 @@ export class RolePermissionController {
           "Permission unassigned successfully",
       });
     } catch (error) {
-      return res.status(500).json({
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Internal Server Error";
+
+      return res.status(
+        message === "Role not found" ? 404 : 400,
+      ).json({
         success: false,
-        message:
-          error instanceof Error
-            ? error.message
-            : "Internal Server Error",
+        message,
       });
     }
   }

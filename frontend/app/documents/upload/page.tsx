@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { api } from "@/lib/api";
+import { useDepartmentAccess } from "@/lib/permissions";
 
 interface Department {
   id: string;
@@ -34,6 +35,7 @@ interface Tag {
 
 export default function DocumentsUploadPage() {
   const router = useRouter();
+  const { isSuperAdmin, allowedDepartmentIds } = useDepartmentAccess();
 
   const [formData, setFormData] = useState({
     title: "",
@@ -72,7 +74,22 @@ export default function DocumentsUploadPage() {
             api.get("/tags").catch(() => ({ data: [] })),
           ]);
 
-        setDepartments(departmentsResult.data || []);
+        const allDepartments: Department[] = departmentsResult.data || [];
+        const scopedDepartments = isSuperAdmin
+          ? allDepartments
+          : allDepartments.filter((department) =>
+              allowedDepartmentIds.includes(department.id),
+            );
+
+        setDepartments(scopedDepartments);
+        if (scopedDepartments.length === 1 && scopedDepartments[0]) {
+          const onlyDepartment = scopedDepartments[0];
+          setFormData((prev) =>
+            prev.department_id
+              ? prev
+              : { ...prev, department_id: onlyDepartment.id },
+          );
+        }
         setCategories(categoriesResult.data || []);
         setConfidentialLevels(levelsResult.data || []);
         setAvailableTags((tagsResult.data || []).filter((t: Tag) => t.is_active));

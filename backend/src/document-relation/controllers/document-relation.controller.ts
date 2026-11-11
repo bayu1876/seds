@@ -3,17 +3,45 @@ import type {
   Response,
 } from "express";
 
+import type { SessionUser } from "../../auth/utils/access.js";
+import {
+  assertDepartmentAccess,
+  DepartmentScopeError,
+} from "../../auth/utils/department-scope.js";
+import { DocumentRepository } from "../../document/repositories/document.repository.js";
 import { DocumentRelationService } from "../services/document-relation.service.js";
 
 type CreateRelationRequest = Request & {
-  user: {
-    id: string;
-  };
+  user: SessionUser;
 };
 
 export class DocumentRelationController {
   private service =
     new DocumentRelationService();
+
+  private documentRepository =
+    new DocumentRepository();
+
+  private async assertDocumentScope(
+    user: SessionUser,
+    documentId: string,
+  ) {
+    const document =
+      await this.documentRepository.findById(
+        documentId,
+      );
+
+    if (!document) {
+      return false;
+    }
+
+    assertDepartmentAccess(
+      user,
+      document.department_id,
+    );
+
+    return true;
+  }
 
   async createRelation(
     req: Request,
@@ -23,6 +51,23 @@ export class DocumentRelationController {
       const user = (
         req as CreateRelationRequest
       ).user;
+
+      const documentId =
+        typeof req.body?.document_id === "string"
+          ? req.body.document_id
+          : "";
+
+      if (
+        !(await this.assertDocumentScope(
+          user,
+          documentId,
+        ))
+      ) {
+        return res.status(404).json({
+          success: false,
+          message: "Document not found",
+        });
+      }
 
       const documentRelation =
         await this.service.createRelation({
@@ -37,6 +82,13 @@ export class DocumentRelationController {
         data: documentRelation,
       });
     } catch (error) {
+      if (error instanceof DepartmentScopeError) {
+        return res.status(403).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
       if (
         error instanceof Error &&
         (error.message ===
@@ -81,6 +133,25 @@ export class DocumentRelationController {
     res: Response,
   ) {
     try {
+      const user = (
+        req as Request<{
+          documentId: string;
+          relatedDocumentId: string;
+        }> & { user: SessionUser }
+      ).user;
+
+      if (
+        !(await this.assertDocumentScope(
+          user,
+          req.params.documentId,
+        ))
+      ) {
+        return res.status(404).json({
+          success: false,
+          message: "Document not found",
+        });
+      }
+
       await this.service.removeRelation({
         document_id:
           req.params.documentId,
@@ -94,6 +165,13 @@ export class DocumentRelationController {
           "Document relation removed successfully",
       });
     } catch (error) {
+      if (error instanceof DepartmentScopeError) {
+        return res.status(403).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
       if (
         error instanceof Error &&
         error.message ===

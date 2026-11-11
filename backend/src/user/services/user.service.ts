@@ -496,4 +496,22 @@ export class UserService {
       });
     });
   }
+
+  async updateMyAvatar(userId: string, avatarPath: string | null) {
+    const user = await prisma.$transaction(async (tx) => {
+      return this.repository.updateMyAvatar(tx, userId, {
+        avatar: avatarPath,
+        updated_by: userId,
+      });
+    });
+    return this.mapUserDto(user);
+  }
+
+  async getMyAvatar(userId: string) {
+    const user = await this.repository.findById(userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    return user.avatar as string | null;
+  }
 }

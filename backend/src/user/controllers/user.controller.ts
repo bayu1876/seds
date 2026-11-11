@@ -1,7 +1,14 @@
 import type { Request, Response } from "express";
+import fs from "node:fs";
+import path from "node:path";
 
 import { AuthService } from "../../auth/services/auth.service.js";
 import { UserService } from "../services/user.service.js";
+
+type AuthedRequest = Request & {
+  user: Awaited<ReturnType<AuthService["getCurrentUser"]>>;
+  file?: Express.Multer.File;
+};
 
 export class UserController {
   private service = new UserService();
@@ -185,11 +192,7 @@ export class UserController {
         });
       }
 
-      const user = (
-        req as Request & {
-          user: Awaited<ReturnType<AuthService["getCurrentUser"]>>;
-        }
-      ).user;
+      const user = (req as AuthedRequest).user;
 
       const result = await this.service.updateStatus({
         ...req.body,
@@ -233,11 +236,7 @@ export class UserController {
         });
       }
 
-      const user = (
-        req as Request & {
-          user: Awaited<ReturnType<AuthService["getCurrentUser"]>>;
-        }
-      ).user;
+      const user = (req as AuthedRequest).user;
 
       const result = await this.service.softDelete({
         id,
@@ -271,11 +270,7 @@ export class UserController {
 
   async updateMyProfile(req: Request, res: Response) {
     try {
-      const user = (
-        req as Request & {
-          user: Awaited<ReturnType<AuthService["getCurrentUser"]>>;
-        }
-      ).user;
+      const user = (req as AuthedRequest).user;
 
       const result = await this.service.updateMyProfile({
         ...req.body,
@@ -305,11 +300,7 @@ export class UserController {
 
   async getMyProfile(req: Request, res: Response) {
     try {
-      const user = (
-        req as Request & {
-          user: Awaited<ReturnType<AuthService["getCurrentUser"]>>;
-        }
-      ).user;
+      const user = (req as AuthedRequest).user;
 
       const result = await this.service.getMyProfile(user.id);
 
@@ -329,11 +320,7 @@ export class UserController {
 
   async changeMyPassword(req: Request, res: Response) {
     try {
-      const user = (
-        req as Request & {
-          user: Awaited<ReturnType<AuthService["getCurrentUser"]>>;
-        }
-      ).user;
+      const user = (req as AuthedRequest).user;
 
       await this.service.changeMyPassword({
         ...req.body,
@@ -360,6 +347,93 @@ export class UserController {
         success: false,
         message:
           error instanceof Error ? error.message : "Internal Server Error",
+      });
+    }
+  }
+
+  async uploadMyAvatar(req: Request, res: Response) {
+    try {
+      const authed = req as AuthedRequest;
+      const file = authed.file;
+      if (!file) {
+        return res.status(400).json({ success: false, message: "File is required" });
+      }
+
+      const mime = file.mimetype || "";
+      if (!mime.startsWith("image/")) {
+        await fs.promises.unlink(file.path).catch(() => undefined);
+        return res.status(400).json({ success: false, message: "Avatar must be an image file" });
+      }
+
+      const storageRoot = path.resolve("/srv/seds/storage");
+      const avatarsDir = path.join(storageRoot, "avatars");
+      await fs.promises.mkdir(avatarsDir, { recursive: true });
+
+      const ext = path.extname(file.originalname || "").toLowerCase() || (mime === "image/png" ? ".png" : mime === "image/webp" ? ".webp" : mime === "image/gif" ? ".gif" : ".jpg");
+      const filename = `${authed.user.id}-${Date.now()}${ext}`;
+      const destinationPath = path.join(avatarsDir, filename);
+      const relativePath = path.posix.join("avatars", filename);
+
+      await fs.promises.rename(file.path, destinationPath);
+
+      // best-effort cleanup of previous avatar file if stored locally
+      try {
+        const existing = await this.service.getMyAvatar(authed.user.id);
+        if (existing && existing.startsWith("avatars/")) {
+          const oldPath = path.resolve(storageRoot, existing);
+          if (oldPath.startsWith(avatarsDir + path.sep) && oldPath !== destinationPath) {
+            await fs.promises.unlink(oldPath).catch(() => undefined);
+          }
+        }
+      } catch {}
+
+      const result = await this.service.updateMyAvatar(authed.user.id, relativePath);
+
+      return res.json({
+        success: true,
+        message: "Avatar updated successfully",
+        data: result,
+      });
+    } catch (error) {
+      const file = (req as AuthedRequest).file;
+      if (file?.path) {
+        await fs.promises.unlink(file.path).catch(() => undefined);
+      }
+      return res.status(500).json({
+        success: false,
+        message: error instanceof Error ? error.message : "Internal Server Error",
+      });
+    }
+  }
+
+  async getMyAvatar(req: Request, res: Response) {
+    try {
+      const authed = req as AuthedRequest;
+      const avatarPath = await this.service.getMyAvatar(authed.user.id);
+      if (!avatarPath) {
+        return res.status(404).json({ success: false, message: "Avatar not found" });
+      }
+
+      const storageRoot = path.resolve("/srv/seds/storage");
+      const filePath = path.resolve(storageRoot, avatarPath);
+      if (!filePath.startsWith(storageRoot + path.sep)) {
+        return res.status(404).json({ success: false, message: "Avatar not found" });
+      }
+
+      try {
+        await fs.promises.access(filePath, fs.constants.R_OK);
+      } catch {
+        return res.status(404).json({ success: false, message: "Avatar not found" });
+      }
+
+      return res.sendFile(filePath);
+    } catch (error) {
+      if (error instanceof Error && error.message === "User not found") {
+        return res.status(404).json({ success: false, message: error.message });
+      }
+      return res.status(500).json({
+        success: false,
+        message: error instanceof Error ? error.message : "Internal Server Error",
       });
     }
   }

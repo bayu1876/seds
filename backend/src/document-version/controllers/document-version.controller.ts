@@ -1,9 +1,17 @@
+import fs from "node:fs";
 import type {
   Request,
   Response,
 } from "express";
 
 import type { ParamsDictionary } from "express-serve-static-core";
+import type { SessionUser } from "../../auth/utils/access.js";
+import {
+  assertDepartmentAccess,
+  DepartmentScopeError,
+} from "../../auth/utils/department-scope.js";
+import { DocumentRepository } from "../../document/repositories/document.repository.js";
+import { DocumentVersionRepository } from "../repositories/document-version.repository.js";
 import { DocumentVersionService } from "../services/document-version.service.js";
 
 export interface UploadParams
@@ -24,21 +32,49 @@ export interface SetCurrentParams
 type UploadRequest =
   Request<UploadParams> & {
     file?: Express.Multer.File;
-    user: {
-      id: string;
-    };
+    user: SessionUser;
   };
 
 export class DocumentVersionController {
   private service =
     new DocumentVersionService();
 
+  private versionRepository =
+    new DocumentVersionRepository();
+
+  private documentRepository =
+    new DocumentRepository();
+
   async setCurrent(
     req: Request<SetCurrentParams>,
     res: Response,
   ) {
     try {
+      const user = (
+        req as Request<SetCurrentParams> & {
+          user: SessionUser;
+        }
+      ).user;
+
       const version =
+        await this.versionRepository.findById(
+          req.params.versionId,
+        );
+
+      if (!version || version.document.deleted_at) {
+        return res.status(404).json({
+          success: false,
+          message:
+            "Document version not found",
+        });
+      }
+
+      assertDepartmentAccess(
+        user,
+        version.document.department_id,
+      );
+
+      const updated =
         await this.service.setCurrent(
           req.params.versionId,
         );
@@ -47,9 +83,16 @@ export class DocumentVersionController {
         success: true,
         message:
           "Current version updated successfully",
-        data: version,
+        data: updated,
       });
     } catch (error) {
+      if (error instanceof DepartmentScopeError) {
+        return res.status(403).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
       if (
         error instanceof Error &&
         error.message ===
@@ -202,6 +245,42 @@ export class DocumentVersionController {
           success: false,
           message: "File is required",
         });
+      }
+
+      const document =
+        await this.documentRepository.findById(
+          req.params.documentId,
+        );
+
+      if (!document) {
+        await fs.promises
+          .unlink(file.path)
+          .catch(() => undefined);
+
+        return res.status(404).json({
+          success: false,
+          message: "Document not found",
+        });
+      }
+
+      try {
+        assertDepartmentAccess(
+          uploadReq.user,
+          document.department_id,
+        );
+      } catch (error) {
+        await fs.promises
+          .unlink(file.path)
+          .catch(() => undefined);
+
+        if (error instanceof DepartmentScopeError) {
+          return res.status(403).json({
+            success: false,
+            message: error.message,
+          });
+        }
+
+        throw error;
       }
 
       const documentVersion =

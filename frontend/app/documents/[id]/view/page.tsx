@@ -21,7 +21,7 @@ interface Doc {
 const API_URL =
   typeof process !== "undefined" && process.env.NEXT_PUBLIC_API_URL
     ? process.env.NEXT_PUBLIC_API_URL
-    : "http://localhost:3001/api";
+    : "/api";
 
 function getToken() {
   return typeof window !== "undefined" ? localStorage.getItem("sed_token") : null;

@@ -22,12 +22,20 @@ import auditLogRoutes from "./audit-log/routes/audit-log.routes.js";
 import searchRoutes from "./search/routes/search.routes.js";
 import dashboardRoutes from "./dashboard/dashboard.routes.js";
 import publicLibraryRoutes from "./public-library/routes/public-library.routes.js";
+import announcementRoutes from "./announcement/routes/announcement.routes.js";
 const app = express();
 
 app.use(express.json());
 
 app.use(cors({
-  origin: ["http://localhost:3002", "http://192.168.40.6:3002"],
+  origin: [
+    "http://localhost:3002",
+    "http://192.168.40.6:3002",
+    "http://localhost:8080",
+    "http://192.168.40.6:8080",
+    "https://seds.sunansystem.com",
+    "http://seds.sunansystem.com",
+  ],
   credentials: true,
 }));
 
@@ -51,5 +59,6 @@ app.use("/api/favorite", favoriteRoutes);
 app.use("/api/search", searchRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/public-library", publicLibraryRoutes);
+app.use("/api/announcements", announcementRoutes);
 
 export default app;

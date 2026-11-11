@@ -30,7 +30,7 @@ interface DashboardData {
 const API_URL =
   typeof process !== "undefined" && process.env.NEXT_PUBLIC_API_URL
     ? process.env.NEXT_PUBLIC_API_URL
-    : "http://localhost:3001/api";
+    : "/api";
 
 function getToken() {
   return typeof window !== "undefined" ? localStorage.getItem("sed_token") : null;
@@ -62,6 +62,7 @@ export default function DashboardPage() {
   const [thumbs, setThumbs] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [announcements, setAnnouncements] = useState<{ id: string; title: string | null; content: string }[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [searching, setSearching] = useState(false);
@@ -70,7 +71,10 @@ export default function DashboardPage() {
   useEffect(() => {
     async function load() {
       try {
-        const result = await api.get("/dashboard");
+        const [result, annRes] = await Promise.all([
+          api.get("/dashboard"),
+          api.get("/announcements/active").catch(() => ({ data: [] })),
+        ]);
         setData(result.data || {
           latestMemo: [],
           featuredKnowledge: [],
@@ -78,6 +82,7 @@ export default function DashboardPage() {
           myFavorites: [],
           recentlyOpened: [],
         });
+        setAnnouncements(annRes?.data || []);
       } catch (err: any) {
         setError(err.message || "Failed to load dashboard");
       } finally {
@@ -191,6 +196,22 @@ export default function DashboardPage() {
         <h1 className="text-3xl font-bold text-slate-900">Dashboard</h1>
         <p className="text-slate-600 mt-1">Find the knowledge you need.</p>
       </div>
+
+      {announcements.length > 0 && (
+        <div className="mb-6 space-y-3">
+          {announcements.map((a) => (
+            <div key={a.id} className="rounded-2xl border border-amber-200 bg-amber-50/80 px-5 py-4 shadow-sm">
+              <div className="flex items-start gap-3">
+                <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-amber-200 text-amber-800 text-sm font-bold shrink-0" aria-hidden="true">!</span>
+                <div className="min-w-0">
+                  {a.title ? <p className="text-sm font-semibold text-amber-900 mb-1">{a.title}</p> : null}
+                  <p className="text-sm text-amber-900 whitespace-pre-wrap leading-relaxed">{a.content}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       <div className="mb-8">
         <form onSubmit={handleSearch} className="relative">

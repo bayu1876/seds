@@ -277,6 +277,20 @@ export class UserRepository {
     });
   }
 
+  async updateMyAvatar(
+    db: DbClient,
+    id: string,
+    data: {
+      avatar: string | null;
+      updated_by?: string | null;
+    },
+  ) {
+    return db.user.update({
+      where: { id },
+      data,
+    });
+  }
+
   async assignRoles(
     db: DbClient,
     userId: string,

@@ -5,6 +5,8 @@ import { use } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { api } from "@/lib/api";
+import AccessDenied from "@/components/auth/AccessDenied";
+import { Can, useDepartmentAccess } from "@/lib/permissions";
 
 interface Department {
   id: string;
@@ -24,6 +26,18 @@ interface ConfidentialLevel {
   name: string;
 }
 
+interface Tag {
+  id: string;
+  name: string;
+  color: string | null;
+}
+
+interface DocumentTagItem {
+  id: string;
+  tag_id: string;
+  tag: Tag;
+}
+
 interface BackendDocument {
   id: string;
   document_number: string | null;
@@ -35,6 +49,7 @@ interface BackendDocument {
   effective_date: string | null;
   expired_date: string | null;
   is_active: boolean;
+  documentTags?: DocumentTagItem[];
 }
 
 export default function DocumentEditPage({
@@ -44,6 +59,11 @@ export default function DocumentEditPage({
 }) {
   const { id: documentId } = use(params);
   const router = useRouter();
+  const {
+    canAccessDepartment,
+    allowedDepartmentIds,
+    isSuperAdmin,
+  } = useDepartmentAccess();
 
   const [formData, setFormData] = useState({
     title: "",
@@ -59,6 +79,9 @@ export default function DocumentEditPage({
   const [departments, setDepartments] = useState<Department[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [confidentialLevels, setConfidentialLevels] = useState<ConfidentialLevel[]>([]);
+  const [documentTags, setDocumentTags] = useState<DocumentTagItem[]>([]);
+  const [allTags, setAllTags] = useState<Tag[]>([]);
+  const [tagInput, setTagInput] = useState("");
   const [versionFile, setVersionFile] = useState<File | null>(null);
   const [versionNotes, setVersionNotes] = useState("");
   const [loading, setLoading] = useState(true);
@@ -66,6 +89,7 @@ export default function DocumentEditPage({
   const [uploadingVersion, setUploadingVersion] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [forbidden, setForbidden] = useState(false);
 
   useEffect(() => {
     async function load() {
@@ -78,6 +102,12 @@ export default function DocumentEditPage({
         ]);
 
         const doc: BackendDocument = docRes.data;
+
+        if (!canAccessDepartment(doc.department_id)) {
+          setForbidden(true);
+          return;
+        }
+
         setFormData({
           title: doc.title || "",
           document_number: doc.document_number || "",
@@ -89,10 +119,18 @@ export default function DocumentEditPage({
           expired_date: doc.expired_date ? doc.expired_date.slice(0, 10) : "",
           is_active: !!doc.is_active,
         });
+        setDocumentTags(doc.documentTags || []);
 
         setDepartments(deptRes.data || []);
         setCategories(catRes.data || []);
         setConfidentialLevels(lvlRes.data || []);
+
+        try {
+          const tagsRes = await api.get("/tags");
+          setAllTags(tagsRes.data || []);
+        } catch {
+          // optional if no permission
+        }
       } catch (err: any) {
         setError(err.message || "Failed to load document");
       } finally {
@@ -101,6 +139,40 @@ export default function DocumentEditPage({
     }
     load();
   }, [documentId]);
+
+  const refreshDocumentTags = async () => {
+    try {
+      const res = await api.get(`/documents/${documentId}`);
+      setDocumentTags((res.data?.documentTags || []) as DocumentTagItem[]);
+    } catch {}
+  };
+
+  const handleAddTag = async () => {
+    const name = tagInput.trim();
+    if (!name) return;
+    setError("");
+    setSuccess("");
+    try {
+      await api.post("/document-tags", { document_id: documentId, tag_name: name });
+      setTagInput("");
+      await refreshDocumentTags();
+      setSuccess("Tag berhasil ditambahkan");
+    } catch (err: any) {
+      setError(err.message || "Gagal menambahkan tag");
+    }
+  };
+
+  const handleRemoveTag = async (tagId: string) => {
+    setError("");
+    setSuccess("");
+    try {
+      await api.delete(`/document-tags/${documentId}/${tagId}`);
+      await refreshDocumentTags();
+      setSuccess("Tag berhasil dihapus");
+    } catch (err: any) {
+      setError(err.message || "Gagal menghapus tag");
+    }
+  };
 
   const handleUploadVersion = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -174,6 +246,10 @@ export default function DocumentEditPage({
     );
   }
 
+  if (forbidden) {
+    return <AccessDenied />;
+  }
+
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
@@ -241,9 +317,15 @@ export default function DocumentEditPage({
                 required
               >
                 <option value="">Select department</option>
-                {departments.map((d) => (
-                  <option key={d.id} value={d.id}>{d.code} - {d.name}</option>
-                ))}
+                {departments
+                  .filter(
+                    (d) =>
+                      isSuperAdmin ||
+                      allowedDepartmentIds.includes(d.id),
+                  )
+                  .map((d) => (
+                    <option key={d.id} value={d.id}>{d.code} - {d.name}</option>
+                  ))}
               </select>
             </div>
             <div>
@@ -318,7 +400,56 @@ export default function DocumentEditPage({
       </div>
 
       <div className="bg-white rounded-lg border border-slate-200 p-8 mt-6">
-        <h2 className="text-lg font-semibold text-slate-900 mb-1">Upload New Version</h2>
+        <h2 className="text-lg font-semibold text-slate-900 mb-1">Tags</h2>
+        <p className="text-sm text-slate-500 mb-4">Tag adalah penanda bebas untuk memudahkan pencarian (bukan status/approval). Ketik tag baru atau pilih saran.</p>
+        <div className="space-y-3">
+          <div className="flex flex-wrap gap-2">
+            {documentTags.length > 0 ? (
+              documentTags.map((dt) => (
+                <span key={dt.id} className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm bg-slate-100 border border-slate-200 text-slate-700">
+                  {dt.tag?.color ? <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ backgroundColor: dt.tag.color }} /> : null}
+                  {dt.tag?.name || "Tag"}
+                  <Can module="document_tag" action="delete">
+                    <button type="button" onClick={() => handleRemoveTag(dt.tag_id || dt.tag?.id)} className="text-slate-400 hover:text-red-600" title="Hapus tag">×</button>
+                  </Can>
+                </span>
+              ))
+            ) : (
+              <p className="text-sm text-slate-500">Belum ada tag.</p>
+            )}
+          </div>
+          <Can module="document_tag" action="create">
+            <div className="flex gap-2 items-center">
+              <input
+                type="text"
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === ",") {
+                    e.preventDefault();
+                    handleAddTag();
+                  }
+                }}
+                placeholder="Ketik tag lalu Enter/koma atau klik Tambah"
+                className="flex-1 px-3 py-2 border border-slate-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                list="edit-tag-suggestions"
+              />
+              <datalist id="edit-tag-suggestions">
+                {allTags
+                  .filter((t) => !documentTags.some((dt) => (dt.tag_id || dt.tag?.id) === t.id))
+                  .map((t) => <option key={t.id} value={t.name} />)}
+              </datalist>
+              <button type="button" onClick={handleAddTag} disabled={!tagInput.trim()} className="px-3 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 disabled:bg-blue-300">
+                Tambah
+              </button>
+            </div>
+          </Can>
+        </div>
+      </div>
+
+      <Can module="document_version" action="upload">
+        <div className="bg-white rounded-lg border border-slate-200 p-8 mt-6">
+          <h2 className="text-lg font-semibold text-slate-900 mb-1">Upload New Version</h2>
         <p className="text-sm text-slate-500 mb-4">Upload file untuk membuat versi baru. Nomor versi dan penamaan/penyimpanan file dibuat otomatis oleh sistem.</p>
         <form onSubmit={handleUploadVersion} className="space-y-4">
           <div>
@@ -348,7 +479,8 @@ export default function DocumentEditPage({
             {uploadingVersion ? "Uploading..." : "Upload Versi Baru"}
           </button>
         </form>
-      </div>
+        </div>
+      </Can>
     </div>
   );
 }

@@ -2,6 +2,11 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 import { AuthRepository } from "../repositories/auth.repository.js";
+import {
+  buildAccess,
+  toSafeUser,
+  type SessionUser,
+} from "../utils/access.js";
 
 export class AuthService {
   private repository = new AuthRepository();
@@ -19,6 +24,12 @@ export class AuthService {
       throw new Error("Invalid username or password");
     }
 
+    const sessionUser = await this.repository.findUserWithPermissions(user.id);
+
+    if (!sessionUser) {
+      throw new Error("User not found");
+    }
+
     const token = jwt.sign(
       {
         userId: user.id,
@@ -30,23 +41,27 @@ export class AuthService {
       },
     );
 
-    const { password_hash, ...safeUser } = user;
-
     return {
       token,
-      user: safeUser,
+      user: toSafeUser(sessionUser),
+      access: buildAccess(sessionUser),
     };
   }
 
-  async getCurrentUser(userId: string) {
+  async getCurrentUser(userId: string): Promise<SessionUser> {
     const user = await this.repository.findUserWithPermissions(userId);
 
     if (!user) {
       throw new Error("User not found");
     }
 
-    const { password_hash, ...safeUser } = user;
+    return user;
+  }
 
-    return safeUser;
+  getSession(sessionUser: SessionUser) {
+    return {
+      user: toSafeUser(sessionUser),
+      access: buildAccess(sessionUser),
+    };
   }
 }

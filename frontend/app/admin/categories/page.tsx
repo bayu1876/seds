@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { api } from "@/lib/api";
+import { Can } from "@/lib/permissions";
 
 interface Category {
   id: string;
@@ -46,12 +47,14 @@ export default function CategoriesPage() {
     <div>
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold text-slate-900">Categories</h1>
-        <Link
-          href="/admin/categories/create"
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium transition-colors"
-        >
-          Add Category
-        </Link>
+        <Can module="category" action="create">
+          <Link
+            href="/admin/categories/create"
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium transition-colors"
+          >
+            Add Category
+          </Link>
+        </Can>
       </div>
 
       {error && (

@@ -179,8 +179,72 @@ const permissions = [
   { module: "confidential_level", action: "view", description: "View Confidential Level" },
 ];
 
-const rolePermissions = [
-  { role: "SUPER_ADMIN", permission: "*" },
+type SeedPermission = {
+  module: string;
+  action: string;
+};
+
+const rolePermissions: Array<{
+  role: string;
+  permissions: Array<"*" | SeedPermission>;
+}> = [
+  { role: "SUPER_ADMIN", permissions: ["*"] },
+  {
+    role: "MANAGER",
+    permissions: [
+      { module: "announcement", action: "view" },
+      { module: "announcement", action: "create" },
+      { module: "announcement", action: "update" },
+      { module: "announcement", action: "delete" },
+      { module: "document", action: "upload" },
+      { module: "document", action: "update" },
+      { module: "document_version", action: "upload" },
+      { module: "document_version", action: "set_current" },
+      { module: "document_tag", action: "create" },
+      { module: "document_tag", action: "delete" },
+      { module: "document_relation", action: "create" },
+      { module: "document_relation", action: "delete" },
+      { module: "department", action: "view" },
+      { module: "category", action: "view" },
+      { module: "confidential_level", action: "view" },
+      { module: "tag", action: "view" },
+    ],
+  },
+  {
+    role: "ADMIN",
+    permissions: [
+      { module: "announcement", action: "view" },
+      { module: "announcement", action: "create" },
+      { module: "announcement", action: "update" },
+      { module: "announcement", action: "delete" },
+      { module: "document", action: "upload" },
+      { module: "document", action: "update" },
+      { module: "document_version", action: "upload" },
+      { module: "document_version", action: "set_current" },
+      { module: "document_tag", action: "create" },
+      { module: "document_tag", action: "delete" },
+      { module: "document_relation", action: "create" },
+      { module: "document_relation", action: "delete" },
+      { module: "department", action: "view" },
+      { module: "department", action: "create" },
+      { module: "department", action: "update" },
+      { module: "department", action: "delete" },
+      { module: "category", action: "view" },
+      { module: "category", action: "create" },
+      { module: "category", action: "update" },
+      { module: "category", action: "delete" },
+      { module: "confidential_level", action: "view" },
+      { module: "tag", action: "view" },
+      { module: "tag", action: "create" },
+      { module: "tag", action: "update" },
+      { module: "tag", action: "delete" },
+      { module: "user", action: "view" },
+      { module: "user", action: "create" },
+      { module: "user", action: "update" },
+      { module: "user", action: "delete" },
+      { module: "role", action: "view" },
+    ],
+  },
 ];
 
 const categories = [
@@ -359,26 +423,66 @@ async function main() {
   }
 
   console.log("✅ Permission Seeded");
-  const superAdminRole = await prisma.role.findUnique({
-    where: {
-      code: "SUPER_ADMIN",
-    },
-  });
-
   const allPermissions = await prisma.permission.findMany();
 
-  if (superAdminRole) {
-    for (const permission of allPermissions) {
+  for (const rolePermission of rolePermissions) {
+    const role = await prisma.role.findUnique({
+      where: {
+        code: rolePermission.role,
+      },
+    });
+
+    if (!role) {
+      throw new Error(
+        `Role ${rolePermission.role} not found`,
+      );
+    }
+
+    if (rolePermission.permissions.includes("*")) {
+      for (const permission of allPermissions) {
+        await prisma.rolePermission.upsert({
+          where: {
+            role_id_permission_id: {
+              role_id: role.id,
+              permission_id: permission.id,
+            },
+          },
+          update: {},
+          create: {
+            role_id: role.id,
+            permission_id: permission.id,
+          },
+        });
+      }
+
+      continue;
+    }
+
+    for (const entry of rolePermission.permissions) {
+      if (entry === "*") continue;
+
+      const permission = allPermissions.find(
+        (item) =>
+          item.module === entry.module &&
+          item.action === entry.action,
+      );
+
+      if (!permission) {
+        throw new Error(
+          `Permission ${entry.module}:${entry.action} not found`,
+        );
+      }
+
       await prisma.rolePermission.upsert({
         where: {
           role_id_permission_id: {
-            role_id: superAdminRole.id,
+            role_id: role.id,
             permission_id: permission.id,
           },
         },
-	update: {},
+        update: {},
         create: {
-          role_id: superAdminRole.id,
+          role_id: role.id,
           permission_id: permission.id,
         },
       });

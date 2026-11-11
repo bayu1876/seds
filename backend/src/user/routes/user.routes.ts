@@ -5,6 +5,7 @@ import {
   authenticate,
   authorize,
 } from "../../auth/middleware/auth.middleware.js";
+import { upload } from "../../middleware/upload.middleware.js";
 
 const router = Router();
 const controller = new UserController();
@@ -17,6 +18,7 @@ router.get(
 );
 
 router.get("/me", authenticate, controller.getMyProfile.bind(controller));
+router.get("/me/avatar", authenticate, controller.getMyAvatar.bind(controller));
 
 router.get(
   "/:id",
@@ -30,6 +32,13 @@ router.post(
   authenticate,
   authorize("user", "create"),
   controller.create.bind(controller),
+);
+
+router.post(
+  "/me/avatar",
+  authenticate,
+  upload.single("file"),
+  controller.uploadMyAvatar.bind(controller),
 );
 
 router.put("/me", authenticate, controller.updateMyProfile.bind(controller));

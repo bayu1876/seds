@@ -4,6 +4,7 @@ export type PublicationItem = {
   id: string;
   document_id: string;
   version_id: string;
+  department_id: string | null;
   document_number: string | null;
   title: string;
   description: string | null;
@@ -11,11 +12,46 @@ export type PublicationItem = {
   category_name: string | null;
   mime_type: string | null;
   thumbnail_path: string | null;
+  tags: string[];
   is_published: boolean;
   featured: boolean;
   display_order: number;
   published_at: Date | null;
 };
+
+function mapPublication(pub: any): PublicationItem {
+  return {
+    id: pub.id,
+    document_id: pub.document_id,
+    version_id: pub.version_id,
+    department_id: pub.document?.department_id ?? null,
+    document_number: pub.document?.document_number ?? null,
+    title: pub.document?.title ?? "",
+    description: pub.document?.description ?? null,
+    department_name: pub.document?.department?.name || null,
+    category_name: pub.document?.category?.name || null,
+    mime_type: pub.documentVersion?.mime_type || null,
+    thumbnail_path: pub.documentVersion?.thumbnail_path || null,
+    tags: (pub.document?.documentTags || [])
+      .map((dt: any) => dt?.tag?.name)
+      .filter((n: any): n is string => typeof n === "string" && n.length > 0),
+    is_published: pub.is_published,
+    featured: pub.featured,
+    display_order: pub.display_order,
+    published_at: pub.published_at,
+  };
+}
+
+const include = {
+  document: {
+    include: {
+      department: true,
+      category: true,
+      documentTags: { include: { tag: true } },
+    },
+  },
+  documentVersion: true,
+} as const;
 
 export class PublicLibraryRepository {
   async findPublished(): Promise<PublicationItem[]> {
@@ -24,17 +60,10 @@ export class PublicLibraryRepository {
         is_published: true,
         document: {
           is_active: true,
+          deleted_at: null,
         },
       },
-      include: {
-        document: {
-          include: {
-            department: true,
-            category: true,
-          },
-        },
-        documentVersion: true,
-      },
+      include,
       orderBy: [
         { featured: "desc" },
         { display_order: "asc" },
@@ -42,90 +71,29 @@ export class PublicLibraryRepository {
       ],
     });
 
-    return result.map((pub: any) => ({
-      id: pub.id,
-      document_id: pub.document_id,
-      version_id: pub.version_id,
-      document_number: pub.document.document_number,
-      title: pub.document.title,
-      description: pub.document.description,
-      department_name: pub.document.department?.name || null,
-      category_name: pub.document.category?.name || null,
-      mime_type: pub.documentVersion?.mime_type || null,
-      thumbnail_path: pub.documentVersion?.thumbnail_path || null,
-      is_published: pub.is_published,
-      featured: pub.featured,
-      display_order: pub.display_order,
-      published_at: pub.published_at,
-    }));
+    return result.map(mapPublication);
   }
 
   async findAllForAdmin(): Promise<PublicationItem[]> {
     const result = await prisma.publication.findMany({
-      include: {
-        document: {
-          include: {
-            department: true,
-            category: true,
-          },
-        },
-        documentVersion: true,
-      },
+      include,
       orderBy: [
         { published_at: "desc" },
       ],
     });
 
-    return result.map((pub: any) => ({
-      id: pub.id,
-      document_id: pub.document_id,
-      version_id: pub.version_id,
-      document_number: pub.document.document_number,
-      title: pub.document.title,
-      description: pub.document.description,
-      department_name: pub.document.department?.name || null,
-      category_name: pub.document.category?.name || null,
-      mime_type: pub.documentVersion?.mime_type || null,
-      thumbnail_path: pub.documentVersion?.thumbnail_path || null,
-      is_published: pub.is_published,
-      featured: pub.featured,
-      display_order: pub.display_order,
-      published_at: pub.published_at,
-    }));
+    return result.map(mapPublication);
   }
 
   async findById(id: string): Promise<PublicationItem | null> {
     const result = await prisma.publication.findUnique({
       where: { id },
-      include: {
-        document: {
-          include: {
-            department: true,
-            category: true,
-          },
-        },
-        documentVersion: true,
-      },
+      include,
     });
 
     if (!result) return null;
 
-    return {
-      id: result.id,
-      document_id: result.document_id,
-      version_id: result.version_id,
-      document_number: result.document.document_number,
-      title: result.document.title,
-      description: result.document.description,
-      department_name: result.document.department?.name || null,
-      category_name: result.document.category?.name || null,
-      mime_type: result.documentVersion?.mime_type || null,
-      thumbnail_path: result.documentVersion?.thumbnail_path || null,
-      is_published: result.is_published,
-      featured: result.featured,
-      display_order: result.display_order,
-      published_at: result.published_at,
-    };
+    return mapPublication(result);
   }
 
   async publish(

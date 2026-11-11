@@ -2,8 +2,14 @@ import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 import { AuthService } from "../services/auth.service.js";
+import {
+  BASE_PERMISSION_SET,
+  isSuperAdmin,
+} from "../utils/access.js";
 
 const authService = new AuthService();
+
+type AuthedUser = Awaited<ReturnType<AuthService["getCurrentUser"]>>;
 
 export async function authenticate(
   req: Request,
@@ -40,17 +46,22 @@ export async function authenticate(
 
 export function authorize(module: string, action: string) {
   return (req: Request, res: Response, next: NextFunction) => {
-    const user = (
-      req as Request & {
-        user: Awaited<ReturnType<AuthService["getCurrentUser"]>>;
-      }
-    ).user;
+    const user = (req as Request & { user: AuthedUser }).user;
+
+    if (isSuperAdmin(user)) {
+      return next();
+    }
+
+    if (BASE_PERMISSION_SET.has(`${module}:${action}`)) {
+      return next();
+    }
 
     const allowed = user.userRoles.some((userRole) =>
       userRole.role.rolePermissions.some(
         (rolePermission) =>
           rolePermission.permission.module === module &&
-          rolePermission.permission.action === action,
+          rolePermission.permission.action === action &&
+          rolePermission.permission.is_active !== false,
       ),
     );
 

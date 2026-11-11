@@ -5,12 +5,14 @@ import { use } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { api } from "@/lib/api";
+import { Can, CanAll, useDepartmentAccess } from "@/lib/permissions";
 
 interface DocumentItem {
   id: string;
   title: string;
   documentNumber: string | null;
   description: string | null;
+  departmentId: string | null;
   department: string;
   category: string;
   confidentialLevel: string;
@@ -24,7 +26,7 @@ interface BackendDocument {
   document_number: string | null;
   title: string;
   description: string | null;
-  department: { name: string } | null;
+  department: { id: string; name: string } | null;
   category: { name: string } | null;
   confidentialLevel: { name: string } | null;
   effective_date: string | null;
@@ -49,6 +51,7 @@ export default function DocumentsPage({
   const [documents, setDocuments] = useState<DocumentItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const { canAccessDepartment } = useDepartmentAccess();
 
   const loadDocuments = async () => {
     try {
@@ -63,6 +66,7 @@ export default function DocumentsPage({
           title: doc.title,
           documentNumber: doc.document_number,
           description: doc.description,
+          departmentId: doc.department?.id || null,
           department: doc.department?.name || "-",
           category: doc.category?.name || "-",
           confidentialLevel: doc.confidentialLevel?.name || "-",
@@ -105,12 +109,21 @@ export default function DocumentsPage({
     <div>
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold text-slate-900">Documents</h1>
-        <Link
-          href="/documents/upload"
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium transition-colors"
+        <CanAll
+          requirements={[
+            { module: "document", action: "upload" },
+            { module: "department", action: "view" },
+            { module: "category", action: "view" },
+            { module: "confidential_level", action: "view" },
+          ]}
         >
-          Upload Document
-        </Link>
+          <Link
+            href="/documents/upload"
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium transition-colors"
+          >
+            Upload Document
+          </Link>
+        </CanAll>
       </div>
 
       {error && (
@@ -154,15 +167,38 @@ export default function DocumentsPage({
                   </td>
                   <td className="px-4 py-3 text-center">
                     <div className="flex items-center justify-center gap-3">
-                      <Link href={`/documents/${doc.id}/view`} className="text-blue-600 hover:text-blue-700 text-sm">View</Link>
-                      <Link href={`/documents/${doc.id}`} className="text-slate-600 hover:text-slate-800 text-sm">Properties</Link>
-                      <Link href={`/documents/${doc.id}/edit`} className="text-slate-600 hover:text-slate-800 text-sm">Edit</Link>
-                      <button
-                        onClick={() => handleDelete(doc.id, doc.title)}
-                        className="text-red-600 hover:text-red-700 text-sm"
+                      <CanAll
+                        requirements={[
+                          { module: "document", action: "view" },
+                          { module: "document_version", action: "view" },
+                          { module: "document_version", action: "download" },
+                        ]}
                       >
-                        Delete
-                      </button>
+                        <Link href={`/documents/${doc.id}/view`} className="text-blue-600 hover:text-blue-700 text-sm">View</Link>
+                      </CanAll>
+                      <Link href={`/documents/${doc.id}`} className="text-slate-600 hover:text-slate-800 text-sm">Properties</Link>
+                      <CanAll
+                        requirements={[
+                          { module: "document", action: "update" },
+                          { module: "department", action: "view" },
+                          { module: "category", action: "view" },
+                          { module: "confidential_level", action: "view" },
+                        ]}
+                      >
+                        {canAccessDepartment(doc.departmentId) && (
+                          <Link href={`/documents/${doc.id}/edit`} className="text-slate-600 hover:text-slate-800 text-sm">Edit</Link>
+                        )}
+                      </CanAll>
+                      <Can module="document" action="delete">
+                        {canAccessDepartment(doc.departmentId) && (
+                          <button
+                            onClick={() => handleDelete(doc.id, doc.title)}
+                            className="text-red-600 hover:text-red-700 text-sm"
+                          >
+                            Delete
+                          </button>
+                        )}
+                      </Can>
                     </div>
                   </td>
                 </tr>

@@ -552,3 +552,27 @@ model AuditLog {
 
   @@map("audit_log")
 }
+
+
+model Announcement {
+  id String @id @default(uuid()) @db.Uuid
+
+  title   String? @db.VarChar(255)
+  content String
+
+  is_active     Boolean @default(true)
+  display_order Int     @default(0)
+
+  starts_at DateTime?
+  ends_at   DateTime?
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  created_by String? @db.Uuid
+  updated_by String? @db.Uuid
+  deleted_by String? @db.Uuid
+
+  @@map("announcement")
+}

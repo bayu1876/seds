@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { api } from "@/lib/api";
+import { Can, CanAll, useDepartmentAccess } from "@/lib/permissions";
 
 interface PublicationItem {
   id: string;
@@ -10,6 +11,7 @@ interface PublicationItem {
   document_number: string | null;
   title: string;
   description: string | null;
+  department_id: string | null;
   department_name: string | null;
   category_name: string | null;
   is_published: boolean;
@@ -22,6 +24,7 @@ interface SelectableDocument {
   id: string;
   document_number: string | null;
   title: string;
+  department_id: string | null;
 }
 
 interface Version {
@@ -32,6 +35,7 @@ interface Version {
 }
 
 export default function PublicLibraryAdminPage() {
+  const { canAccessDepartment } = useDepartmentAccess();
   const [publications, setPublications] = useState<PublicationItem[]>([]);
   const [documents, setDocuments] = useState<SelectableDocument[]>([]);
   const [loading, setLoading] = useState(true);
@@ -56,13 +60,22 @@ export default function PublicLibraryAdminPage() {
 
         setPublications(publicationsResult.data || []);
         setDocuments(
-          (documentsResult.data || []).map(
-            (doc: SelectableDocument) => ({
-              id: doc.id,
-              document_number: doc.document_number,
-              title: doc.title,
-            }),
-          ),
+          (documentsResult.data || [])
+            .map(
+              (
+                doc: SelectableDocument & {
+                  department?: { id: string } | null;
+                },
+              ) => ({
+                id: doc.id,
+                document_number: doc.document_number,
+                title: doc.title,
+                department_id: doc.department?.id ?? null,
+              }),
+            )
+            .filter((doc: SelectableDocument) =>
+              canAccessDepartment(doc.department_id),
+            ),
         );
       } catch (err: any) {
         setError(err.message || "Failed to load publications");
@@ -194,6 +207,12 @@ export default function PublicLibraryAdminPage() {
       )}
 
       {/* Publish Form */}
+      <CanAll
+        requirements={[
+          { module: "document", action: "upload" },
+          { module: "document_version", action: "view" },
+        ]}
+      >
       <div className="bg-white rounded-lg border border-slate-200 p-8 mb-8">
         <h2 className="text-lg font-bold text-slate-900 mb-4">Publish Document</h2>
         <form onSubmit={handlePublish} className="space-y-4">
@@ -273,6 +292,7 @@ export default function PublicLibraryAdminPage() {
           </button>
         </form>
       </div>
+      </CanAll>
 
       {/* Publications List */}
       <div className="bg-white rounded-lg border border-slate-200 p-8">
@@ -316,18 +336,26 @@ export default function PublicLibraryAdminPage() {
                     <td className="py-2 pr-4">{pub.display_order}</td>
                     <td className="py-2 pr-4">
                       <div className="flex gap-2">
-                        <button
-                          onClick={() => handleToggleFeatured(pub)}
-                          className="px-3 py-1 bg-slate-100 text-slate-700 rounded-md hover:bg-slate-200 text-xs font-medium transition-colors"
-                        >
-                          {pub.featured ? "Unfeature" : "Feature"}
-                        </button>
-                        <button
-                          onClick={() => handleUnpublish(pub)}
-                          className="px-3 py-1 bg-red-50 text-red-600 rounded-md hover:bg-red-100 text-xs font-medium transition-colors"
-                        >
-                          Unpublish
-                        </button>
+                        <Can module="document" action="update">
+                          {canAccessDepartment(pub.department_id) && (
+                            <button
+                              onClick={() => handleToggleFeatured(pub)}
+                              className="px-3 py-1 bg-slate-100 text-slate-700 rounded-md hover:bg-slate-200 text-xs font-medium transition-colors"
+                            >
+                              {pub.featured ? "Unfeature" : "Feature"}
+                            </button>
+                          )}
+                        </Can>
+                        <Can module="document" action="delete">
+                          {canAccessDepartment(pub.department_id) && (
+                            <button
+                              onClick={() => handleUnpublish(pub)}
+                              className="px-3 py-1 bg-red-50 text-red-600 rounded-md hover:bg-red-100 text-xs font-medium transition-colors"
+                            >
+                              Unpublish
+                            </button>
+                          )}
+                        </Can>
                       </div>
                     </td>
                   </tr>

@@ -4,7 +4,15 @@ import type {
 } from "express";
 
 import { DocumentService } from "../services/document.service.js";
-import { AuthService } from "../../auth/services/auth.service.js";
+import type { SessionUser } from "../../auth/utils/access.js";
+import {
+  assertDepartmentAccess,
+  DepartmentScopeError,
+} from "../../auth/utils/department-scope.js";
+
+type AuthedRequest = Request & {
+  user: SessionUser;
+};
 
 export class DocumentController {
   private service =
@@ -78,13 +86,20 @@ export class DocumentController {
     res: Response,
   ) {
     try {
-      const user = (
-        req as Request & {
-          user: Awaited<
-            ReturnType<AuthService["getCurrentUser"]>
-          >;
-        }
-      ).user;
+      const user = (req as AuthedRequest).user;
+      const departmentId =
+        typeof req.body?.department_id === "string"
+          ? req.body.department_id
+          : "";
+
+      if (!departmentId) {
+        return res.status(400).json({
+          success: false,
+          message: "department_id is required",
+        });
+      }
+
+      assertDepartmentAccess(user, departmentId);
 
       const document =
         await this.service.create({
@@ -99,6 +114,13 @@ export class DocumentController {
         data: document,
       });
     } catch (error) {
+      if (error instanceof DepartmentScopeError) {
+        return res.status(403).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
       if (
         error instanceof Error &&
         error.message ===
@@ -125,17 +147,27 @@ export class DocumentController {
     res: Response,
   ) {
     try {
-      const user = (
-        req as Request & {
-          user: Awaited<
-            ReturnType<AuthService["getCurrentUser"]>
-          >;
-        }
-      ).user;
+      const user = (req as AuthedRequest).user;
+      const documentId = req.params.id as string;
+
+      const existing =
+        await this.service.findById(documentId);
+
+      assertDepartmentAccess(
+        user,
+        existing.department_id,
+      );
+
+      const nextDepartmentId =
+        typeof req.body?.department_id === "string"
+          ? req.body.department_id
+          : existing.department_id;
+
+      assertDepartmentAccess(user, nextDepartmentId);
 
       const document =
         await this.service.update(
-          req.params.id as string,
+          documentId,
           {
             ...req.body,
             updated_by: user.id,
@@ -149,6 +181,13 @@ export class DocumentController {
         data: document,
       });
     } catch (error) {
+      if (error instanceof DepartmentScopeError) {
+        return res.status(403).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
       if (
         error instanceof Error &&
         (
@@ -184,32 +223,16 @@ export class DocumentController {
     res: Response,
   ) {
     try {
-      const user = (
-        req as Request & {
-          user: Awaited<
-            ReturnType<AuthService["getCurrentUser"]>
-          >;
-        }
-      ).user;
-
+      const user = (req as AuthedRequest).user;
       const documentId = req.params.id as string;
-      const document = await this.service.findById(documentId);
 
-      const hasDeletePermission = user.userRoles.some((userRole) =>
-        userRole.role.rolePermissions.some(
-          (rolePermission) =>
-            rolePermission.permission.module === "document" &&
-            rolePermission.permission.action === "delete",
-        ),
+      const document =
+        await this.service.findById(documentId);
+
+      assertDepartmentAccess(
+        user,
+        document.department_id,
       );
-      const isOwner = document.created_by === user.id;
-
-      if (!hasDeletePermission && !isOwner) {
-        return res.status(403).json({
-          success: false,
-          message: "Forbidden",
-        });
-      }
 
       await this.service.softDelete(
         documentId,
@@ -224,6 +247,13 @@ export class DocumentController {
           "Document deleted successfully",
       });
     } catch (error) {
+      if (error instanceof DepartmentScopeError) {
+        return res.status(403).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
       if (
         error instanceof Error &&
         error.message ===

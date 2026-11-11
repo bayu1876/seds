@@ -3,25 +3,65 @@ import type {
   Response,
 } from "express";
 
+import type { SessionUser } from "../../auth/utils/access.js";
+import {
+  assertDepartmentAccess,
+  DepartmentScopeError,
+} from "../../auth/utils/department-scope.js";
+import { DocumentRepository } from "../../document/repositories/document.repository.js";
 import { DocumentTagService } from "../services/document-tag.service.js";
-import { AuthService } from "../../auth/services/auth.service.js";
 
 export class DocumentTagController {
   private service =
     new DocumentTagService();
+
+  private documentRepository =
+    new DocumentRepository();
+
+  private async getScopedDocument(
+    user: SessionUser,
+    documentId: string,
+  ) {
+    const document =
+      await this.documentRepository.findById(
+        documentId,
+      );
+
+    if (!document) {
+      return null;
+    }
+
+    assertDepartmentAccess(
+      user,
+      document.department_id,
+    );
+
+    return document;
+  }
 
   async assignTag(
     req: Request,
     res: Response,
   ) {
     try {
-      const user = (
-        req as Request & {
-          user: Awaited<
-            ReturnType<AuthService["getCurrentUser"]>
-          >;
-        }
-      ).user;
+      const user = (req as Request & { user: SessionUser }).user;
+      const documentId =
+        typeof req.body?.document_id === "string"
+          ? req.body.document_id
+          : "";
+
+      const document =
+        await this.getScopedDocument(
+          user,
+          documentId,
+        );
+
+      if (!document) {
+        return res.status(404).json({
+          success: false,
+          message: "Document not found",
+        });
+      }
 
       const documentTag =
         await this.service.assignTag({
@@ -36,6 +76,13 @@ export class DocumentTagController {
         data: documentTag,
       });
     } catch (error) {
+      if (error instanceof DepartmentScopeError) {
+        return res.status(403).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
       if (
         error instanceof Error &&
         (
@@ -76,6 +123,26 @@ export class DocumentTagController {
     res: Response,
   ) {
     try {
+      const user = (
+        req as Request<{
+          documentId: string;
+          tagId: string;
+        }> & { user: SessionUser }
+      ).user;
+
+      const document =
+        await this.getScopedDocument(
+          user,
+          req.params.documentId,
+        );
+
+      if (!document) {
+        return res.status(404).json({
+          success: false,
+          message: "Document not found",
+        });
+      }
+
       await this.service.removeTag({
         document_id: req.params.documentId,
         tag_id: req.params.tagId,
@@ -87,6 +154,13 @@ export class DocumentTagController {
           "Tag removed successfully",
       });
     } catch (error) {
+      if (error instanceof DepartmentScopeError) {
+        return res.status(403).json({
+          success: false,
+          message: error.message,
+        });
+      }
+
       if (
         error instanceof Error &&
         error.message ===

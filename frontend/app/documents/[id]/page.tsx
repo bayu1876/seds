@@ -5,6 +5,11 @@ import { use } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { api, downloadFile } from "@/lib/api";
+import {
+  Can,
+  CanAll,
+  useDepartmentAccess,
+} from "@/lib/permissions";
 
 interface Tag {
   id: string;
@@ -26,6 +31,7 @@ interface Document {
   title: string;
   description: string | null;
   department: { name: string } | null;
+  department_id: string;
   category: { name: string } | null;
   confidentialLevel: { name: string } | null;
   effective_date: string | null;
@@ -83,6 +89,7 @@ export default function DocumentDetailPage({
 }) {
   const { id: documentId } = use(params);
   const router = useRouter();
+  const { canAccessDepartment } = useDepartmentAccess();
   const [doc, setDoc] = useState<Document | null>(null);
   const [versions, setVersions] = useState<Version[]>([]);
   const [publication, setPublication] = useState<Publication | null>(null);
@@ -100,7 +107,9 @@ export default function DocumentDetailPage({
         const docData: Document = result.data || null;
         setDoc(docData);
 
-        const versionsResult = await api.get(`/document-versions/${documentId}`);
+        const versionsResult = await api
+          .get(`/document-versions/${documentId}`)
+          .catch(() => ({ data: [] }));
         const versionList: Version[] = versionsResult.data || [];
         setVersions(versionList);
 
@@ -315,6 +324,7 @@ export default function DocumentDetailPage({
 
   const currentVersion =
     versions.find((v) => v.is_current) || versions[0] || doc.current_version || null;
+  const canManageDocument = canAccessDepartment(doc.department_id);
 
   return (
     <div>
@@ -336,24 +346,41 @@ export default function DocumentDetailPage({
           >
             {isFavorite ? "♥ Favorited" : "♡ Favorite"}
           </button>
-          <Link
-            href={`/documents/${doc.id}/edit`}
-            className="px-4 py-2 bg-slate-200 text-slate-700 rounded-md hover:bg-slate-300 text-sm font-medium transition-colors"
+          <CanAll
+            requirements={[
+              { module: "document", action: "update" },
+              { module: "department", action: "view" },
+              { module: "category", action: "view" },
+              { module: "confidential_level", action: "view" },
+            ]}
           >
-            Edit
-          </Link>
-          <button
-            onClick={handleDownload}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium transition-colors"
-          >
-            Download
-          </button>
-          <button
-            onClick={handleDelete}
-            className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm font-medium transition-colors"
-          >
-            Delete
-          </button>
+            {canManageDocument && (
+              <Link
+                href={`/documents/${doc.id}/edit`}
+                className="px-4 py-2 bg-slate-200 text-slate-700 rounded-md hover:bg-slate-300 text-sm font-medium transition-colors"
+              >
+                Edit
+              </Link>
+            )}
+          </CanAll>
+          <Can module="document_version" action="download">
+            <button
+              onClick={handleDownload}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium transition-colors"
+            >
+              Download
+            </button>
+          </Can>
+          <Can module="document" action="delete">
+            {canManageDocument && (
+              <button
+                onClick={handleDelete}
+                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm font-medium transition-colors"
+              >
+                Delete
+              </button>
+            )}
+          </Can>
         </div>
       </div>
 
@@ -449,12 +476,19 @@ export default function DocumentDetailPage({
                   </p>
                 </div>
                 <div className="flex items-center gap-4">
-                  <Link
-                    href={`/documents/${documentId}/view`}
-                    className="px-3 py-1.5 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700"
+                  <CanAll
+                    requirements={[
+                      { module: "document_version", action: "view" },
+                      { module: "document_version", action: "download" },
+                    ]}
                   >
-                    View
-                  </Link>
+                    <Link
+                      href={`/documents/${documentId}/view`}
+                      className="px-3 py-1.5 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700"
+                    >
+                      View
+                    </Link>
+                  </CanAll>
                   <div className="text-right">
                     <p className="text-sm text-slate-900 font-medium">
                       {(currentVersion.file_size / 1024 / 1024).toFixed(2)} MB
@@ -485,51 +519,59 @@ export default function DocumentDetailPage({
                       <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ backgroundColor: dt.tag.color }} />
                     )}
                     {dt.tag?.name || "Tag"}
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveTag(dt.tag_id || dt.tag?.id)}
-                      className="text-slate-400 hover:text-red-600"
-                      title="Remove tag"
-                    >
-                      ×
-                    </button>
+                    <Can module="document_tag" action="delete">
+                      {canManageDocument && (
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveTag(dt.tag_id || dt.tag?.id)}
+                          className="text-slate-400 hover:text-red-600"
+                          title="Remove tag"
+                        >
+                          ×
+                        </button>
+                      )}
+                    </Can>
                   </span>
                 ))
               ) : (
                 <p className="text-sm text-slate-500">No tags assigned.</p>
               )}
             </div>
-            <div className="flex gap-2 items-center">
-              <input
-                type="text"
-                value={tagInput}
-                onChange={(e) => setTagInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    handleAddTag();
-                  }
-                }}
-                placeholder="Ketik tag lalu Enter atau klik Tambah (free text)"
-                className="flex-1 px-3 py-2 border border-slate-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                list="tag-suggestions"
-              />
-              <datalist id="tag-suggestions">
-                {allTags
-                  .filter((t) => !(doc.documentTags || []).some((dt) => (dt.tag_id || dt.tag?.id) === t.id))
-                  .map((t) => (
-                    <option key={t.id} value={t.name} />
-                  ))}
-              </datalist>
-              <button
-                type="button"
-                onClick={handleAddTag}
-                disabled={!tagInput.trim()}
-                className="px-3 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 disabled:bg-blue-300"
-              >
-                Tambah Tag
-              </button>
-            </div>
+            <Can module="document_tag" action="create">
+              {canManageDocument && (
+                <div className="flex gap-2 items-center">
+                  <input
+                    type="text"
+                    value={tagInput}
+                    onChange={(e) => setTagInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        handleAddTag();
+                      }
+                    }}
+                    placeholder="Ketik tag lalu Enter atau klik Tambah (free text)"
+                    className="flex-1 px-3 py-2 border border-slate-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    list="tag-suggestions"
+                  />
+                  <datalist id="tag-suggestions">
+                    {allTags
+                      .filter((t) => !(doc.documentTags || []).some((dt) => (dt.tag_id || dt.tag?.id) === t.id))
+                      .map((t) => (
+                        <option key={t.id} value={t.name} />
+                      ))}
+                  </datalist>
+                  <button
+                    type="button"
+                    onClick={handleAddTag}
+                    disabled={!tagInput.trim()}
+                    className="px-3 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 disabled:bg-blue-300"
+                  >
+                    Tambah Tag
+                  </button>
+                </div>
+              )}
+            </Can>
             <p className="text-xs text-slate-500">Tag bersifat penanda bebas untuk memudahkan pencarian (bukan status/approval).</p>
           </div>
         </div>
@@ -544,28 +586,42 @@ export default function DocumentDetailPage({
                 <p className="text-sm font-medium text-slate-900">Published</p>
                 <p className="text-xs text-slate-500">Make this document available in the Public Library.</p>
               </div>
-              <button
-                type="button"
-                onClick={handleTogglePublish}
-                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                  publication?.is_published
-                    ? "bg-slate-200 text-slate-700 hover:bg-slate-300"
-                    : "bg-blue-600 text-white hover:bg-blue-700"
-                }`}
+              <Can
+                module="document"
+                action={publication?.is_published ? "delete" : "upload"}
               >
-                {publication?.is_published ? "Unpublish" : "Publish"}
-              </button>
+                {canManageDocument && (
+                  <button
+                    type="button"
+                    onClick={handleTogglePublish}
+                    className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                      publication?.is_published
+                        ? "bg-slate-200 text-slate-700 hover:bg-slate-300"
+                        : "bg-blue-600 text-white hover:bg-blue-700"
+                    }`}
+                  >
+                    {publication?.is_published ? "Unpublish" : "Publish"}
+                  </button>
+                )}
+              </Can>
             </div>
 
-            <label className="flex items-center gap-2 text-sm text-slate-700 pt-1">
-              <input
-                type="checkbox"
-                checked={!!publication?.featured}
-                onChange={(e) => handleToggleFeatured(e.target.checked)}
-                className="w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500"
-              />
-              Included in Featured Knowledge
-            </label>
+            <Can
+              module="document"
+              action={publication?.is_published ? "update" : "upload"}
+            >
+              {canManageDocument && (
+                <label className="flex items-center gap-2 text-sm text-slate-700 pt-1">
+                  <input
+                    type="checkbox"
+                    checked={!!publication?.featured}
+                    onChange={(e) => handleToggleFeatured(e.target.checked)}
+                    className="w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500"
+                  />
+                  Included in Featured Knowledge
+                </label>
+              )}
+            </Can>
 
             <p className="text-xs text-slate-500">
               Status: {publication?.is_published ? "Published in Public Library" : "Not published"}. Featured items (published) appear on the Dashboard.

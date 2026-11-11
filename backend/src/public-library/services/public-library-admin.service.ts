@@ -7,6 +7,7 @@ export type PublicationDTO = {
   document_number: string | null;
   title: string;
   description: string | null;
+  department_id: string | null;
   department_name: string | null;
   category_name: string | null;
   is_published: boolean;

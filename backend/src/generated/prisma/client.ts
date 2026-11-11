@@ -131,3 +131,8 @@ export type Publication = Prisma.PublicationModel
  * 
  */
 export type AuditLog = Prisma.AuditLogModel
+/**
+ * Model Announcement
+ * 
+ */
+export type Announcement = Prisma.AnnouncementModel
