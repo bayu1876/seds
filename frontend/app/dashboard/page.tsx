@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { api } from "@/lib/api";
@@ -63,17 +63,33 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [announcements, setAnnouncements] = useState<{ id: string; title: string | null; content: string }[]>([]);
+  const [calendarEvents, setCalendarEvents] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [searching, setSearching] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const t = setInterval(() => setNow(new Date()), 60000);
+    return () => clearInterval(t);
+  }, []);
+
+  const nextEvent = useMemo(() => {
+    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const upcoming = calendarEvents
+      .filter((e: any) => new Date(e.starts_at) >= todayStart)
+      .sort((a: any, b: any) => new Date(a.starts_at).getTime() - new Date(b.starts_at).getTime());
+    return upcoming[0] || null;
+  }, [calendarEvents, now]);
 
   useEffect(() => {
     async function load() {
       try {
-        const [result, annRes] = await Promise.all([
+        const [result, annRes, calRes] = await Promise.all([
           api.get("/dashboard"),
           api.get("/announcements/active").catch(() => ({ data: [] })),
+          api.get("/calendar").catch(() => ({ data: [] })),
         ]);
         setData(result.data || {
           latestMemo: [],
@@ -83,6 +99,7 @@ export default function DashboardPage() {
           recentlyOpened: [],
         });
         setAnnouncements(annRes?.data || []);
+        setCalendarEvents(calRes?.data || []);
       } catch (err: any) {
         setError(err.message || "Failed to load dashboard");
       } finally {
@@ -294,6 +311,34 @@ export default function DashboardPage() {
           )}
         </form>
       </div>
+
+      {nextEvent && (
+        <div className="mb-8">
+          <Link
+            href={`/calendar/${nextEvent.id}`}
+            className="flex items-center gap-4 bg-white rounded-2xl border border-blue-100 px-5 py-4 shadow-sm hover:shadow-md hover:border-blue-200 transition-all"
+          >
+            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 text-blue-700 text-lg">📅</span>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-semibold text-blue-600 uppercase tracking-wide">Kegiatan terdekat</p>
+              <p className="text-sm font-bold text-slate-900 truncate">{nextEvent.title}</p>
+            </div>
+            <span className="text-sm text-slate-600 whitespace-nowrap">
+              {new Date(nextEvent.starts_at).toLocaleDateString("id-ID", {
+                weekday: "long",
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+              })}
+              {!nextEvent.all_day && (
+                <span className="ml-1 text-slate-500">
+                  {new Date(nextEvent.starts_at).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" })}
+                </span>
+              )}
+            </span>
+          </Link>
+        </div>
+      )}
 
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
