@@ -554,6 +554,35 @@ model AuditLog {
 }
 
 
+model CalendarEvent {
+  id String @id @default(uuid()) @db.Uuid
+
+  title       String  @db.VarChar(255)
+  description String?
+  location    String? @db.VarChar(255)
+
+  starts_at DateTime
+  ends_at   DateTime?
+  all_day   Boolean @default(false)
+
+  color     String? @db.VarChar(20)
+
+  is_active Boolean @default(true)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  created_by String? @db.Uuid
+  updated_by String? @db.Uuid
+  deleted_by String? @db.Uuid
+
+  @@index([starts_at], map: "idx_calendar_event_starts")
+  @@index([ends_at], map: "idx_calendar_event_ends")
+  @@index([deleted_at], map: "idx_calendar_event_deleted")
+  @@map("calendar_event")
+}
+
 model Announcement {
   id String @id @default(uuid()) @db.Uuid
 

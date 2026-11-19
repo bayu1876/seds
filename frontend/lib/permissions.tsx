@@ -21,6 +21,7 @@ export const BASE_PERMISSIONS = [
   "document:view",
   "document_version:view",
   "document_version:download",
+  "calendar:view",
 ] as const;
 
 export const BASE_PERMISSION_SET = new Set<string>(BASE_PERMISSIONS);

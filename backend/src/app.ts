@@ -23,6 +23,7 @@ import searchRoutes from "./search/routes/search.routes.js";
 import dashboardRoutes from "./dashboard/dashboard.routes.js";
 import publicLibraryRoutes from "./public-library/routes/public-library.routes.js";
 import announcementRoutes from "./announcement/routes/announcement.routes.js";
+import calendarRoutes from "./calendar/routes/calendar.routes.js";
 const app = express();
 
 app.use(express.json());
@@ -60,5 +61,6 @@ app.use("/api/search", searchRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/public-library", publicLibraryRoutes);
 app.use("/api/announcements", announcementRoutes);
+app.use("/api/calendar", calendarRoutes);
 
 export default app;

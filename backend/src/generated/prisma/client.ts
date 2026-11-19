@@ -132,6 +132,11 @@ export type Publication = Prisma.PublicationModel
  */
 export type AuditLog = Prisma.AuditLogModel
 /**
+ * Model CalendarEvent
+ * 
+ */
+export type CalendarEvent = Prisma.CalendarEventModel
+/**
  * Model Announcement
  * 
  */

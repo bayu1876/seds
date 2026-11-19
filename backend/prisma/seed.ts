@@ -177,6 +177,11 @@ const permissions = [
   { module: "document_relation", action: "delete", description: "Delete Document Relation" },
 
   { module: "confidential_level", action: "view", description: "View Confidential Level" },
+
+  { module: "calendar", action: "view", description: "View Calendar" },
+  { module: "calendar", action: "create", description: "Create Calendar Event" },
+  { module: "calendar", action: "update", description: "Update Calendar Event" },
+  { module: "calendar", action: "delete", description: "Delete Calendar Event" },
 ];
 
 type SeedPermission = {
@@ -196,6 +201,10 @@ const rolePermissions: Array<{
       { module: "announcement", action: "create" },
       { module: "announcement", action: "update" },
       { module: "announcement", action: "delete" },
+      { module: "calendar", action: "view" },
+      { module: "calendar", action: "create" },
+      { module: "calendar", action: "update" },
+      { module: "calendar", action: "delete" },
       { module: "document", action: "upload" },
       { module: "document", action: "update" },
       { module: "document_version", action: "upload" },
@@ -217,6 +226,10 @@ const rolePermissions: Array<{
       { module: "announcement", action: "create" },
       { module: "announcement", action: "update" },
       { module: "announcement", action: "delete" },
+      { module: "calendar", action: "view" },
+      { module: "calendar", action: "create" },
+      { module: "calendar", action: "update" },
+      { module: "calendar", action: "delete" },
       { module: "document", action: "upload" },
       { module: "document", action: "update" },
       { module: "document_version", action: "upload" },

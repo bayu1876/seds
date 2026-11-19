@@ -69,6 +69,7 @@ export const ModelName = {
   RecentView: 'RecentView',
   Publication: 'Publication',
   AuditLog: 'AuditLog',
+  CalendarEvent: 'CalendarEvent',
   Announcement: 'Announcement'
 } as const
 
@@ -377,6 +378,27 @@ export const AuditLogScalarFieldEnum = {
 } as const
 
 export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
+
+
+export const CalendarEventScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  location: 'location',
+  starts_at: 'starts_at',
+  ends_at: 'ends_at',
+  all_day: 'all_day',
+  color: 'color',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  created_by: 'created_by',
+  updated_by: 'updated_by',
+  deleted_by: 'deleted_by'
+} as const
+
+export type CalendarEventScalarFieldEnum = (typeof CalendarEventScalarFieldEnum)[keyof typeof CalendarEventScalarFieldEnum]
 
 
 export const AnnouncementScalarFieldEnum = {

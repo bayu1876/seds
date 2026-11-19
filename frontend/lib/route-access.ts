@@ -83,6 +83,18 @@ export function getRouteRequirements(
     return [{ module: "document", action: "view" }];
   }
 
+  if (pathname === "/calendar/create") {
+    return [{ module: "calendar", action: "create" }];
+  }
+
+  if (pathname.startsWith("/calendar/") && pathname.endsWith("/edit")) {
+    return [{ module: "calendar", action: "update" }];
+  }
+
+  if (pathname.startsWith("/calendar")) {
+    return [{ module: "calendar", action: "view" }];
+  }
+
   if (pathname.startsWith("/dashboard")) {
     return [{ module: "document", action: "view" }];
   }

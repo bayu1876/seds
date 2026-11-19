@@ -23,6 +23,7 @@ const mainItems: NavItem[] = [
   { name: "Public Library", href: "/public-library", icon: "📚", module: "document", action: "view" },
   { name: "Favorites", href: "/favorites", icon: "⭐", module: "document", action: "view" },
   { name: "Recent", href: "/recently-opened", icon: "🕒", module: "document", action: "view" },
+  { name: "Calendar", href: "/calendar", icon: "📅", module: "calendar", action: "view" },
   { name: "Profile", href: "/profile", icon: "👤" },
 ];
 
